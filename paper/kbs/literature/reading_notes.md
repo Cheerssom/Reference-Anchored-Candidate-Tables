@@ -42,3 +42,39 @@ Primary BiMC metadata verified from the CVF CVPR2025 page (pp.9881–9890); full
 HyCal full text read at https://arxiv.org/html/2604.15678v2 ; author implementation https://github.com/EJLEE5826/HyCal-CIL and university announcement confirm the work's CVPR2026 context. The bibliographic entry deliberately cites the accessible arXiv version instead of inventing proceedings pages. Sections4.3–4.4 define fused prototype summaries and hybrid cosine/covariance scoring; its cross-discipline variable-shot benchmark differs from our fixed-pool class partitions.
 
 Both are related work, not executed baselines in this revision. No published numbers are mixed with the controlled readout tables.
+
+## Additional KBS positioning and table exemplars (2026-10-23)
+
+Three further related-work references were verified against publisher-indexed
+records and Crossref. Raw Crossref responses are preserved in
+`recent_kbs_crossref.json`; author order, title, journal, volume, year and
+article number match the new BibTeX records. The manuscript now cites ten KBS
+papers. These additions position existing representation-adaptation approaches;
+no unrun experimental results are attributed to them.
+
+| Added paper | Primary record | Reading scope and use |
+|---|---|---|
+| Li, Wu and Ji, MoTE, KBS324(2025)113795 | https://doi.org/10.1016/j.knosys.2025.113795 | Publisher abstract and full author version https://arxiv.org/html/2506.11038 read; expert filtering and joint inference distinguish representation adaptation from fixed-readout admission. |
+| Dong et al., Dynamic expansion orthogonal network, KBS341(2026)115868 | https://doi.org/10.1016/j.knosys.2026.115868 | Publisher-indexed abstract/highlights, Crossref metadata; orthogonal feature-space constraints position architectural expansion. No full-text access or table inspection claimed for this paper. |
+| Yuan et al., Counterfactual distribution intervention, KBS351(2026)116754 | https://doi.org/10.1016/j.knosys.2026.116754 | Publisher-indexed abstract/highlights and Crossref metadata; representation invariance through counterfactual intervention. No full-text access or table inspection claimed. |
+
+### Actual table-layout inspection
+
+Publisher article requests returned403. Lawful publicly posted author versions
+of three papers were inspected as PDF pages, not inferred from abstracts. Their
+layout is used as an exemplar, not represented as an official KBS requirement
+or a verified final typeset version. Local PDFs and screenshots are private
+reading assets under `table_exemplars/`, excluded from public export.
+
+- MoTE, https://arxiv.org/pdf/2506.11038, PDFp21 Table1 and HTMLTable3: dataset/protocol column groups, paired metric subheaders with direction arrows, uncertainty alongside means, boldface conventions explained in the caption; ablation table separate.
+- FeNeC, https://arxiv.org/pdf/2503.14301v2, PDFp8 Tables3-4: compact method-by-dataset matrices, average/final metrics separated into panels, means with uncertainty and special-case markers defined in captions.
+- REAL, https://arxiv.org/pdf/2403.13522, PDFp8 Table1: backbone groups in rows, metric and phase-count groups in columns, explicitly scoped bold/underline conventions.
+
+Applied to this manuscript: Table1 is a method-by-dataset matrix split into
+encoder panels, retaining all18 paired gains and CIs; bold estimates mean the
+conditional interval excludes zero, not a best-method ranking. Table2 separates
+calibration cost, finite admission, test attainment and base/novel accuracy,
+adding existing partition SDs. Supplement L groups empirical/certified policies
+and bolds the largest displayed certified novel mean, with the rule stated.
+No performance values are imported from any exemplar. Avoiding excessive columns
+keeps our tables readable without reproducing tiny-font layouts.

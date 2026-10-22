@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 20-page main manuscript and 54-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 22-page main manuscript and 54-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -21,6 +21,7 @@ python build_revision_results.py
 python build_independent_risk_results.py
 python build_concise_tables.py
 python build_calibration_budget_results.py
+python build_kbs_presentation.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error supplementary.tex
 python validate_submission.py
@@ -46,7 +47,7 @@ The primary comparison now has ten class partitions and two frozen CLIP architec
 
 ## User-supplied Elsevier template
 
-The manuscript and supplement use elsarticle 3.4 (2024/04/04), generated from the supplied Elsarticle bundle with `latex elsarticle.ins`. Both use the numeric starter, `preprint,review,12pt`, class-default margins and review line spacing. The template archive hash is recorded in `template_provenance.json`; editable releases include the class source, installer, starter and license notice. Main: 20 pages; supplement: 54 pages; combined review PDF: 74 pages. Template conversion and prose compression preserve all numerical result tables.
+The manuscript and supplement use elsarticle 3.4 (2024/04/04), generated from the supplied Elsarticle bundle with `latex elsarticle.ins`. Both use the numeric starter, `preprint,review,12pt`, class-default margins and review line spacing. The template archive hash is recorded in `template_provenance.json`; editable releases include the class source, installer, starter and license notice. Main: 22 pages; supplement: 54 pages; combined review PDF: 76 pages. Template conversion and prose compression preserve all numerical result tables.
 
 ## Independent risk calibration: original allocation
 
@@ -86,3 +87,18 @@ The main remains 20 pages; Supplement A-L has 54 pages and the combined PDF 74.
 Population confidence is per method/order/partition/budget under the stated
 class-conditional assumptions. Pets includes early-session fallback on three
 L/14 and four B/32 paths out of twenty; all final retained-table paths admit.
+
+## Main-figure and table revision (2026-10-23)
+
+Current main:22 review-format pages,3 figures,2 tables,153-word abstract and10
+KBS references. The shared-retention capacity curve is restored to the main text.
+Its L/14 y-axis is50-100% and B/32 is30-90%; error bars stop at panel limits.
+The supplement has54 pages; the combined review PDF has76.
+
+`build_kbs_presentation.py` generates grouped method-by-dataset paired gains,
+calibration cost/admission/accuracy columns and complete baseline policy panels.
+All18 paired comparisons,6 primary calibration conditions and36 baseline rows
+are preserved. Table2 adds the existing partition SDs. See
+`presentation_revision_report.md` and `literature/reading_notes.md` for the
+three added citations, inspected author-version tables and access scope.
+The new citations are related work, not unrun experimental baselines.

@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Comparator & \multicolumn{3}{c}{Retained-minus-comparator gain (pp) $\uparrow$} \\
+\cmidrule(l){2-4}
+& CIFAR-100 & Pets & ImageNet-R \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{CLIP ViT-L/14}} \\
+Recalibrated removal & \shortstack[r]{\textbf{+3.00}\\{\scriptsize [+2.23, +3.75]}} & \shortstack[r]{-0.14\\{\scriptsize [-1.53, +0.86]}} & \shortstack[r]{\textbf{+2.30}\\{\scriptsize [+1.95, +2.59]}} \\
+Dense prototypes & \shortstack[r]{+0.15\\{\scriptsize [-0.46, +0.64]}} & \shortstack[r]{-0.98\\{\scriptsize [-2.52, +0.22]}} & \shortstack[r]{\textbf{+0.71}\\{\scriptsize [+0.46, +0.92]}} \\
+Class-mean cache & \shortstack[r]{\textbf{+1.44}\\{\scriptsize [+0.68, +2.10]}} & \shortstack[r]{-0.06\\{\scriptsize [-1.76, +1.41]}} & \shortstack[r]{\textbf{+1.42}\\{\scriptsize [+1.15, +1.62]}} \\
+\midrule
+\multicolumn{4}{@{}l}{\textit{CLIP ViT-B/32}} \\
+Recalibrated removal & \shortstack[r]{\textbf{+2.38}\\{\scriptsize [+1.44, +3.34]}} & \shortstack[r]{-0.44\\{\scriptsize [-1.64, +0.81]}} & \shortstack[r]{\textbf{+3.07}\\{\scriptsize [+2.82, +3.34]}} \\
+Dense prototypes & \shortstack[r]{+0.86\\{\scriptsize [-0.15, +1.76]}} & \shortstack[r]{-0.39\\{\scriptsize [-1.85, +1.02]}} & \shortstack[r]{\textbf{+0.90}\\{\scriptsize [+0.69, +1.11]}} \\
+Class-mean cache & \shortstack[r]{+0.96\\{\scriptsize [-0.04, +1.84]}} & \shortstack[r]{-0.74\\{\scriptsize [-1.62, +0.12]}} & \shortstack[r]{\textbf{+1.71}\\{\scriptsize [+1.44, +1.98]}} \\
+\bottomrule
+\end{tabular}

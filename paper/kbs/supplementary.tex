@@ -527,11 +527,7 @@ and validation sufficient statistics.
 \end{table}
 
 \FloatBarrier
-\begin{figure}[htbp]
-\centering\includegraphics[width=.98\textwidth]{revision_frontiers.pdf}
-\caption{Descriptive matched-retention capacity. Readouts share the retained model's absolute base target within each partition/encoder. Error bars show partition standard deviations; plotted points require all ten partitions to be feasible. Offsets use test labels for this capacity analysis; tables in this section include partially feasible sets.}
-\label{fig:frontiers}
-\end{figure}
+Main Fig.~\ref{main-fig:capacity} visualizes the shared-retention frontiers; the tables in this section additionally retain partially feasible sets and exact counts.
 \FloatBarrier
 \section{Independent protection-risk calibration}
 \label{app:independentrisk}
@@ -649,13 +645,13 @@ Main Fig.~\ref{main-fig:budget} and Fig.~\ref{fig:budgetcertification} show the 
 
 \begin{table}[htbp]
 \centering
-\caption{Complete L/14 cap-40 comparison after the fifth arrival in order 0. Empirical thresholds and independent risk certification use the same frozen score models and calibration pools. All means include ten partitions, with zero novel accuracy on base-only fallback. Exp. counts finite admissions; Test met counts test targets.}
-\resizebox{\linewidth}{!}{\input{table_calibration_budget_l14}}
+\caption{Complete L/14 cap-40 comparison after the fifth arrival in order 0. Empirical thresholds and independent risk certification share frozen score models and calibration pools. Accuracy means (\%) include ten partitions and zero novel accuracy on fallback. Finite counts certified admissions; Test met counts attained test targets. Bold marks the largest certified-policy novel mean within each dataset; it does not denote a paired significance test.}
+\resizebox{\linewidth}{!}{\input{table_kbs_calibration_l14}}
 \end{table}
 \begin{table}[htbp]
 \centering
-\caption{Complete B/32 cap-40 comparison, with access and fallback accounting as in the L/14 table.}
-\resizebox{\linewidth}{!}{\input{table_calibration_budget_b32}}
+\caption{Complete B/32 cap-40 comparison, with access, accuracy units, fallback accounting and boldface convention as in the L/14 table.}
+\resizebox{\linewidth}{!}{\input{table_kbs_calibration_b32}}
 \end{table}
 
 All six retained-table dataset/encoder conditions certify final expansion in 10/10 partitions and meet all ten final test targets. Across both orders, all 20 paths per condition meet the test target at every arrival. Finite admission throughout holds for all CIFAR and ImageNet-R paths, and for 17/20 Pets paths with L/14 and 16/20 with B/32; other Pets paths use an early fallback. A path containing fallback therefore counts toward test protection but not uninterrupted useful admission.

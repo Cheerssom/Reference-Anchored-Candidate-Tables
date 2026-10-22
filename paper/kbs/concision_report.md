@@ -17,3 +17,7 @@ The paper keeps explicit distinctions between descriptive test-label frontiers a
 ## Calibration-coverage integration (2026-10-23)
 
 Main remains 20 review-format pages, abstract153 words. Full coverage evidence is in Supplement L (supplement54 pages; combined74). Original frontier figure moved to Supplement I; all original numerical inputs retained.
+
+## Core-figure restoration and table revision (2026-10-23)
+
+Current main22 pages,3 figures,2 tables,153-word abstract and10 KBS citations. Supplement54 pages, combined76. The extra space carries the restored central capacity figure and grouped tables with readable uncertainty. See presentation_revision_report.md.

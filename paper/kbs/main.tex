@@ -36,7 +36,9 @@ The contribution is the connection between retained discrimination and class-exp
 \section{Related work}
 Long-tailed recognition addresses unequal class supervision through balanced fitting and losses~\cite{liu2019large,cao2019ldam,cui2019classbalanced}. CLIP supplies semantic image--text evidence~\cite{radford2021clip}, while prompt adaptation~\cite{zhou2022coop,shi2024lift}, prototypes~\cite{snell2017prototypical,wang2019simpleshot} and semantic caches~\cite{zhang2022tipadapter} adapt pre-trained representations to labeled data. Our setting combines these evidence types according to their availability at class arrival.
 
-Class-incremental and few-shot incremental learning study retention across successive tasks~\cite{rebuffi2017icarl,tao2020fewshot}. SimpleCIL~\cite{zhou2024simplecil} and RanPAC~\cite{mcdonnell2023ranpac} show the value of pre-trained prototypes and analytic readouts. KBS approaches develop multi-feature similarity supplementation~\cite{xu2023mfs3}, sharpness-aware prototype calibration~\cite{chen2024sagg}, adaptive exploration~\cite{han2025adaptive}, representation-enhanced analytic learning~\cite{he2026real}, and multimodal prompt fusion~\cite{fang2026bpcclip}. CLIP-guided discovery~\cite{yan2025clipdiscovery} additionally uses unlabeled novel data, whereas our arriving classes provide names and labeled support. FeNeC~\cite{ksiazek2026fenec} supplies a recent clustered-representative readout for controlled frozen-feature comparisons.
+Class-incremental and few-shot incremental learning study retention across successive tasks~\cite{rebuffi2017icarl,tao2020fewshot}. SimpleCIL~\cite{zhou2024simplecil} and RanPAC~\cite{mcdonnell2023ranpac} show the value of pre-trained prototypes and analytic readouts. KBS approaches develop multi-feature similarity supplementation~\cite{xu2023mfs3}, sharpness-aware prototype calibration~\cite{chen2024sagg}, adaptive exploration~\cite{han2025adaptive}, representation-enhanced analytic learning~\cite{he2026real}, and multimodal prompt fusion~\cite{fang2026bpcclip}. 
+
+Recent work aligns task-specific expert inference in MoTE~\cite{li2025mote}, separates expanding feature spaces through orthogonal constraints~\cite{dong2026deon}, and learns invariant representations through counterfactual distribution intervention~\cite{yuan2026cdi}. Our contribution concerns the admission capacity supplied by an existing classifier under a common base-accuracy requirement. CLIP-guided discovery~\cite{yan2025clipdiscovery} additionally uses unlabeled novel data, whereas our arriving classes provide names and labeled support. FeNeC~\cite{ksiazek2026fenec} supplies a clustered-representative readout for controlled frozen-feature comparisons.
 
 BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or heterogeneous recognition metrics. Calibrated seen/unseen recognition~\cite{chao2016calibrated} studies the related operating trade-off, and Learn then Test~\cite{angelopoulos2021ltt} supplies risk-controlled threshold selection. We focus on the retained classifier as a source of admission capacity: its contribution is measured at a common base requirement, over successive arrivals, and under a separately calibrated protection policy.
 
@@ -113,7 +115,13 @@ Every comparator shares its encoder, partition and support. We compare fixed-gat
 Orders are averaged within a partition. Means and standard deviations describe ten class assignments on fixed images. Paired differences use identical cells; constrained comparisons use jointly feasible sets. Conditional paired 95\% bootstrap intervals resample partition means 20,000 times. Average incremental accuracy is the mean macro accuracy over five arrivals. These intervals characterize class-assignment variation, conditional on the fixed data and encoders.
 
 \subsection{Novel recognition at a shared base requirement}
-At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.31\% novel accuracy at 86.42\% base accuracy. Supplementary Section I shows the complete frontiers across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
+At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.31\% novel accuracy at 86.42\% base accuracy. Figure~\ref{fig:capacity} compares novel recognition under shared base requirements across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\textwidth]{matched_capacity_main.pdf}
+\caption{Novel recognition at shared base-retention requirements after the fifth arrival. Each readout must attain the stated fraction of the retained reference's closed-base accuracy within the same partition and encoder. Means and sample standard deviations cover ten partitions after averaging two arrival orders; points require all ten partitions to be feasible. Vertical ranges are 50--100\% (L/14) and 30--90\% (B/32); error bars stop at panel limits. Test-label threshold sweeps characterize descriptive capacity. Partial feasible sets and exact counts are reported in Supplementary Section I.}
+\label{fig:capacity}
+\end{figure}
 
 Reference normalization also improves the sequential comparison against fixed-temperature fusion on ImageNet-R by 0.94 [0.74, 1.12] percentage points with L/14. Both preserve existing scores, so this comparison measures the value of query-dependent branch scaling. Full normalization controls are in Supplementary Section I.
 
@@ -122,9 +130,9 @@ Table~\ref{tab:paired} quantifies retained-minus-comparator average incremental 
 
 \begin{table}[htbp]
 \centering
-\caption{Paired retained-classifier gain in average incremental accuracy, percentage points [conditional paired 95\% bootstrap interval]. Two orders are averaged within each of ten partitions. Full final-session differences are in Supplementary Section I.}
+\caption{The retained classifier's value across five arrivals. Cells show paired gains in average incremental accuracy (percentage points), with conditional paired 95\% bootstrap intervals below. Positive values favor retention; bold estimates have intervals excluding zero. Two orders are averaged within each of ten partitions. Full final-session differences are in Supplementary Section I.}
 \label{tab:paired}
-\resizebox{\linewidth}{!}{\input{table_concise_paired}}
+{\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.15}\input{table_kbs_paired}}
 \end{table}
 
 CIFAR also shows gains over recalibrated removal with both encoders; its dense-prototype intervals span zero. Pets' average incremental intervals span zero for these comparators. The gain over prototype replacement is clearest on ImageNet-R.
@@ -147,9 +155,9 @@ Class coverage determines whether certification is attainable. For macro weights
 
 \begin{table}[htbp]
 \centering
-\caption{Retained tables after the fifth arrival in the first prespecified order, with up to 40 independent calibration images per base class, 95\% retention and 95\% five-session confidence. Queries are actual base-calibration counts; Exp. counts finite certified thresholds and Test met counts attained test targets. Base/Novel are mean test percentages over ten partitions, including fallback. All six readouts are reported in Supplementary Section L.}
+\caption{Independently calibrated admission after the fifth arrival in the first prespecified order, with up to 40 images per base class, 95\% retention and 95\% five-session confidence. Queries are actual base-calibration counts; Finite counts certified expansion and Test met counts attained test targets. Base/Novel are test percentages, mean $\pm$ sample standard deviation over ten partitions, including fallback. All six readouts are reported in Supplementary Section L.}
 \label{tab:riskmain}
-\resizebox{\linewidth}{!}{\input{table_calibration_budget_main}}
+{\small\setlength{\tabcolsep}{4pt}\input{table_kbs_calibration}}
 \end{table}
 
 At cap 40, retained tables certify final-session expansion in all ten partitions of each dataset and encoder, with all test targets met (Table~\ref{tab:riskmain}). L/14 novel accuracy is 72.76\% on CIFAR, 88.51\% on Pets and 80.74\% on ImageNet-R. All 20 arrival paths per dataset/encoder meet every test target. Finite admission holds throughout all CIFAR and ImageNet-R paths and 17/20 L/14 and 16/20 B/32 Pets paths; the remaining Pets paths use an early-session fallback. Full comparisons distinguish policy gains, which include fallback, from accuracy differences on jointly admitted partitions. The common protection criterion remains conservative for replacement models that recover reference errors.

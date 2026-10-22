@@ -80,6 +80,17 @@ if r'\label{sec:budgetexperiment}' in main:
   assert row['finite_admission_cells']==10 and row['test_met_cells']==10
   assert f"{100*row['new_mean']:.2f}" in maintext
  report['calibration_budget']={'metric_records':93600,'reconstructed_tests':verified['reconstructed_tests'],'primary_conditions':6,'supplementary_section':'L','restart':restart}
+if r'\label{fig:capacity}' in main:
+ presentation=json.loads((H/'presentation_verification.json').read_text())
+ assert presentation['paired_comparisons_preserved']==18
+ assert presentation['primary_calibration_conditions']==6
+ assert presentation['complete_calibration_rows']==36
+ for name,sha in presentation['source_sha256'].items():
+  assert hashlib.sha256((H/name).read_bytes()).hexdigest()==sha
+ assert len(re.findall(r'\\begin\{figure\}',main))==3
+ assert len(re.findall(r'\\begin\{table\}',main))==2
+ assert len(added)==10
+ report['presentation_revision']={'main_figures':3,'main_tables':2,'kbs_citations':10,'paired_comparisons_preserved':18,'numerical_sources_unchanged':True}
 if (H/'strengthening_summary.json').exists():
  summary=json.loads((H/'strengthening_summary.json').read_text())
  assert set(summary)=={'cifar','pets','imagenetr'}

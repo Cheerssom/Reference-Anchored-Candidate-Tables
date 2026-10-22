@@ -266,8 +266,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript remains 20 review-format pages (153-word abstract);
-the supplement is 54 pages, Sections A-L. Independent calibration coverage is
+The current main manuscript has 22 review-format pages (153-word abstract),3 figures and2 tables;
+the supplement is 54 pages, Sections A-L. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -284,9 +284,12 @@ powershell -File scripts/run_kbs_calibration_budget.ps1 -Python python
 python src/experiments/kbs_verify_calibration_budget.py
 python src/experiments/test_kbs_calibration_budget.py
 python paper/kbs/build_calibration_budget_results.py
+python paper/kbs/build_kbs_presentation.py
 ```
 
 Reuse the existing local image/feature assets. The runner serializes GPU work,
 uses small batches and supports the shared PAUSE marker and checkpoint resume.
 Image data, weights and PT feature caches are excluded from this public export.
 No new model downloads or paid compute are required for the original local run.
+
+The current presentation restores the matched-retention capacity curve to the main manuscript; its row ranges are50-100% and30-90%. Table-layout exemplars and the three added KBS references are documented in paper/kbs/literature/reading_notes.md. No numerical outcomes changed.

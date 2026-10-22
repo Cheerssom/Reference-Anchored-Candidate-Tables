@@ -1,0 +1,31 @@
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Readout & \multicolumn{2}{c}{Empirical policy} & \multicolumn{4}{c}{Certified policy} \\
+\cmidrule(lr){2-3}\cmidrule(l){4-7}
+& Test met & Novel $\uparrow$ & Finite & Test met & Base $\uparrow$ & Novel $\uparrow$ \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{CIFAR-100}} \\
+Retained & 1/10 & 59.19 & 10/10 & 10/10 & 76.74 & \textbf{52.54} \\
+Recalibrated removal & 7/10 & 34.79 & 2/10 & 10/10 & 78.57 & 10.73 \\
+Dense prototypes & 6/10 & 51.14 & 2/10 & 10/10 & 78.79 & 7.95 \\
+Raw fusion & 5/10 & 37.98 & 3/10 & 10/10 & 78.38 & 13.51 \\
+Fixed temperature & 4/10 & 55.06 & 8/10 & 10/10 & 77.87 & 36.50 \\
+Class-mean cache & 3/10 & 54.52 & 1/10 & 10/10 & 79.21 & 4.16 \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{Pets}} \\
+Retained & 3/10 & 73.15 & 10/10 & 10/10 & 88.10 & \textbf{61.94} \\
+Recalibrated removal & 10/10 & 35.20 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Dense prototypes & 5/10 & 54.36 & 1/10 & 10/10 & 90.17 & 5.89 \\
+Raw fusion & 6/10 & 56.09 & 5/10 & 10/10 & 90.03 & 17.69 \\
+Fixed temperature & 4/10 & 65.62 & 9/10 & 10/10 & 90.46 & 41.26 \\
+Class-mean cache & 8/10 & 55.72 & 0/10 & 10/10 & 90.24 & 0.00 \\
+\midrule
+\multicolumn{7}{@{}l}{\textit{ImageNet-R}} \\
+Retained & 3/10 & 56.13 & 10/10 & 10/10 & 72.98 & \textbf{49.67} \\
+Recalibrated removal & 10/10 & 0.00 & 0/10 & 10/10 & 75.01 & 0.00 \\
+Dense prototypes & 3/10 & 47.78 & 0/10 & 10/10 & 75.01 & 0.00 \\
+Raw fusion & 10/10 & 0.00 & 0/10 & 10/10 & 75.01 & 0.00 \\
+Fixed temperature & 4/10 & 52.37 & 8/10 & 10/10 & 73.68 & 33.60 \\
+Class-mean cache & 4/10 & 32.26 & 0/10 & 10/10 & 75.01 & 0.00 \\
+\bottomrule
+\end{tabular}
