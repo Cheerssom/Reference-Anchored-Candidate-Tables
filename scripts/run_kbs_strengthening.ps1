@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('All','Download','Features','Experiments','Depth','Status','Pause','Resume')]
+  [ValidateSet('All','Download','Features','Experiments','Depth','ValidationBudget','Status','Pause','Resume')]
   [string]$Stage = 'All',
   [string]$Python = 'python'
 )
@@ -20,6 +20,10 @@ if ($Stage -eq 'Status') {
   $depthDir = Join-Path $projectRoot 'experiments/kbs_depth'
   if (Test-Path -LiteralPath $depthDir) {
     Write-Output ('Depth configurations complete: ' + @(Get-ChildItem -LiteralPath $depthDir -Filter complete.json -Recurse).Count + ' / 90')
+  }
+  $budgetDir = Join-Path $projectRoot 'experiments/kbs_validation_budget'
+  if (Test-Path -LiteralPath $budgetDir) {
+    Write-Output ('Validation-budget datasets complete: ' + @(Get-ChildItem -LiteralPath $budgetDir -Filter complete.json -Recurse).Count + ' / 3')
   }
   Get-ChildItem (Join-Path $projectRoot 'experiments/kbs_imagenetr') -Filter 'frozen_imagenetr.pt' -ErrorAction SilentlyContinue |
     Select-Object Name,Length,LastWriteTime
@@ -63,4 +67,7 @@ if ($Stage -in @('All','Depth')) {
   foreach ($dataset in @('cifar','pets','imagenetr')) {
     Run-SavedStage 'src/experiments/kbs_depth.py' @('--dataset',$dataset) "$dataset-depth.log"
   }
+}
+if ($Stage -in @('All','ValidationBudget')) {
+  Run-SavedStage 'src/experiments/kbs_validation_budget.py' @() 'validation-budget.log'
 }

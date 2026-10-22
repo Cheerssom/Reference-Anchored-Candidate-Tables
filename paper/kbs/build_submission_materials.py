@@ -59,6 +59,7 @@ doc('declarations.docx','Declarations',[
 
 sources=[H/n for n in ['main.tex','main.bbl','supplementary.tex','supplementary.bbl','references.bib','elsarticle.cls','elsarticle-num.bst','numbers.tex','retention_numbers.tex','strengthening_results.tex','depth_results.tex'] if (H/n).exists()]
 sources+=list(H.glob('table_*.tex'))
+sources+=[H/'validation_budget_results.tex']
 sources+=[p for p in H.glob('*.pdf') if p.name!='logo.pdf']
 sources=[p for p in sources if p.name not in ['main.pdf','supplementary.pdf','cover_letter.pdf','Highlights.pdf','title_page.pdf','declarations.pdf']]
 sources+=list(H.glob('*.docx'))+[H/'Highlights.txt']

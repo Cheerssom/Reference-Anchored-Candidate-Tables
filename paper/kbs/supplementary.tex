@@ -385,6 +385,65 @@ selection arrays. The trial-zero five-shot table results agree exactly with the
 prior three-dataset records. Source, protocol and cache hashes, all outcomes and
 reproduction commands accompany the release.
 
+\FloatBarrier
+\section{Validation-query budget for admission thresholds}
+\label{app:validationbudget}
+This experiment varies the old-class query labels used to select the admission
+threshold, conditional on the original five-shot classifier and fusion
+calibration. All fitted parameters, cache settings and branch mixtures stay
+fixed. The evaluation uses the original trial-zero score archives, class
+partitions and arrival order zero on each dataset. No image encoder or new
+classifier is fitted.
+
+For each base class with $n_c$ validation images, the nominal fraction $f$ keeps
+$\max(1,\lfloor f n_c\rfloor)$ images. Fractions $f\in\{0.25,0.5\}$ use three
+predeclared subset seeds, with nested class-wise permutations; the full budget
+uses all images once. Actual query counts are reported because rounding and the
+one-query minimum change the realized fractions. Macro weights are recomputed
+from the selected class counts. The retained readout's closed-base accuracy on
+that subset defines a shared target $rA_{B,\mathrm{ref},\mathrm{subset}}^{\mathrm{closed}}$
+for all six readouts, with $r\in\{0.95,0.99\}$. The largest feasible offset uses
+only the selected base-validation margins and labels.
+
+After selection, test queries measure both group accuracies. A test target is
+met when $A_{B,\mathrm{test}}\geq
+rA_{B,\mathrm{ref},\mathrm{test}}^{\mathrm{closed}}$; this criterion is evaluated
+after the offset is fixed and never enters threshold selection. Table~\ref{tab:validationbudget}
+separates validation feasibility from test target attainment. Subset repeats are
+averaged within each class partition before the mean and sample standard
+deviation over available partition means. The nine reduced-budget cases share
+three underlying partitions and are not independent repetitions. Small
+per-class counts quantize the selected threshold, so different target ratios can
+yield identical predictions and increasing the validation fraction need not
+change test target attainment monotonically. These empirical policies do not
+supply a finite-sample guarantee on test retention.
+
+\begin{table}[htbp]
+\centering
+\caption{Retained readout under different validation-query budgets after the final arrival. Accuracies are percentages, mean $\pm$ partition-level sample standard deviation after averaging subset repeats. Queries gives the actual old-class validation count range. Val. feasible counts partition/subset combinations meeting the validation constraint; Test met counts feasible combinations meeting the separate test criterion. The full budget uses one subset per partition.}
+\label{tab:validationbudget}
+\resizebox{\linewidth}{!}{\input{table_validation_budget_retained}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{All readouts at the nominal 25\% validation-query budget and 95\% target after the final arrival. All classifiers, mixtures and cache settings are held fixed from the original five-shot calibration. Accuracy aggregation and feasibility/attainment counts follow Table~\ref{tab:validationbudget}. Missing metrics correspond to zero feasible subsets.}
+\label{tab:validationbudgetcomparators}
+\resizebox{\linewidth}{!}{\input{table_validation_budget_comparators}}
+\end{table}
+
+The full-budget policies reproduce the original validation-selected outcomes
+exactly, including their feasibility. Saved test and validation predictions
+independently reconstruct every new selected offset, macro-weighted result and
+target-attainment flag. The 315 atomic session units contain 3,780 metric
+records across all five arrivals. Repeating the run preserves completed file
+hashes and modification times. The complete 50\%/100\% comparator outcomes,
+actual retained fractions and achieved test-retention ratios are provided in
+\texttt{validation\_budget\_summary.csv} and the raw records. This experiment
+measures threshold-selection label demand; the initial full-data fusion
+calibration remains fixed throughout.
+
+\FloatBarrier
 \begingroup
 \small
 \bibliographystyle{elsarticle-num}

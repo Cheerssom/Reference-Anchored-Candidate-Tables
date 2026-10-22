@@ -1,0 +1,2312 @@
+{
+  "cifar": {
+    "0.25": {
+      "validation_count_range": [
+        40,
+        40
+      ],
+      "actual_fraction_range": [
+        0.24539877300613497,
+        0.2484472049689441
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 82.46111111111115,
+              "sd": 2.247565555423448,
+              "n": 3
+            },
+            "new": {
+              "mean": 75.14444444444446,
+              "sd": 3.503691835975511,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.84798110199706,
+              "sd": 2.478174130929971,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 79.39375000000004,
+              "sd": 2.0771261697354935,
+              "n": 2
+            },
+            "new": {
+              "mean": 74.84375000000003,
+              "sd": 0.15026019100214538,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.50296480155762,
+              "sd": 3.1150620727218685,
+              "n": 2
+            },
+            "feasible": 5,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 79.47500000000002,
+              "sd": 2.192031021678303,
+              "n": 2
+            },
+            "new": {
+              "mean": 73.21875000000003,
+              "sd": 2.448357229858435,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.59611470124236,
+              "sd": 3.2467959241897,
+              "n": 2
+            },
+            "feasible": 5,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 81.30000000000003,
+              "sd": 2.0765221993623046,
+              "n": 3
+            },
+            "new": {
+              "mean": 77.11666666666669,
+              "sd": 2.639497005954818,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.53148609485959,
+              "sd": 2.5623650554406976,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 79.3166666666667,
+              "sd": 2.298686218981033,
+              "n": 3
+            },
+            "new": {
+              "mean": 71.40138888888892,
+              "sd": 7.86197372083099,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.28279179103971,
+              "sd": 3.1945776490736946,
+              "n": 3
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 79.50555555555559,
+              "sd": 3.5781195920224436,
+              "n": 3
+            },
+            "new": {
+              "mean": 77.11944444444448,
+              "sd": 4.996459394559457,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.49796745803381,
+              "sd": 4.461499953097906,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 1
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 85.21388888888892,
+              "sd": 2.644298548729852,
+              "n": 3
+            },
+            "new": {
+              "mean": 66.98611111111113,
+              "sd": 9.177457033001726,
+              "n": 3
+            },
+            "retention": {
+              "mean": 96.9717562694987,
+              "sd": 2.461720956222753,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 81.67500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 69.62500000000001,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 92.54957507082153,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 81.67500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 69.62500000000001,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 92.54957507082153,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 83.11666666666669,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 75.71666666666668,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 94.18319169027384,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 81.38333333333335,
+              "sd": 1.602775370689507,
+              "n": 2
+            },
+            "new": {
+              "mean": 69.18750000000003,
+              "sd": 7.053390142335817,
+              "n": 2
+            },
+            "retention": {
+              "mean": 92.28356739597774,
+              "sd": 1.7249694688218875,
+              "n": 2
+            },
+            "feasible": 4,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 79.12500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 75.67500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 89.66005665722379,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          }
+        }
+      }
+    },
+    "0.5": {
+      "validation_count_range": [
+        68,
+        68
+      ],
+      "actual_fraction_range": [
+        0.4171779141104294,
+        0.422360248447205
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 81.94166666666668,
+              "sd": 3.225947319952874,
+              "n": 3
+            },
+            "new": {
+              "mean": 76.9166666666667,
+              "sd": 3.717217821615153,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.24502588460314,
+              "sd": 3.146019551689847,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 81.04861111111114,
+              "sd": 2.122802513014161,
+              "n": 3
+            },
+            "new": {
+              "mean": 67.85555555555557,
+              "sd": 13.333943562424663,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.23790297815462,
+              "sd": 2.1840349663868963,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 80.9777777777778,
+              "sd": 1.643090189359787,
+              "n": 3
+            },
+            "new": {
+              "mean": 71.55138888888891,
+              "sd": 6.2619640119564055,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.15908586499859,
+              "sd": 1.7115816838354083,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 82.67500000000004,
+              "sd": 1.6410743432276356,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.02777777777779,
+              "sd": 5.8773891911038,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.08976519520724,
+              "sd": 1.6283089997323117,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 2
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 79.27500000000003,
+              "sd": 1.0182705927208209,
+              "n": 3
+            },
+            "new": {
+              "mean": 73.23888888888891,
+              "sd": 3.072914077211729,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.22925241962798,
+              "sd": 1.7351873718301711,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 77.22083333333336,
+              "sd": 1.3740590214559405,
+              "n": 3
+            },
+            "new": {
+              "mean": 79.89305555555559,
+              "sd": 2.8517487730890276,
+              "n": 3
+            },
+            "retention": {
+              "mean": 87.88796297510369,
+              "sd": 1.7721887455249827,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 0
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 85.84722222222224,
+              "sd": 2.608763720260646,
+              "n": 3
+            },
+            "new": {
+              "mean": 64.30277777777779,
+              "sd": 10.70503948476466,
+              "n": 3
+            },
+            "retention": {
+              "mean": 97.69190031983766,
+              "sd": 2.368464150149271,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 84.37500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 45.000000000000014,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 95.60906515580737,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 84.37500000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 45.000000000000014,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 95.60906515580737,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 84.90000000000002,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 67.48333333333335,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 96.20396600566572,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 82.81250000000003,
+              "sd": 0.8308504678942014,
+              "n": 2
+            },
+            "new": {
+              "mean": 53.82500000000001,
+              "sd": 19.374725804511396,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.90555120245916,
+              "sd": 1.036260278329807,
+              "n": 2
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 85.15000000000003,
+              "sd": 1.520279579551071,
+              "n": 2
+            },
+            "new": {
+              "mean": 54.625000000000014,
+              "sd": 11.879393923934002,
+              "n": 2
+            },
+            "retention": {
+              "mean": 96.55654672211843,
+              "sd": 1.8206937669681373,
+              "n": 2
+            },
+            "feasible": 4,
+            "possible": 9,
+            "test_target_met": 0
+          }
+        }
+      }
+    },
+    "1.0": {
+      "validation_count_range": [
+        161,
+        163
+      ],
+      "actual_fraction_range": [
+        1.0,
+        1.0
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 82.99166666666669,
+              "sd": 2.2916060598046384,
+              "n": 3
+            },
+            "new": {
+              "mean": 75.70833333333336,
+              "sd": 3.1410919014465883,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.44505874382509,
+              "sd": 2.1325934836504237,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 1
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 81.95000000000003,
+              "sd": 0.03535533905933541,
+              "n": 2
+            },
+            "new": {
+              "mean": 71.53750000000002,
+              "sd": 3.871409626996354,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.40663940169712,
+              "sd": 0.7313195147579171,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 81.85000000000002,
+              "sd": 0.17677669529664694,
+              "n": 2
+            },
+            "new": {
+              "mean": 71.70000000000002,
+              "sd": 4.1012193308819835,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.29199337131593,
+              "sd": 0.5691855437205933,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 81.95000000000003,
+              "sd": 0.6363961030678968,
+              "n": 2
+            },
+            "new": {
+              "mean": 77.47500000000002,
+              "sd": 1.5202795795510813,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.4098019108213,
+              "sd": 1.496983413890685,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 82.36250000000003,
+              "sd": 0.19445436482630457,
+              "n": 2
+            },
+            "new": {
+              "mean": 68.2125,
+              "sd": 0.9722718241315129,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.87788979853315,
+              "sd": 0.9971411457433519,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 82.50833333333337,
+              "sd": 0.5033222956847163,
+              "n": 3
+            },
+            "new": {
+              "mean": 75.48333333333335,
+              "sd": 3.1404949185332867,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.90483545655543,
+              "sd": 0.9159291086176511,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 0
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 86.48333333333336,
+              "sd": 1.6530905399684983,
+              "n": 3
+            },
+            "new": {
+              "mean": 62.83333333333334,
+              "sd": 10.1082989831788,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.4203327301996,
+              "sd": 1.2633616611891698,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 2
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 86.85000000000002,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 53.849999999999994,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 98.41359773371104,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 86.40000000000003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 43.87500000000002,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 97.90368271954675,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 3,
+            "test_target_met": 0
+          }
+        }
+      }
+    }
+  },
+  "pets": {
+    "0.25": {
+      "validation_count_range": [
+        15,
+        15
+      ],
+      "actual_fraction_range": [
+        0.25,
+        0.25
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 91.77053274246862,
+              "sd": 2.3901528225715936,
+              "n": 3
+            },
+            "new": {
+              "mean": 92.4205661462305,
+              "sd": 2.6355782392898486,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.91825017735374,
+              "sd": 4.716670508485985,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 88.87079828448672,
+              "sd": 3.950029515316123,
+              "n": 3
+            },
+            "new": {
+              "mean": 92.76680098135425,
+              "sd": 5.91429583006576,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.95488307844619,
+              "sd": 5.704937047753169,
+              "n": 3
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 87.67598879208272,
+              "sd": 3.954420387128486,
+              "n": 3
+            },
+            "new": {
+              "mean": 89.64378854405608,
+              "sd": 11.34903271393867,
+              "n": 3
+            },
+            "retention": {
+              "mean": 89.7525139323684,
+              "sd": 6.178265853014656,
+              "n": 3
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 88.49687597625741,
+              "sd": 6.268418181354434,
+              "n": 3
+            },
+            "new": {
+              "mean": 93.41138503346458,
+              "sd": 3.8151250879029157,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.43471483351301,
+              "sd": 4.501891629678749,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 2
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 89.86105229461475,
+              "sd": 3.579960374819627,
+              "n": 3
+            },
+            "new": {
+              "mean": 89.58865138256972,
+              "sd": 5.6770743323961685,
+              "n": 3
+            },
+            "retention": {
+              "mean": 91.96673424018404,
+              "sd": 5.438584274847695,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 2
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 90.25230387108968,
+              "sd": 1.8037955335574654,
+              "n": 3
+            },
+            "new": {
+              "mean": 91.90186209895505,
+              "sd": 3.3133282715037535,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.35456668428078,
+              "sd": 4.0340555284914394,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 2
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 91.77053274246862,
+              "sd": 2.3901528225715936,
+              "n": 3
+            },
+            "new": {
+              "mean": 92.4205661462305,
+              "sd": 2.6355782392898486,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.91825017735374,
+              "sd": 4.716670508485985,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 88.87079828448672,
+              "sd": 3.950029515316123,
+              "n": 3
+            },
+            "new": {
+              "mean": 92.76680098135425,
+              "sd": 5.91429583006576,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.95488307844619,
+              "sd": 5.704937047753169,
+              "n": 3
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 87.67598879208272,
+              "sd": 3.954420387128486,
+              "n": 3
+            },
+            "new": {
+              "mean": 89.64378854405608,
+              "sd": 11.34903271393867,
+              "n": 3
+            },
+            "retention": {
+              "mean": 89.7525139323684,
+              "sd": 6.178265853014656,
+              "n": 3
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 88.49687597625741,
+              "sd": 6.268418181354434,
+              "n": 3
+            },
+            "new": {
+              "mean": 93.41138503346458,
+              "sd": 3.8151250879029157,
+              "n": 3
+            },
+            "retention": {
+              "mean": 90.43471483351301,
+              "sd": 4.501891629678749,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 89.86105229461475,
+              "sd": 3.579960374819627,
+              "n": 3
+            },
+            "new": {
+              "mean": 89.58865138256972,
+              "sd": 5.6770743323961685,
+              "n": 3
+            },
+            "retention": {
+              "mean": 91.96673424018404,
+              "sd": 5.438584274847695,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 90.25230387108968,
+              "sd": 1.8037955335574654,
+              "n": 3
+            },
+            "new": {
+              "mean": 91.90186209895505,
+              "sd": 3.3133282715037535,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.35456668428078,
+              "sd": 4.0340555284914394,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 1
+          }
+        }
+      }
+    },
+    "0.5": {
+      "validation_count_range": [
+        25,
+        25
+      ],
+      "actual_fraction_range": [
+        0.4166666666666667,
+        0.4166666666666667
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 92.017531944107,
+              "sd": 0.9459543331830872,
+              "n": 3
+            },
+            "new": {
+              "mean": 94.75239921615882,
+              "sd": 1.2280447437413498,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.13322742842888,
+              "sd": 2.506142135662021,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 91.62157389087515,
+              "sd": 2.3736412305329746,
+              "n": 3
+            },
+            "new": {
+              "mean": 88.54035358982748,
+              "sd": 6.257002445472971,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.73064996982528,
+              "sd": 3.4300176863027825,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 90.80293349686248,
+              "sd": 3.853050138598869,
+              "n": 3
+            },
+            "new": {
+              "mean": 85.43215596734414,
+              "sd": 9.686763061273588,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.90773855581676,
+              "sd": 5.021450906845596,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 92.04699804459256,
+              "sd": 2.4914780393124274,
+              "n": 3
+            },
+            "new": {
+              "mean": 93.10571304525293,
+              "sd": 1.1102180732625049,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.12296843507812,
+              "sd": 0.6743911457359685,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 90.17729876080392,
+              "sd": 2.5304561610910135,
+              "n": 3
+            },
+            "new": {
+              "mean": 91.92418510223041,
+              "sd": 6.487398450262347,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.2854137561353,
+              "sd": 4.658515212838532,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 90.7666604957556,
+              "sd": 1.74942134134212,
+              "n": 3
+            },
+            "new": {
+              "mean": 92.64711050134629,
+              "sd": 3.2266734615185713,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.87356537377362,
+              "sd": 3.7512633703876768,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 4
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 95.05238679270754,
+              "sd": 0.4829675788291534,
+              "n": 3
+            },
+            "new": {
+              "mean": 90.48861778888532,
+              "sd": 5.09016508409608,
+              "n": 3
+            },
+            "retention": {
+              "mean": 97.22928881801091,
+              "sd": 1.8554644449428312,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 89.92933978964908,
+              "sd": 0.9198867942652466,
+              "n": 2
+            },
+            "new": {
+              "mean": 95.69531931714918,
+              "sd": 0.12405761408571438,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.72886984572645,
+              "sd": 0.9090792166801964,
+              "n": 2
+            },
+            "feasible": 4,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 88.23141610839207,
+              "sd": 1.4813399036428783,
+              "n": 2
+            },
+            "new": {
+              "mean": 95.73908348948478,
+              "sd": 0.06216572802267618,
+              "n": 2
+            },
+            "retention": {
+              "mean": 89.01610217801596,
+              "sd": 1.5131400481901394,
+              "n": 2
+            },
+            "feasible": 4,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 94.49310400684972,
+              "sd": 0.7970453974994938,
+              "n": 3
+            },
+            "new": {
+              "mean": 87.66534870647588,
+              "sd": 5.761603082546989,
+              "n": 3
+            },
+            "retention": {
+              "mean": 96.65759911806428,
+              "sd": 1.9826375507514395,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 2
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 92.99074247630952,
+              "sd": 0.7268701322300153,
+              "n": 2
+            },
+            "new": {
+              "mean": 88.73034989503691,
+              "sd": 9.661118567989028,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.81766753173369,
+              "sd": 0.7529665833482933,
+              "n": 2
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 92.60587258611315,
+              "sd": 4.455855958632965,
+              "n": 2
+            },
+            "new": {
+              "mean": 90.07704817030661,
+              "sd": 7.819453538783631,
+              "n": 2
+            },
+            "retention": {
+              "mean": 93.42976913752271,
+              "sd": 4.51502827644619,
+              "n": 2
+            },
+            "feasible": 6,
+            "possible": 9,
+            "test_target_met": 2
+          }
+        }
+      }
+    },
+    "1.0": {
+      "validation_count_range": [
+        60,
+        60
+      ],
+      "actual_fraction_range": [
+        1.0,
+        1.0
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 90.29219225473524,
+              "sd": 2.9039299125511207,
+              "n": 3
+            },
+            "new": {
+              "mean": 95.68150814368045,
+              "sd": 0.829309143140088,
+              "n": 3
+            },
+            "retention": {
+              "mean": 92.3311607426919,
+              "sd": 1.9030227968038644,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 90.10964281995211,
+              "sd": 1.1748737850567685,
+              "n": 2
+            },
+            "new": {
+              "mean": 95.70643042826029,
+              "sd": 0.10834413005934419,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.91074916344976,
+              "sd": 1.1662954145196531,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 89.8823700926794,
+              "sd": 0.8534616117901568,
+              "n": 2
+            },
+            "new": {
+              "mean": 95.70575015615145,
+              "sd": 0.10930618010177667,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.68148951926074,
+              "sd": 0.8420733164026993,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 89.37187915813347,
+              "sd": 4.151695281932543,
+              "n": 3
+            },
+            "new": {
+              "mean": 95.62700304273339,
+              "sd": 1.546197469237448,
+              "n": 3
+            },
+            "retention": {
+              "mean": 91.36766606382288,
+              "sd": 2.6282974658043585,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 89.338218959353,
+              "sd": 2.7277130681929282,
+              "n": 2
+            },
+            "new": {
+              "mean": 95.73638988679119,
+              "sd": 0.1526373027199575,
+              "n": 2
+            },
+            "retention": {
+              "mean": 90.13230208523588,
+              "sd": 2.7331049933393574,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 90.94660812014764,
+              "sd": 1.337267287390867,
+              "n": 3
+            },
+            "new": {
+              "mean": 93.23312636672723,
+              "sd": 3.496170080942394,
+              "n": 3
+            },
+            "retention": {
+              "mean": 93.05506597115681,
+              "sd": 3.472279141204134,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 1
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 96.42944797343425,
+              "sd": 2.1485945106742155,
+              "n": 3
+            },
+            "new": {
+              "mean": 88.66793018724535,
+              "sd": 7.888045248842696,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.61871566632699,
+              "sd": 1.5458128970416638,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 2
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 97.69877989517165,
+              "sd": 1.1101225476153946,
+              "n": 2
+            },
+            "new": {
+              "mean": 84.18738836812675,
+              "sd": 12.462402364140507,
+              "n": 2
+            },
+            "retention": {
+              "mean": 98.56760799382045,
+              "sd": 1.1406207919845617,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 1
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 95.24795897115487,
+              "sd": 3.9190563124525912,
+              "n": 2
+            },
+            "new": {
+              "mean": 85.09315481498467,
+              "sd": 14.804889179195577,
+              "n": 2
+            },
+            "retention": {
+              "mean": 96.09529156639098,
+              "sd": 3.974013383147566,
+              "n": 2
+            },
+            "feasible": 2,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 98.13430178069356,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 79.39693533979249,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 99.02153598046097,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 3,
+            "test_target_met": 1
+          }
+        }
+      }
+    }
+  },
+  "imagenetr": {
+    "0.25": {
+      "validation_count_range": [
+        696,
+        731
+      ],
+      "actual_fraction_range": [
+        0.2367994816974409,
+        0.23812664907651715
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 85.85111503950166,
+              "sd": 0.37996486165800025,
+              "n": 3
+            },
+            "new": {
+              "mean": 84.98202597168059,
+              "sd": 0.3820176923725372,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.44413507633335,
+              "sd": 0.28111633854450174,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 2
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 85.66057812268087,
+              "sd": 0.864152842727498,
+              "n": 3
+            },
+            "new": {
+              "mean": 79.22709042905838,
+              "sd": 1.8989342103354934,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.23654909341843,
+              "sd": 1.1764910376576474,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 85.73901613930013,
+              "sd": 0.8965898827398002,
+              "n": 3
+            },
+            "new": {
+              "mean": 79.07588442467018,
+              "sd": 1.7387418159937036,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.32255208438663,
+              "sd": 1.1711833549402981,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 86.39239540768772,
+              "sd": 0.49652418592088926,
+              "n": 3
+            },
+            "new": {
+              "mean": 83.05001424421829,
+              "sd": 0.2189581201689416,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.04123195945984,
+              "sd": 0.8190945339024549,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 85.47047447935479,
+              "sd": 0.8898519138386124,
+              "n": 3
+            },
+            "new": {
+              "mean": 77.7053980625455,
+              "sd": 1.4391193619786453,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.02712246757272,
+              "sd": 1.1634327249126513,
+              "n": 3
+            },
+            "feasible": 8,
+            "possible": 9,
+            "test_target_met": 4
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 86.49323543074026,
+              "sd": 0.5432295756024883,
+              "n": 3
+            },
+            "new": {
+              "mean": 81.2222040468694,
+              "sd": 0.6268806631174054,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.15195380765643,
+              "sd": 0.8181086730901843,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 6
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 89.78838715385753,
+              "sd": 0.16104776116862338,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.8066984710919,
+              "sd": 2.3301050416488924,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.77634604368325,
+              "sd": 0.4224770512131607,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 89.16955212320248,
+              "sd": 1.0433912525390003,
+              "n": 3
+            },
+            "new": {
+              "mean": 67.37655411868906,
+              "sd": 5.055147538569284,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.0948057186124,
+              "sd": 1.1116856417739926,
+              "n": 3
+            },
+            "feasible": 4,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 88.47217031508472,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 69.83729629880548,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 97.00489115473951,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 9,
+            "test_target_met": 0
+          }
+        }
+      }
+    },
+    "0.5": {
+      "validation_count_range": [
+        1444,
+        1519
+      ],
+      "actual_fraction_range": [
+        0.4914908100748809,
+        0.49241424802110817
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 85.93049415614563,
+              "sd": 0.6484595289674251,
+              "n": 3
+            },
+            "new": {
+              "mean": 84.87256728889116,
+              "sd": 0.62551652713997,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.53048117191639,
+              "sd": 0.36885147540127805,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 1
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 85.67089009619626,
+              "sd": 0.7558468281914191,
+              "n": 3
+            },
+            "new": {
+              "mean": 79.34307594505255,
+              "sd": 1.3754973602621714,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.24773454714803,
+              "sd": 1.0612756281496871,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 85.73387620306646,
+              "sd": 0.7814703539313451,
+              "n": 3
+            },
+            "new": {
+              "mean": 79.13319476713737,
+              "sd": 1.0126492913244087,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.31679536502384,
+              "sd": 1.052875081685189,
+              "n": 3
+            },
+            "feasible": 7,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 86.29196464247434,
+              "sd": 0.4159417230635276,
+              "n": 3
+            },
+            "new": {
+              "mean": 83.4735001786221,
+              "sd": 0.9961167122007561,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.92905260041579,
+              "sd": 0.31010910140810505,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 85.89203341247419,
+              "sd": 0.24600285298183858,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.7117393688268,
+              "sd": 5.8011091074047805,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.49017081250332,
+              "sd": 0.5177219514430615,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 3
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 86.3662552836895,
+              "sd": 0.198545460347527,
+              "n": 3
+            },
+            "new": {
+              "mean": 81.33281850471359,
+              "sd": 1.49160097332157,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.01186677614197,
+              "sd": 0.49531793212495034,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 89.8988637468637,
+              "sd": 0.3305661001415156,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.23865458795684,
+              "sd": 2.6764789300229115,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.89745431816647,
+              "sd": 0.39101320948977614,
+              "n": 3
+            },
+            "feasible": 9,
+            "possible": 9,
+            "test_target_met": 5
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 89.42383138712003,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 60.51607570276863,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 98.78062736219952,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 3,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 9,
+            "test_target_met": 0
+          }
+        }
+      }
+    },
+    "1.0": {
+      "validation_count_range": [
+        2938,
+        3087
+      ],
+      "actual_fraction_range": [
+        1.0,
+        1.0
+      ],
+      "policies": {
+        "0.95": {
+          "retained": {
+            "old": {
+              "mean": 86.01278480730274,
+              "sd": 0.5921582793993633,
+              "n": 3
+            },
+            "new": {
+              "mean": 84.73206139308921,
+              "sd": 0.7107002065481803,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.62113349905121,
+              "sd": 0.29520228678027693,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": 86.37892398374008,
+              "sd": 0.1802843285402891,
+              "n": 3
+            },
+            "new": {
+              "mean": 57.34588732272908,
+              "sd": 38.51375233374243,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.0253988520986,
+              "sd": 0.34774767860305805,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 2
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": 86.48050864666142,
+              "sd": 0.20166188805834048,
+              "n": 3
+            },
+            "new": {
+              "mean": 57.101763882456474,
+              "sd": 38.302439219025494,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.13678087352503,
+              "sd": 0.15898221791879152,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 2
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 86.36286070041291,
+              "sd": 0.4724851800073599,
+              "n": 3
+            },
+            "new": {
+              "mean": 83.26362136047923,
+              "sd": 1.4890750593841295,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.00662703024152,
+              "sd": 0.1952398705109241,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 1
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": 86.0962124428703,
+              "sd": 0.45723972812229075,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.080854881981,
+              "sd": 5.4780860752147715,
+              "n": 3
+            },
+            "retention": {
+              "mean": 94.71383063593986,
+              "sd": 0.41857157427331515,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": 86.68133487660202,
+              "sd": 0.23420173203180703,
+              "n": 3
+            },
+            "new": {
+              "mean": 80.75204338927843,
+              "sd": 2.0908386219396555,
+              "n": 3
+            },
+            "retention": {
+              "mean": 95.3577204488683,
+              "sd": 0.21360929647937985,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 3
+          }
+        },
+        "0.99": {
+          "retained": {
+            "old": {
+              "mean": 89.93945392743477,
+              "sd": 0.2504380117989449,
+              "n": 3
+            },
+            "new": {
+              "mean": 74.48255293739709,
+              "sd": 1.3518331050506465,
+              "n": 3
+            },
+            "retention": {
+              "mean": 98.94188226616545,
+              "sd": 0.17340692041448508,
+              "n": 3
+            },
+            "feasible": 3,
+            "possible": 3,
+            "test_target_met": 2
+          },
+          "removed_fixed": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "no_learned_tuned": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "anchored_tp": {
+            "old": {
+              "mean": 89.41614807630648,
+              "sd": null,
+              "n": 1
+            },
+            "new": {
+              "mean": 67.02273992841981,
+              "sd": null,
+              "n": 1
+            },
+            "retention": {
+              "mean": 98.77214011388318,
+              "sd": null,
+              "n": 1
+            },
+            "feasible": 1,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_sum_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          },
+          "tip_mean_calibrated": {
+            "old": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "new": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "retention": {
+              "mean": null,
+              "sd": null,
+              "n": 0
+            },
+            "feasible": 0,
+            "possible": 3,
+            "test_target_met": 0
+          }
+        }
+      }
+    }
+  }
+}

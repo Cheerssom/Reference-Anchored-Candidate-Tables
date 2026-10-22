@@ -1,0 +1,26 @@
+\begin{tabular}{llrrrr}
+\toprule
+Data & Readout & Base test & Novel test & Val. feasible & Test met \\
+\midrule
+CIFAR-100 & Retained classifier & 82.46 $\pm$ 2.25 & 75.14 $\pm$ 3.50 & 9/9 & 4/9 \\
+CIFAR-100 & Fixed-gate removal & 79.39 $\pm$ 2.08 & 74.84 $\pm$ 0.15 & 5/9 & 1/5 \\
+CIFAR-100 & Recalibrated removal & 79.48 $\pm$ 2.19 & 73.22 $\pm$ 2.45 & 5/9 & 1/5 \\
+CIFAR-100 & Dense text + prototypes & 81.30 $\pm$ 2.08 & 77.12 $\pm$ 2.64 & 7/9 & 0/7 \\
+CIFAR-100 & Tip-Adapter sum & 79.32 $\pm$ 2.30 & 71.40 $\pm$ 7.86 & 6/9 & 1/6 \\
+CIFAR-100 & Tip-Adapter mean & 79.51 $\pm$ 3.58 & 77.12 $\pm$ 5.00 & 8/9 & 1/8 \\
+\midrule
+Pets & Retained classifier & 91.77 $\pm$ 2.39 & 92.42 $\pm$ 2.64 & 9/9 & 5/9 \\
+Pets & Fixed-gate removal & 88.87 $\pm$ 3.95 & 92.77 $\pm$ 5.91 & 6/9 & 1/6 \\
+Pets & Recalibrated removal & 87.68 $\pm$ 3.95 & 89.64 $\pm$ 11.35 & 6/9 & 1/6 \\
+Pets & Dense text + prototypes & 88.50 $\pm$ 6.27 & 93.41 $\pm$ 3.82 & 7/9 & 2/7 \\
+Pets & Tip-Adapter sum & 89.86 $\pm$ 3.58 & 89.59 $\pm$ 5.68 & 7/9 & 2/7 \\
+Pets & Tip-Adapter mean & 90.25 $\pm$ 1.80 & 91.90 $\pm$ 3.31 & 7/9 & 2/7 \\
+\midrule
+ImageNet-R & Retained classifier & 85.85 $\pm$ 0.38 & 84.98 $\pm$ 0.38 & 9/9 & 2/9 \\
+ImageNet-R & Fixed-gate removal & 85.66 $\pm$ 0.86 & 79.23 $\pm$ 1.90 & 7/9 & 3/7 \\
+ImageNet-R & Recalibrated removal & 85.74 $\pm$ 0.90 & 79.08 $\pm$ 1.74 & 7/9 & 3/7 \\
+ImageNet-R & Dense text + prototypes & 86.39 $\pm$ 0.50 & 83.05 $\pm$ 0.22 & 9/9 & 4/9 \\
+ImageNet-R & Tip-Adapter sum & 85.47 $\pm$ 0.89 & 77.71 $\pm$ 1.44 & 8/9 & 4/8 \\
+ImageNet-R & Tip-Adapter mean & 86.49 $\pm$ 0.54 & 81.22 $\pm$ 0.63 & 9/9 & 6/9 \\
+\bottomrule
+\end{tabular}

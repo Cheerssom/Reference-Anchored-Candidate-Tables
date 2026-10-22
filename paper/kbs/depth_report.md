@@ -1,3 +1,5 @@
+Historical depth-extension stage; the current validation-query-budget revision is recorded in validation_budget_report.md.
+
 # KBS depth extension — completed local evidence
 
 2026-10-22. This report separates measured evidence from a journal acceptance prediction.

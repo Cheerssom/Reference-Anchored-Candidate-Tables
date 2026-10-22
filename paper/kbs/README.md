@@ -9,13 +9,14 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 23-page main manuscript and 22-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 23-page main manuscript and 24-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
 ```bash
 pip install pymupdf python-docx
 python build_depth_results.py
+python build_validation_budget_results.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error supplementary.tex
 python validate_submission.py
@@ -34,3 +35,5 @@ reading scope. `submission_check.md` records authoritative links and the
 remaining limitation in directly accessing the current journal guide.
 
 The depth extension adds dense summed/class-mean Tip-Adapter readouts, 81 shot/calibration configurations, 648 append diagnostics and optimized readout measurements. See `depth_report.md`. Local archive checks pass; the fresh-agent claim-audit invocation failed on a model usage limit, and its ERROR record is preserved. It is not a completed external review.
+
+The threshold-label extension evaluates nominal 25/50/100% base-validation query budgets with frozen fusion settings. Supplementary Section H distinguishes validation feasibility from attained test retention, reports actual query counts, and keeps all six readouts and both targets. See `validation_budget_report.md`.

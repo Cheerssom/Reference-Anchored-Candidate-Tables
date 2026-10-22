@@ -58,3 +58,14 @@ python paper/kbs/build_depth_results.py
 ```
 
 冻结特征缺失时先按原流程生成缓存。81 个配置是相关子实验，论文按三个类别划分汇总，不是81个独立随机种子。新增实验复用本地环境与数据，无付费计算。
+
+## 旧类验证查询量实验（CPU）
+
+```powershell
+.\scripts\run_kbs_strengthening.ps1 -Stage ValidationBudget
+python src/experiments/test_kbs_validation_budget.py
+python src/experiments/kbs_verify_validation_budget.py
+python paper/kbs/build_validation_budget_results.py
+```
+
+本阶段只读 `experiments/kbs_depth/` 的预测档案，结果保存在 `experiments/kbs_validation_budget/`。不重新训练或编码图像，也不重新选择融合参数。使用同一 PAUSE 标志，每个会话原子保存；续跑核对源代码、协议和原始输入哈希。`Status` 显示三个数据集完成状态。

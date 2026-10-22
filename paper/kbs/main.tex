@@ -264,6 +264,8 @@ The constrained and unconstrained trajectories describe distinct operating requi
 \subsection{Base-validation retention control}
 The validation policy implements a common target without novel query labels. Under the original calibration episode, the CIFAR 95\% validation budget with retained columns give 82.99\% base and 75.71\% novel test accuracy, with the validation target feasible in all three partitions. The classifier-free and dense alternatives are feasible in two partitions. On Pets, the retained and dense models are feasible in all three and yield 90.29\%/95.68\% and 89.37\%/95.63\% base/novel accuracy, respectively. These are validation-selected operating points with their own achieved test accuracies. Supplementary Section B provides all methods and budgets; per-session records retain selected offsets, targets and feasibility. This evaluation separates the capacity in Eq.~\eqref{eq:retentioncriterion} from validation-to-test transfer of the retention target.
 
+\input{validation_budget_results}
+
 \subsection{Score stability and supporting analyses}
 The fixed reference frame supports both retention evaluations. The original CIFAR and Pets vocabulary tests measure zero base-score drift and zero base-only ranking churn. Five-session fixed-offset expansion checks previously appended rows as well, with maximum floating-point differences of $2.85\times10^{-5}$ on CIFAR and $3.58\times10^{-6}$ on Pets. Final predictions agree across the two arrival orders in each partition. Supplementary Section A supplies full readout comparisons, support-budget results, analytic-readout controls, evidence ablations and readout timings.
 

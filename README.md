@@ -191,3 +191,19 @@ python src/experiments/kbs_verify_depth.py
 python src/experiments/kbs_depth_cost.py
 python paper/kbs/build_depth_results.py
 ```
+
+## Admission-threshold validation-query budgets
+
+The additional CPU-only study fixes all original five-shot readouts and fusion
+settings, then varies base-validation query subsets at nominal 25/50/100%
+budgets for 95/99% retention targets. Its 315 saved session units contain
+3,780 metric records. Full-validation outputs reproduce the original policy
+exactly; reduced-budget repeats are averaged inside each original class
+partition. Validation feasibility and attained test retention are reported
+separately. See [the protocol and report](paper/kbs/validation_budget_report.md).
+
+```bash
+python src/experiments/kbs_validation_budget.py
+python src/experiments/kbs_verify_validation_budget.py
+python paper/kbs/build_validation_budget_results.py
+```
