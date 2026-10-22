@@ -8,6 +8,13 @@ Contact: cheerssom0876@gmail.com
 
 This repository accompanies a research manuscript.
 
+Current submission target: **Knowledge-Based Systems (KBS)**.
+The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
+[supplementary material](paper/kbs/supplementary.pdf) and
+[editable Highlights](paper/kbs/Highlights.docx).
+The earlier `paper/fcs/` version is retained as a historical venue draft.
+No journal submission has been performed by this workflow.
+
 ## Method
 
 Each class carries the evidence available to it: a text anchor, a base-trained
