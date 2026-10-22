@@ -57,7 +57,7 @@ Run `scripts/run_kbs_independent_risk.ps1`, then `python src/experiments/kbs_ver
 
 ## Concise narrative revision
 
-The main text now has 20 review-format pages and a 153-word abstract. It centers on retained discrimination as class-expansion capacity, with all original numerical artifacts preserved. Full final-session comparisons and normalization controls are in Supplement I, independent risk calibration in J and implementation detail in K. See `concision_report.md`.
+The main text now has 22 review-format pages and a 114-word abstract. It centers on retained discrimination as class-expansion capacity, with all original numerical artifacts preserved. Full final-session comparisons and normalization controls are in Supplement I, independent risk calibration in J and implementation detail in K. See `concision_report.md`.
 
 ## Independent calibration coverage (current main evidence)
 
@@ -83,14 +83,14 @@ python src/experiments/test_kbs_calibration_budget.py
 python paper/kbs/build_calibration_budget_results.py
 ```
 
-The main remains 20 pages; Supplement A-L has 54 pages and the combined PDF 74.
+The main has 22 pages; Supplement A-L has 54 pages and the combined PDF 76.
 Population confidence is per method/order/partition/budget under the stated
 class-conditional assumptions. Pets includes early-session fallback on three
 L/14 and four B/32 paths out of twenty; all final retained-table paths admit.
 
 ## Main-figure and table revision (2026-10-23)
 
-Current main:22 review-format pages,3 figures,2 tables,153-word abstract and10
+Current main:22 review-format pages,3 figures,2 tables,114-word abstract and10
 KBS references. The shared-retention capacity curve is restored to the main text.
 Its L/14 y-axis is50-100% and B/32 is30-90%; error bars stop at panel limits.
 The supplement has54 pages; the combined review PDF has76.
@@ -102,3 +102,7 @@ are preserved. Table2 adds the existing partition SDs. See
 `presentation_revision_report.md` and `literature/reading_notes.md` for the
 three added citations, inspected author-version tables and access scope.
 The new citations are related work, not unrun experimental baselines.
+
+## First-page abstract (2026-10-23)
+
+Abstract shortened to114 words with the core mechanism, calibration conditions and key results preserved. Both the complete abstract and keywords fit on page1 using the existing class fonts, margins and review spacing. Validator checks their first-page placement.

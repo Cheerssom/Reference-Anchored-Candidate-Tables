@@ -47,6 +47,12 @@ for name,s in [('main',main),('supplementary',supp)]:
   assert all(k in text for k in ['CRediT','Data availability','Declaration of competing interest','OpenAI Codex'])
 abstract=main.split(r'\begin{abstract}')[1].split(r'\end{abstract}')[0]
 report['abstract_words']=len(abstract.split());assert report['abstract_words']<=250
+with fitz.open(H/'main.pdf') as document:
+ first=' '.join(document[0].get_text().split())
+ assert 'average incremental accuracy with ViT-L/14 and ViT-B/32.' in first
+ assert 'Keywords:' in first
+ report['abstract_complete_on_first_page']=True
+ report['keywords_on_first_page']=True
 report['keywords']=len(main.split(r'\begin{keyword}')[1].split(r'\end{keyword}')[0].split(r'\sep'))
 assert 1<=report['keywords']<=7
 high=[p.text for p in Document(H/'Highlights.docx').paragraphs][1:]

@@ -9,6 +9,8 @@ Date:2026-10-23. Applied anti-defensive-writing: direct contribution-centered na
 - Added3 relevant KBS papers: MoTE(2025), Dynamic expansion orthogonal network(2026) and Counterfactual distribution intervention(2026), bringing the main KBS count to10. Publisher-indexed claims and Crossref author/title/year/volume/article/DOI checked.
 - Inspected actual PDF tables in the lawful author versions of MoTE(Table1,p21), FeNeC(Tables3-4,p8) and REAL(Table1,p8). Applied grouped headers, method-by-dataset matrices, explicit units/directions, uncertainty and clearly defined highlighting. Version/access scope documented in literature/reading_notes.md. No third-party table images or results copied into the paper.
 
-Current manuscript:22 review-format pages,153-word abstract. Supplement54 pages, combined76. All original experimental result summaries remain unchanged. Numerical source hashes and display coverage recorded in presentation_verification.json. No experiments or GPU extraction rerun.
+Current manuscript:22 review-format pages,114-word abstract. Supplement54 pages, combined76. All original experimental result summaries remain unchanged. Numerical source hashes and display coverage recorded in presentation_verification.json. No experiments or GPU extraction rerun.
 
 Validation: no LaTeX warnings, unresolved references/citations or unembedded fonts; ten KBS references present in main. New figure minimum type at five inches is approximately8.9pt. Full source archives undergo clean extracted compilation; package_validation.json records the result.
+
+Abstract condensed to114 words; complete abstract and keywords verified on page1. No font, margin or review-spacing changes for this revision.

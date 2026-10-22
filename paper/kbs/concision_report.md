@@ -21,3 +21,7 @@ Main remains 20 review-format pages, abstract153 words. Full coverage evidence i
 ## Core-figure restoration and table revision (2026-10-23)
 
 Current main22 pages,3 figures,2 tables,153-word abstract and10 KBS citations. Supplement54 pages, combined76. The extra space carries the restored central capacity figure and grouped tables with readable uncertainty. See presentation_revision_report.md.
+
+## First-page abstract revision (2026-10-23)
+
+Current abstract114 words, reduced from153 through prose editing. Complete abstract and keywords fit on page1 without changing fonts, margins or spacing. Main22 pages and Supplement54 pages remain unchanged.
