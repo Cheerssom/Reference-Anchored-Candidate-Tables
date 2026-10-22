@@ -1,7 +1,8 @@
 \documentclass[preprint,review,12pt]{elsarticle}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,placeins}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,placeins,float}
 \usepackage{microtype}
+\renewcommand{\floatpagefraction}{0.85}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
 \hypersetup{pdfauthor={Junyi Zhang},pdftitle={Retention-constrained class expansion with reference-anchored candidate tables}}
@@ -46,7 +47,7 @@ BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or h
 \subsection{Task and evidence}
 Base classes $\mathcal B$ have labeled, potentially imbalanced fitting data. Arriving classes $\mathcal N$ provide a name and $k$ labeled support images per class. Prediction selects from $\mathcal B\cup\mathcal N$ without a group oracle. A frozen encoder produces a normalized feature $v=f(x)$; normalized text anchors $t_c$ average eight fixed prompts. Learned base scores are $q_L(x,b)=v^\top w_b+b_b$, fitted by inverse-frequency-weighted ridge regression. Novel prototypes are normalized support means $p_n$, giving $q_P(x,n)=v^\top p_n$; semantic scores are $q_T(x,c)=v^\top t_c$.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{framework.pdf}
 \caption{Reference-anchored candidate tables. Fixed base references set each branch's score frame; learned base columns remain stored as novel text anchors and support prototypes are appended. The separate novel offset controls admission. Orange marks base-fitted evidence; blue hatching marks pre-trained or cached evidence.}
 \label{fig:framework}
@@ -117,7 +118,7 @@ Orders are averaged within a partition. Means and standard deviations describe t
 \subsection{Novel recognition at a shared base requirement}
 At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.31\% novel accuracy at 86.42\% base accuracy. Figure~\ref{fig:capacity} compares novel recognition under shared base requirements across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{matched_capacity_main.pdf}
 \caption{Novel recognition at shared base-retention requirements after the fifth arrival. Each readout must attain the stated fraction of the retained reference's closed-base accuracy within the same partition and encoder. Means and sample standard deviations cover ten partitions after averaging two arrival orders; points require all ten partitions to be feasible. Vertical ranges are 50--100\% (L/14) and 30--90\% (B/32); error bars stop at panel limits. Test-label threshold sweeps characterize descriptive capacity. Partial feasible sets and exact counts are reported in Supplementary Section I.}
 \label{fig:capacity}
@@ -128,8 +129,10 @@ Reference normalization also improves the sequential comparison against fixed-te
 \subsection{The classifier's value across arrivals}
 Table~\ref{tab:paired} quantifies retained-minus-comparator average incremental accuracy with fixed base-only selected gates and offsets. On ImageNet-R, retaining the classifier adds 0.71 [0.46, 0.92] points over dense prototypes with L/14 and 0.90 [0.69, 1.11] with B/32. Corresponding gains over class-mean caches are 1.42 [1.15, 1.62] and 1.71 [1.44, 1.98] points. The result persists across both encoders and after calibration is restored to the classifier-free alternative.
 
-\begin{table}[htbp]
+\clearpage
+\begin{table}[H]
 \centering
+\setlength{\belowcaptionskip}{8pt}
 \caption{The retained classifier's value across five arrivals. Cells show paired gains in average incremental accuracy (percentage points), with conditional paired 95\% bootstrap intervals below. Positive values favor retention; bold estimates have intervals excluding zero. Two orders are averaged within each of ten partitions. Full final-session differences are in Supplementary Section I.}
 \label{tab:paired}
 {\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.15}\input{table_kbs_paired}}
@@ -147,14 +150,16 @@ For independent risk calibration, the original fitting/validation pool is repart
 \label{sec:budgetexperiment}
 Class coverage determines whether certification is attainable. For macro weights $w_i=1/(Bn_c)$ and $b=\max_iw_i$, even zero observed loss requires $1/b\geq\log(\delta/5)/\log r=89.78$ to pass the weighted bound. The original CIFAR and Pets allocations have effective counts 80 and 45--60, respectively. Increasing tail-class coverage makes useful certification possible (Fig.~\ref{fig:budget}); total query counts and the derivation are in Supplementary Section L.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{calibration_budget_curve.pdf}
 \caption{Novel accuracy after the fifth arrival in the first prespecified order, under independent 95\% retention calibration with 95\% five-arrival confidence. Means cover ten partitions, averaging three nested-subset seeds below cap 40 and the full set once at 40. Fallback contributes zero novel accuracy. Shading shows retained-table partition standard deviations, clipped to [0,100]. Grey lines mark necessary balanced class caps (CIFAR: 3; Pets: 6). ImageNet-R availability truncates the cap. All methods share the same calibration images; full counts and certification curves are in Supplementary Section L.}
 \label{fig:budget}
 \end{figure}
 
-\begin{table}[htbp]
+\clearpage
+\begin{table}[H]
 \centering
+\setlength{\belowcaptionskip}{8pt}
 \caption{Independently calibrated admission after the fifth arrival in the first prespecified order, with up to 40 images per base class, 95\% retention and 95\% five-session confidence. Queries are actual base-calibration counts; Finite counts certified expansion and Test met counts attained test targets. Base/Novel are test percentages, mean $\pm$ sample standard deviation over ten partitions, including fallback. All six readouts are reported in Supplementary Section L.}
 \label{tab:riskmain}
 {\small\setlength{\tabcolsep}{4pt}\input{table_kbs_calibration}}
