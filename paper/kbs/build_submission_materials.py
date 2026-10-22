@@ -13,6 +13,15 @@ highlights=[
 'ImageNet-R novel accuracy is 84.48% versus 81.58% for a dense semantic cache.',
 'Repeated calibration retains a 2.14-point ImageNet-R gain over classifier removal.'
 ]
+if (H/'revision_summary.json').exists():
+ revision=json.loads((H/'revision_summary.json').read_text())
+ highlights=[
+  'Novel recognition is measured under a common original-class accuracy constraint.',
+  'Reference-anchored tables reuse trained classifiers during class expansion.',
+  'Two CLIP encoders and ten class partitions test retained classifier value.',
+  'ImageNet-R gains over dense prototypes are 0.71 points on L/14 and 0.90 on B/32.',
+  'Validation policies report feasibility and achieved test retention separately.'
+ ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
 letter=f'''Dear Editors of Knowledge-Based Systems,
@@ -34,6 +43,9 @@ cheerssom0876@gmail.com
 '''
 # Keep editor-facing narrative focused on the paper, without process commentary.
 letter=letter.replace(' These are literature comparisons; we do not present unrun methods as experimental baselines.','')
+if (H/'revision_summary.json').exists():
+ a=letter.index('With frozen CLIP features');b=letter.index("The work contributes",a)
+ letter=letter[:a]+'''Experiments cover CIFAR-100, Oxford-IIIT Pets and 200-class ImageNet-R with ten distinct class partitions, two arrival orders and frozen OpenAI CLIP ViT-L/14 and ViT-B/32. On ImageNet-R, the ViT-L/14 retained readout gives 84.31% novel accuracy at approximately 86.42% base accuracy in a descriptive matched-test-retention analysis. Across five arrivals, retaining the classifier adds 0.71 percentage points [conditional paired 95% CI: 0.46, 0.92] in average incremental accuracy over dense prototype fusion, and 1.42 points [1.15, 1.62] over class-mean semantic-cache retrieval. The dense-prototype comparison transfers to ViT-B/32 with a 0.90-point gain [0.69, 1.11]. These intervals describe class-assignment variation conditional on the fixed image pools and encoders. A main-paper validation-selected comparison reports achieved test group accuracies, feasibility and test-target attainment separately. Raw-score and fixed-temperature controls isolate reference normalization; the full tables retain regime-dependent outcomes, including comparisons favoring an alternative.\n\n'''+letter[b:]
 (H/'cover_letter.md').write_text(letter,encoding='utf-8')
 
 def doc(name,heading,paragraphs,bullets=False):
@@ -61,7 +73,7 @@ sources=[H/n for n in ['main.tex','main.bbl','supplementary.tex','supplementary.
 sources+=list(H.glob('table_*.tex'))
 sources+=[H/'validation_budget_results.tex']
 sources+=[p for p in H.glob('*.pdf') if p.name!='logo.pdf']
-sources=[p for p in sources if p.name not in ['main.pdf','supplementary.pdf','cover_letter.pdf','Highlights.pdf','title_page.pdf','declarations.pdf']]
+sources=[p for p in sources if p.name not in ['main.pdf','supplementary.pdf','review_complete.pdf','cover_letter.pdf','Highlights.pdf','title_page.pdf','declarations.pdf']]
 sources+=list(H.glob('*.docx'))+[H/'Highlights.txt']
 sources=sorted(set(sources))
 manifest={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}

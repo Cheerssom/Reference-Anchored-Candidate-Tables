@@ -21,6 +21,8 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
+Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder primary comparison. Their statistical units are stated separately.
+
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}
 For the auxiliary readout and support-budget comparisons, the gate grid is $a,u\in\{0,0.25,0.5,1,2\}$ and $d\in\{-2,-1.5,\ldots,2\}$. Offset-calibrated controls use their separately stated grids. The main retention/value evaluation uses the common expanded grid in Section~\ref{main-sec:calibration}. All experiments share the same frozen representations, true class partitions and disjoint support pools.
@@ -443,6 +445,87 @@ actual retained fractions and achieved test-retention ratios are provided in
 measures threshold-selection label demand; the initial full-data fusion
 calibration remains fixed throughout.
 
+\FloatBarrier
+\section{Ten-partition replication, encoder transfer and simple fusion}
+\label{app:replication}
+The expanded experiment fixes class-partition seeds $0,\ldots,9$ on each of the
+three existing image pools. Assignments and pseudo splits $0,1,2$ are retained
+exactly, and the original L/14 results reconstruct with maximum metric difference
+zero. New seeds use the same frequency-stratified allocation, base/novel counts,
+five-shot reserve, pseudo-episode selection and two arrival-order rules. These
+are ten distinct class assignments on shared images, not ten independent datasets.
+Primary fixed-gate comparisons average both orders within a partition. The
+conditional paired percentile bootstrap uses 20,000 resamples of the ten paired
+partition values with seed 2026. Constrained differences use identical jointly
+feasible partition/order/session cells. JSON records retain the partition values
+and available sets, and CSV tables report every budget.
+
+\subsection{Second encoder and access controls}
+OpenAI CLIP ViT-B/32 uses cached revision
+\nolinkurl{3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268} with 512-dimensional projected
+features; L/14 uses 768 dimensions. Both consume the exact same fitting,
+validation, support and test images, dataset-specific preprocessing and eight
+text templates. Text anchors and ridge columns are recomputed for the selected
+encoder; no task-adapted features are used. The two encoders have separate
+closed-base references and hence separate absolute targets. Config, weights,
+tokenizer and pool hashes are recorded. Batch-16 feature shards support atomic
+restart with contiguous-index guards, and eight fresh test images are re-encoded
+per dataset to check each completed B/32 cache.
+
+\subsection{Raw and fixed-temperature controls}
+Raw fusion uses $q_T$, $q_L$ and $q_P$ directly in the same availability pattern
+as the retained table. Fixed-temperature fusion uses $q_e/\sigma_e$, where
+\[
+ \sigma_e=\max\!\left(10^{-6},\frac{1}{|\mathcal V_B|}
+ \sum_{x\in\mathcal V_B}\operatorname{Std}_{r\in\mathcal R_e}q_e(x,r)\right).
+\]
+For the pseudo episode, $\mathcal V_B$ contains base-validation queries and
+$\mathcal R_e$ contains pseudo-base reference columns. Full-model scales use
+full base columns and base validation before arrivals. The three scalars remain
+fixed across sessions. Coefficient and offset grids are identical to the main
+retained model, with the same harmonic pseudo-episode objective. Neither control
+requires current-vocabulary statistics; both can preserve old scores. Their
+performance tests the empirical value of the per-query normalization, conditional
+on this specified calibration grid.
+
+\subsection{Full matched and validation-policy results}
+The main validation table includes retained, recalibrated-removal, dense-prototype,
+class-mean cache and simple-fusion alternatives. Summed cache and fixed-gate
+removal remain in the complete records. The following tables give both encoders'
+matched-test frontiers and the B/32 validation policy at the 95\% budget. Every
+feasible set and test-attainment count refers to the final active vocabulary;
+order zero counts each partition once. Because means may cover different
+feasible sets, an unpaired difference of available means is not reported as a
+paired gain. Complete 80/85/90/95/99\% outcomes are retained in
+\texttt{revision\_summary.csv}; per-partition raw predictions supply both test
+and validation sufficient statistics.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete eight-readout ViT-L/14 validation-selected 95\% policy. Accuracies are achieved test percentages, mean $\pm$ sample standard deviation over feasible partitions. Feasible and Test met have the same meanings as the main validation-policy table.}
+\label{tab:replicationvalidationlall}
+\resizebox{\linewidth}{!}{\input{table_revision_validation_all_l14}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{ViT-L/14 matched-test 95\% retention frontier across ten class partitions. Values are percentages, mean $\pm$ sample standard deviation over feasible partitions after averaging orders. Test met equals feasibility by construction in this descriptive sweep.}
+\label{tab:replicationmatchedl}
+\resizebox{\linewidth}{!}{\input{table_revision_matched_l14}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{ViT-B/32 matched-test 95\% frontier under the same access, aggregation and feasibility reporting as Table~\ref{tab:replicationmatchedl}. Absolute targets are encoder-specific.}
+\label{tab:replicationmatchedb}
+\resizebox{\linewidth}{!}{\input{table_revision_matched_b32}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{ViT-B/32 validation-selected 95\% policy. Values are achieved base/novel test percentages over validation-feasible partitions; Test met counts those meeting the independent test-retention criterion. Validation feasibility does not guarantee test target attainment.}
+\label{tab:replicationvalidationb}
+\resizebox{\linewidth}{!}{\input{table_revision_validation_b32}}
+\end{table}
+
+\FloatBarrier
 \FloatBarrier
 \begingroup
 \small

@@ -1,3 +1,5 @@
+Historical stage; current primary evidence is recorded in revision_evidence_report.md.
+
 # Validation-query budget sensitivity
 
 Completed 2026-10-22. Purpose: evaluate the amount of base-validation query data needed by admission-threshold selection, conditional on frozen original classifiers and full-data fusion calibration.

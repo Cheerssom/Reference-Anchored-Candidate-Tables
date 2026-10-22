@@ -69,3 +69,16 @@ python paper/kbs/build_validation_budget_results.py
 ```
 
 本阶段只读 `experiments/kbs_depth/` 的预测档案，结果保存在 `experiments/kbs_validation_budget/`。不重新训练或编码图像，也不重新选择融合参数。使用同一 PAUSE 标志，每个会话原子保存；续跑核对源代码、协议和原始输入哈希。`Status` 显示三个数据集完成状态。
+
+## 十类别划分与第二骨干（当前主实验）
+
+```powershell
+.\scripts\run_kbs_strengthening.ps1 -Stage Revision
+python src/experiments/test_kbs_revision.py
+python src/experiments/kbs_verify_revision.py
+python paper/kbs/build_revision_results.py
+```
+
+使用现有环境和本地 OpenAI CLIP B/32 权重；不安装新环境、不使用付费计算。数据池与先前实验一致。`experiments/kbs_revision/b32_features/` 下每16张图像保存一个特征块，`l14/` 和 `b32/` 下按类别划分和会话保存指标。共享 PAUSE/Resume 与 GPU 互斥锁继续适用。Status 显示60个划分运行的完成数。
+
+当前主实验为每数据集十个不同的类别划分；原来的三划分在其中。置信区间按配对类别划分均值重采样，不把到达顺序、会话或早先81个相关配置当成独立数据集。

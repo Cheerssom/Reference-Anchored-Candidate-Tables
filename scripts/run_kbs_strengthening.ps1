@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('All','Download','Features','Experiments','Depth','ValidationBudget','Status','Pause','Resume')]
+  [ValidateSet('All','Download','Features','Experiments','Depth','ValidationBudget','Revision','Status','Pause','Resume')]
   [string]$Stage = 'All',
   [string]$Python = 'python'
 )
@@ -24,6 +24,10 @@ if ($Stage -eq 'Status') {
   $budgetDir = Join-Path $projectRoot 'experiments/kbs_validation_budget'
   if (Test-Path -LiteralPath $budgetDir) {
     Write-Output ('Validation-budget datasets complete: ' + @(Get-ChildItem -LiteralPath $budgetDir -Filter complete.json -Recurse).Count + ' / 3')
+  }
+  $revisionDir = Join-Path $projectRoot 'experiments/kbs_revision'
+  if (Test-Path -LiteralPath $revisionDir) {
+    Write-Output ('Revision partition runs complete: ' + @(Get-ChildItem -LiteralPath $revisionDir -Filter complete.json -Recurse | Where-Object { $_.Directory.Name -match '^p[0-9]+$' }).Count + ' / 60')
   }
   Get-ChildItem (Join-Path $projectRoot 'experiments/kbs_imagenetr') -Filter 'frozen_imagenetr.pt' -ErrorAction SilentlyContinue |
     Select-Object Name,Length,LastWriteTime
@@ -70,4 +74,12 @@ if ($Stage -in @('All','Depth')) {
 }
 if ($Stage -in @('All','ValidationBudget')) {
   Run-SavedStage 'src/experiments/kbs_validation_budget.py' @() 'validation-budget.log'
+}
+if ($Stage -in @('All','Revision')) {
+  Run-SavedStage 'src/experiments/kbs_second_encoder.py' @() 'revision-b32.log'
+  foreach ($encoder in @('l14','b32')) {
+    foreach ($dataset in @('cifar','pets','imagenetr')) {
+      Run-SavedStage 'src/experiments/kbs_revision.py' @('--encoder',$encoder,'--dataset',$dataset) "revision-$encoder-$dataset.log"
+    }
+  }
 }

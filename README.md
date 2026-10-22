@@ -15,6 +15,45 @@ The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
 The earlier `paper/fcs/` version is retained as a historical venue draft.
 No journal submission has been performed by this workflow.
 
+
+## Current primary evidence: ten class partitions and two encoders
+
+The primary comparison now covers ten distinct class assignments on each of
+CIFAR-100, Pets and ImageNet-R using OpenAI CLIP ViT-L/14 and ViT-B/32.
+Two orders and five arrivals per partition produce 52,800 raw metric records.
+Eight readouts include raw-score and fixed-temperature controls. Validation-selected
+strong-baseline results lead the main paper, with feasibility and achieved test
+retention reported separately. Earlier three-partition studies are historical
+auxiliary evidence; do not treat their headline numbers as the expanded estimate.
+
+On ImageNet-R the paired average incremental gain over dense prototypes is
+0.71 percentage points [conditional paired 95% bootstrap CI 0.46, 0.92] for L/14
+and 0.90 [0.69, 1.11] for B/32. Intervals resample class assignments conditional
+on fixed images, support and encoder; they do not describe independent datasets.
+Pets does not show a uniform retained-classifier advantage. All outcomes remain
+available. See [the evidence report](paper/kbs/revision_evidence_report.md).
+
+To populate the default Hugging Face cache with the tested second encoder:
+
+```python
+from huggingface_hub import snapshot_download
+snapshot_download(
+    repo_id="openai/clip-vit-base-patch32",
+    revision="3d74acf9a28c67741b2f4f2ea7635f0aaf6f0268",
+    allow_patterns=["*.json", "merges.txt", "vocab.json", "pytorch_model.bin"],
+)
+```
+
+```powershell
+.\scripts\run_kbs_strengthening.ps1 -Stage Revision
+python src/experiments/test_kbs_revision.py
+python src/experiments/kbs_verify_revision.py
+python paper/kbs/build_revision_results.py
+```
+
+Feature shards and per-session metrics resume without replacing completed
+units. Images, weights and `.pt` feature caches are not distributed.
+
 ## Method
 
 Each class carries the evidence available to it: a text anchor, a base-trained
@@ -25,11 +64,13 @@ evidence, encoder, references and gates. New classes compete through new scores.
 
 ![Architecture](paper/fcs/figures/fig1_framework_fcs.png)
 
-- [Manuscript PDF](paper/fcs/main.pdf)
+- [Current manuscript PDF](paper/kbs/main.pdf)
+- [Main + full supplement for review](paper/kbs/review_complete.pdf)
+- [Historical FCS draft](paper/fcs/main.pdf)
 - [Editable architecture](paper/fcs/figures/fig1_framework_fcs.drawio)
 - [Three-slide highlights](paper/fcs/highlights_retention.pptx)
 
-## Matched-retention novel recognition
+## Historical three-partition matched-retention results
 
 Frozen CLIP ViT-L/14; mean accuracy percentages across three distinct class
 partitions. Complete partition sample standard deviations and all baseline
@@ -52,7 +93,7 @@ All five budgets (80/85/90/95/99%), feasible partition counts, paired sample SD
 and comparisons are retained in the records. Maximum discrete overshoot is
 0.023 pp on CIFAR and 0.076 pp on Pets.
 
-## Value across five class arrivals
+## Historical three-partition arrival results
 
 With gates and offsets fixed after base-only calibration, CIFAR average
 incremental accuracy is 82.02% with retained columns and 79.84% after removal and

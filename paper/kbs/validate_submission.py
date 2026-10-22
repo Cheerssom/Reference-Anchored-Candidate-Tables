@@ -33,7 +33,15 @@ for name,s in [('main',main),('supplementary',supp)]:
   'compile_warnings':problems,'all_fonts_embedded':True}
  if name=='main':
   assert all(row['key'] in cites for row in added)
-  for value in ['83.48','75.79','61.36','2.18']:assert value in text,value
+  if r'\label{sec:tenpartitions}' in main:
+   current=json.loads((H/'revision_summary.json').read_text())
+   matched=current['l14']['imagenetr']['methods']['retained']['policies']['matched_test']['0.95']
+   for value in [matched['old']['mean'],matched['new']['mean'],current['l14']['imagenetr']['gains']['anchored_tp']['average']['mean']]:
+    assert f'{value:.2f}' in text,value
+   report['primary_class_partitions']=10
+   report['primary_encoders']=['CLIP ViT-L/14','CLIP ViT-B/32']
+  else:
+   for value in ['83.48','75.79','61.36','2.18']:assert value in text,value
   assert 'Frontiers of Computer Science' not in pdf[0].get_text()
   assert 'Working Draft' not in text
   assert all(k in text for k in ['CRediT','Data availability','Declaration of competing interest','OpenAI Codex'])

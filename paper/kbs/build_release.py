@@ -36,6 +36,12 @@ def bundle():
     names=['main.pdf','supplementary.pdf','Highlights.docx','cover_letter.docx','title_page.docx','declarations.docx',
            'candidate_tables_kbs_source.zip','candidate_tables_kbs_supplement_source.zip']
     report=json.loads((H/'validation.json').read_text())
+    combined=fitz.open()
+    for name in ['main.pdf','supplementary.pdf']:
+        with fitz.open(H/name) as document:combined.insert_pdf(document)
+    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-I',report['documents']['main']['pages']+1]])
+    combined.save(H/'review_complete.pdf',garbage=4,deflate=True);combined.close()
+    names+=['review_complete.pdf']
     instruction=(f"Prepared for Knowledge-Based Systems. Main: {report['documents']['main']['pages']} review-format pages; "
                  f"supplement: {report['documents']['supplementary']['pages']} pages; abstract: {report['abstract_words']} words.\n"
                  "No journal submission has been performed. Use the portal's current instructions for upload fields, "

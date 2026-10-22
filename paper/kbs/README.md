@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 23-page main manuscript and 24-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 22-page main manuscript and 29-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -17,6 +17,7 @@ Build from this directory:
 pip install pymupdf python-docx
 python build_depth_results.py
 python build_validation_budget_results.py
+python build_revision_results.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error supplementary.tex
 python validate_submission.py
@@ -37,3 +38,5 @@ remaining limitation in directly accessing the current journal guide.
 The depth extension adds dense summed/class-mean Tip-Adapter readouts, 81 shot/calibration configurations, 648 append diagnostics and optimized readout measurements. See `depth_report.md`. Local archive checks pass; the fresh-agent claim-audit invocation failed on a model usage limit, and its ERROR record is preserved. It is not a completed external review.
 
 The threshold-label extension evaluates nominal 25/50/100% base-validation query budgets with frozen fusion settings. Supplementary Section H distinguishes validation feasibility from attained test retention, reports actual query counts, and keeps all six readouts and both targets. See `validation_budget_report.md`.
+
+The primary comparison now has ten class partitions and two frozen CLIP architectures. Validation-selected strong-baseline results are in the main text, with conditional paired bootstrap intervals and raw/fixed-temperature controls. Earlier three-partition studies remain explicitly scoped in Supplementary A–H; Section I contains the expanded comparison. See `revision_evidence_report.md`. The bookmarked `review_complete.pdf` combines the main and full supplement for review.
