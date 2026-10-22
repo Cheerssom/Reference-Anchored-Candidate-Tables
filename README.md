@@ -1,12 +1,12 @@
 # Reference-Anchored Candidate Tables
 
-Research code and manuscript for **Reference-anchored candidate tables for class
-expansion in long-tailed recognition**.
+Research code and manuscript for **Retention-constrained class expansion with
+reference-anchored candidate tables**.
 
 **Junyi Zhang, Shandong University**  
 Contact: cheerssom0876@gmail.com
 
-This repository accompanies a research manuscript. No journal acceptance is claimed.
+This repository accompanies a research manuscript.
 
 ## Method
 
@@ -20,24 +20,42 @@ evidence, encoder, references and gates. New classes compete through new scores.
 
 - [Manuscript PDF](paper/fcs/main.pdf)
 - [Editable architecture](paper/fcs/figures/fig1_framework_fcs.drawio)
-- [Three-slide highlights](paper/fcs/highlights_revised.pptx)
+- [Three-slide highlights](paper/fcs/highlights_retention.pptx)
 
-## Recorded five-shot results
+## Matched-retention novel recognition
 
 Frozen CLIP ViT-L/14; mean accuracy percentages across three distinct class
 partitions. Complete partition sample standard deviations and all baseline
 results are in the manuscript and CSV files.
 
-| Dataset | Readout | Base | Novel |
+| Dataset / common budget | Readout | Base | Novel |
 |---|---|---:|---:|
-| CIFAR-100 | Reference-anchored table | 86.03 | 66.90 |
-| CIFAR-100 | Anchored text + prototypes | 82.40 | 76.19 |
-| Oxford-IIIT Pets | Reference-anchored table | 97.18 | 87.79 |
-| Oxford-IIIT Pets | Anchored text + prototypes | 94.58 | 90.38 |
+| CIFAR-100 / 95% | Retained classifier | 83.48 | 75.79 |
+| CIFAR-100 / 95% | Learned branch removed, recalibrated | 83.48 | 61.36 |
+| CIFAR-100 / 95% | Anchored text + prototypes | 83.48 | 74.43 |
+| Oxford-IIIT Pets / 99% | Retained classifier | 96.84 | 90.99 |
+| Oxford-IIIT Pets / 99% | Anchored text + prototypes | 96.85 | 84.00 |
 
-The table provides a retention-oriented operating point. Fixed-reference dense
-text–prototype fusion also shares the score invariant. Both group accuracies
-are reported; aggregate accuracy leadership is not a claim of this work.
+Budgets are fractions of the SAME retained model's closed-base accuracy within
+each partition. These are descriptive matched-test-retention frontiers: branch
+mixtures use base-only calibration, and the subsequent threshold sweep aligns
+the base test requirement. A separate base-validation-only threshold policy
+reports deployable operating points and their actual achieved test accuracies.
+All five budgets (80/85/90/95/99%), feasible partition counts, paired sample SD
+and comparisons are retained in the records. Maximum discrete overshoot is
+0.023 pp on CIFAR and 0.076 pp on Pets.
+
+## Value across five class arrivals
+
+With gates and offsets fixed after base-only calibration, CIFAR average
+incremental accuracy is 82.02% with retained columns and 79.84% after removal and
+recalibration. The paired gain is **2.18 ± 0.24 pp**; final accuracy is
+79.31% versus 77.56%, a **1.75 ± 0.23 pp** paired gain. The full comparison also
+includes fixed-gate removal, dense base prototype replacement, and Pets.
+Two arrival orders are averaged within each of three partitions before SD.
+
+![Matched-retention recognition](paper/fcs/figures/matched_retention.png)
+![Sequential classifier value](paper/fcs/figures/sequential_value.png)
 
 ## Install and prepare public assets
 
@@ -61,10 +79,13 @@ the recorded experiments used an RTX 4070 Laptop GPU.
 
 ```bash
 python src/experiments/test_fcs_protocol.py
+python src/experiments/test_fcs_retention.py
 python src/experiments/fcs_expansion.py
 python src/experiments/fcs_expansion.py --dataset pets
 python src/experiments/fcs_review_experiments.py --dataset cifar
 python src/experiments/fcs_review_experiments.py --dataset pets
+python src/experiments/fcs_retention_value.py --dataset cifar
+python src/experiments/fcs_retention_value.py --dataset pets
 ```
 
 Running experiments overwrites their result directories. Preserve a checkout of
@@ -85,6 +106,16 @@ validation rather than original within-task MSE selection; it is not a full
 reproduction of published RanPAC. Validation targets do not constrain test
 retention. Infeasible validation partitions are explicitly flagged.
 
+`experiments/fcs*/retention_value/` contains the main common-budget and paired
+sequential comparisons: 1320 records per dataset, byte-exact run source, and
+30 compact margin archives per dataset. The locked protocol is in
+`experiments/fcs_retention_value_protocol.md`. Verify the records without data,
+feature caches or a GPU:
+
+```bash
+python src/experiments/fcs_verify_retention.py
+```
+
 ## Regenerate tables and compile the paper
 
 Regenerate directly from the released records without downloading any data:
@@ -92,6 +123,7 @@ Regenerate directly from the released records without downloading any data:
 ```bash
 python paper/fcs/build_results.py
 python paper/fcs/build_review_results.py
+python paper/fcs/build_retention_value.py
 cd paper/fcs
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 ```

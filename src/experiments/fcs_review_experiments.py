@@ -94,8 +94,11 @@ def main():
     else:
         train,sup,_,test,_=make_lt_datasets(rho=100);fit,val=split_train_val(train)
         yf,yv,yt,ys=fit.fine,val.fine,test.fine,sup.fine
-        c=torch.load(ROOT/'src/expand_cache.pt',map_location='cpu',weights_only=False)
-        Es=torch.load(folder/'frozen_support.pt',map_location='cpu',weights_only=False)['features'].to(dev)
+        cache_path=ROOT/'src/expand_cache.pt'
+        if not cache_path.exists():cache_path=folder/'frozen_cifar.pt'
+        c=torch.load(cache_path,map_location='cpu',weights_only=False)
+        Es=(c['E_support'] if 'E_support' in c else
+            torch.load(folder/'frozen_support.pt',map_location='cpu',weights_only=False)['features']).to(dev)
     Ef,Ev,Et,T=[c[k].to(dev) for k in ('E_fit','E_val','E_test','T100')]
     results={'dataset':args.dataset,'controls':[],'retention':[],'sequential':[],
              'ranpac':[],'source_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
