@@ -193,6 +193,30 @@ If every existing row has a preserved score, a changed final prediction after ex
 The best existing row is unchanged by Proposition~\ref{main-prop:invariance}. The expanded maximizer is either this row or a newly appended row. For an example labeled by an existing class, selecting a new row cannot correct a previous error, and keeping the existing maximizer leaves the previous error unchanged.
 \end{proof}
 
+
+\FloatBarrier
+\section{Recent readout comparison and ImageNet-R extension}
+The extension protocol was recorded before ImageNet-R evaluation. Class partitions use seeds 0, 1 and 2, with exact frequency-stratified allocation of 100 base and 100 novel classes. Within each base group, seed $900+p$ assigns 50 pseudo-base and 50 pseudo-novel classes. Base-only validation selects ridge regularization, branch mixtures and readout hyperparameters. No ImageNet-R test result selects these quantities. The retained table, removal controls and dense prototype replacement use the same grids as the CIFAR/Pets experiment.
+
+FeNeC~\cite{ksiazek2026fenec} is independently implemented from the paper's equations and checked against author-code commit \nolinkurl{1575ea019fd583149c47c068f7f5ccc102ea4580}. Both variants use identity Tukey transformation for signed CLIP features and Euclidean k-means with a maximum of 100 iterations. The representative grid is $K\in\{1,5,25\}$ and the neighbor grid is $\{1,3,5\}$. FeNeC-M estimates one covariance per class, applies the author's ViT single-shrinkage and correlation normalization with $(\gamma_1,\gamma_2)\in\{(1,1),(6.12,8.10),(9.98,0)\}$, then uses inverse squared-Mahalanobis-distance votes. FeNeC-E uses inverse unsquared-Euclidean-distance votes. Their native predictions are preserved when votes are converted to log votes, with a floor of $10^{-30}$. The calibrated forms select a novel offset from $[-4,4]$ in steps of 0.25 on the pseudo episode. Harmonic macro accuracy chooses the configuration.
+
+The five-shot protocol caps a class's representative count at its sample count. A class with one fitting sample uses identity covariance, avoiding an undefined sample covariance. These are explicit sparse-data adaptations. A per-class independent summary can be cached before its arrival; the voting neighborhood always contains only currently admitted classes. Native and calibrated forms share each current-vocabulary score matrix, so their complete matched-retention frontiers coincide, while fixed-offset trajectories can differ. The final grids are documented with the code. FeNeC frontiers use its sparse global-neighbor votes, with unvoted classes at the common floor; feasibility refers to this output interface.
+
+All ImageNet-R images are content-hashed before pool assignment. Fifty-nine byte-identical duplicates are removed globally. No retained content hash appears in two fitting, validation, support or test pools. The source archive has SHA-256 \nolinkurl{18c6bf493b39a0d975d48e587437f562caab9c52ae6327dcfa9dd8eb54aa1b52}. The class-name mapping, image paths, achieved fitting counts, source hashes, calibrated settings and prediction margins accompany the code and records. These are task-specific splits of ImageNet-R, whose source release is a rendition benchmark~\cite{hendrycks2021manyfaces}.
+
+\begin{table}[htbp]
+\centering
+\caption{ImageNet-R matched-retention recognition at three budgets after five arrivals. Values are percentages, mean $\pm$ partition-level sample standard deviation over feasible partitions. Counts specify available partition sets.}
+\label{tab:imagenetrfull}
+\resizebox{\linewidth}{!}{\input{table_imagenetr_retention}}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{ImageNet-R test outcomes with the 95\% base-validation-only threshold policy. Validation feasibility is reported separately from achieved test accuracy. Both native and calibrated FeNeC forms lead to the same policy because the full offset is reselected.}
+\label{tab:imagenetrvalidation}
+\resizebox{\linewidth}{!}{\input{table_imagenetr_validation}}
+\end{table}
 \bibliographystyle{elsarticle-num}
 \bibliography{references}
 \end{document}

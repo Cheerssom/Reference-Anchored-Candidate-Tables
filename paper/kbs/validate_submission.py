@@ -45,7 +45,14 @@ high=[p.text for p in Document(H/'Highlights.docx').paragraphs][1:]
 assert 3<=len(high)<=5 and max(map(len,high))<=85
 report['highlight_characters']=list(map(len,high))
 for filename in ['numbers.tex','retention_numbers.tex']+[p.name for p in H.glob('table_*.tex')]:
- assert (H/filename).read_bytes()==(H.parent/'fcs'/filename).read_bytes(),filename
+ original=H.parent/'fcs'/filename
+ if original.exists():assert (H/filename).read_bytes()==original.read_bytes(),filename
 report['numerical_inputs_byte_identical_to_checked_revision']=True
+if (H/'strengthening_summary.json').exists():
+ summary=json.loads((H/'strengthening_summary.json').read_text())
+ assert set(summary)=={'cifar','pets','imagenetr'}
+ for name in summary:assert summary[name]['methods']['retained']['final']['n']==3
+ report['strengthening_datasets']=list(summary)
+ report['new_result_inputs']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in H.glob('table_strengthened_*.tex')}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

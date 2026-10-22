@@ -147,3 +147,26 @@ Datasets and pretrained weights retain their original licenses. The repository
 contains implementation, manuscript, editable figure, numeric records and small
 prediction archives. Downloaded third-party papers, local model/feature caches,
 and internal editorial reports are excluded.
+
+## Expanded KBS evidence
+
+The current revision adds a 200-class ImageNet-R task, recent FeNeC-M/FeNeC-E
+readouts and source-hashed prediction margins. The corrected FeNeC transfer uses
+the author's ViT single-shrinkage setting and broader representative budget;
+initial probes remain in the records with a separate correction ledger.
+
+On ImageNet-R, retaining the classifier adds 2.22 +/- 0.40 percentage points in
+average incremental accuracy and 1.75 +/- 0.48 points in final accuracy over
+the recalibrated removal control. Matched-retention analysis and validation-only
+threshold selection remain separate.
+
+See `experiments/kbs_strengthening/README.md` for pause/resume and resource
+controls. The PowerShell runner defaults to `python` on PATH; use `-Python`
+to choose an installed environment. Dataset images and all `.pt` model/feature
+caches are obtained locally and are not distributed in this repository.
+
+```bash
+python src/experiments/kbs_verify_strengthening.py
+python src/experiments/test_kbs_strengthening.py
+python paper/kbs/build_strengthening_results.py
+```

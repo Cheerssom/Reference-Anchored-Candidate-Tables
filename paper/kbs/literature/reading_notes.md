@@ -30,3 +30,7 @@ Editorial lesson applied: introduce the decision problem and concrete gain early
 name the evidence sources and their contribution; distinguish a retained-readout
 analysis from representation adaptation. Existing experimental conditions and
 descriptive-frontier qualifications remain visible.
+
+## Experimental baseline extension (2026-10-22)
+
+FeNeC, KBS 338 (2026) 115479, DOI 10.1016/j.knosys.2026.115479, is now also an experimental baseline. Publisher record: https://www.sciencedirect.com/science/article/pii/S0950705126002224 . The full accessible author preprint https://arxiv.org/html/2503.14301v2 and pinned implementation commit 1575ea019fd583149c47c068f7f5ccc102ea4580 were inspected. Its ViT setting uses single covariance shrinkage; the initial double-shrinkage probe is preserved separately. The corrected transfer includes K=25 representatives and published ViT gamma pairs, selected with the same base-only pseudo episode. The source and correction ledger explain the frozen-CLIP/five-shot adaptations and sparse-vote score interface. Native and offset-calibrated Mahalanobis and Euclidean forms are reported. Author-output fixtures verify covariance, clustering and voting without bundling unlicensed upstream code into the public repository.
