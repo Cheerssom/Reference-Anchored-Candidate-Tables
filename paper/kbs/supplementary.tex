@@ -20,7 +20,7 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder primary comparison. Their statistical units are stated separately.
+Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder comparison; Section J adds the disjoint-pool risk-calibration study. Their statistical units are stated separately.
 
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}
@@ -513,6 +513,58 @@ and validation sufficient statistics.
 \caption{ViT-B/32 validation-selected 95\% policy. Values are achieved base/novel test percentages over validation-feasible partitions; Test met counts those meeting the independent test-retention criterion. Validation feasibility does not guarantee test target attainment.}
 \label{tab:replicationvalidationb}
 \resizebox{\linewidth}{!}{\input{table_revision_validation_b32}}
+\end{table}
+
+\FloatBarrier
+\section{Independent protection-risk calibration}
+\label{app:independentrisk}
+\subsection{Disjoint access and refitting}
+For each dataset, original fitting and validation features are concatenated in that order. A generator with seed 662026 shuffles each class, reserving $\max(1,\lfloor0.4N_c\rfloor)$ calibration and $\max(1,\lfloor0.2N_c\rfloor)$ tuning observations; the remainder fits the readouts. Every class retains at least two fitting images. Identical indices are used by both encoders and every method. The global fitting/tuning/calibration sizes are 4,437/2,139/4,318 on CIFAR, 556/248/510 on Pets, and 5,096/2,390/4,863 on ImageNet-R. Each true partition uses only its base classes in these pools. Support and test observations remain outside all three. All ridge parameters, pseudo-episode mixtures, branch temperatures and semantic-cache hyperparameters are recomputed using fitting and tuning data exclusively.
+
+Only frozen features are reused; previously tuned score models are not treated as independent of their old validation labels. The new calibration labels enter only threshold certification or the explicitly compared empirical threshold controls. The independent-pool experiment is a benchmark revision on previously studied test data, not a newly untouched final evaluation. The statistical analysis assumes that, conditional on each base class and the fitted models, calibration observations are independent draws from the class-conditional distribution to which the population statement applies. Dataset shift and adaptive support arrivals depending on calibration labels are outside that statement.
+
+\subsection{Weighted protection bound}
+Let $B$ be the number of base classes and $n_c$ their calibration counts. Assign each observation of class $c$ weight $w_i=1/(Bn_c)$, so $\sum_iw_i=1$, and let $b=\max_iw_i$. For any fixed bounded losses $L_i\in[0,1]$, write $q=\sum_iw_iL_i$ and $\mu=\sum_iw_i\mathbb E L_i$. Conditional on the score models and the independently selected threshold family, independence gives, for $t<0$,
+\begin{align}
+ \log\mathbb E e^{tq}
+ &\leq\sum_i\log(1-\mu_i+\mu_i e^{tw_i})\\
+ &\leq b^{-1}\sum_iw_i\log(1-\mu_i+\mu_i e^{tb})\\
+ &\leq b^{-1}\log(1-\mu+\mu e^{tb}),
+\end{align}
+where $\mu_i=\mathbb E L_i$. The first inequality uses boundedness and the chord of the exponential; the second uses convexity of each log-moment-generating function in $w_i$ and its zero value at zero; the third uses concavity in $\mu_i$. Chernoff optimization yields
+\begin{equation}
+ \Pr(q\leq x)\leq\exp[-\operatorname{kl}(x,\mu)/b],\qquad x<\mu,
+\end{equation}
+where $\operatorname{kl}$ is Bernoulli relative entropy. Thus, for the null $\mu\geq\alpha$, the value
+\begin{equation}
+ p(q)=\begin{cases}
+ \exp[-\operatorname{kl}(q,\alpha)/b],&q<\alpha,\\
+ 1,&q\geq\alpha
+ \end{cases}
+\end{equation}
+is a valid lower-tail p-value. Unlike an ordinary pooled binomial calculation, this bound retains the unequal macro weights. Its dependence on the largest weight makes sparse class-conditional calibration sets conservative.
+
+Apply the bound to the protection loss of main Eq.~\eqref{main-eq:protectionloss}. Let $A_{\mathrm{ref}}=\Pr(R=1)$, $D=\Pr(R=1,C_d=0)$ and $G=\Pr(R=0,C_d=1)$. Then
+\begin{equation}
+ \mathbb E L_d=D+(1-r)(1-A_{\mathrm{ref}}),\qquad
+ A_B(d)=A_{\mathrm{ref}}-D+G.
+\end{equation}
+Consequently $\mathbb E L_d\leq1-r$ implies $A_B(d)\geq rA_{\mathrm{ref}}$. The reference uncertainty is included in the paired loss rather than replaced by a point estimate. Retained base scores have $G=0$; other readouts may have $G>0$, so protection is sufficient and can be stricter than accuracy-ratio control for replacement models.
+
+\subsection{Threshold search and trajectory confidence}
+For each method and arrival, the independently fixed finite threshold family consists of unique quantiles at 0,1,\ldots,100\% of base tuning margins, in increasing order of novel admission. Following fixed-sequence testing~\cite{angelopoulos2021ltt}, test this family in order at level $\delta/5$, stop at the first failure, and return the last accepted threshold. A false certification requires rejecting the first true null in the fixed order, whose probability is at most $\delta/5$; independence between these tests is unnecessary. A union bound over the five prespecified arrivals gives error probability at most $\delta$ for each method/order/partition. The same calibration pool may be reused because the score models, threshold families and support arrivals do not adapt to its labels. No simultaneous confidence claim across methods, orders, partitions, datasets or separately reported $\delta$ values is made.
+
+If the accepted finite set is empty, the policy returns the original reference classifier and admits no novel class. This fallback structurally preserves its original accuracy and has zero novel accuracy. It is reported separately from useful certified expansion. The confidence levels 90,95,99\% and empirical target fractions 95,97,99\% were specified before the new experiment; the primary setting uses 95\% retention and 95\% confidence. Their complete results, worst shortfalls and five-session trajectories are saved in \nolinkurl{independent_risk_summary.json} and \nolinkurl{independent_risk_summary.csv}.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete ViT-L/14 independent-calibration comparison, with meanings and fallback accounting as in main Table~\ref{main-tab:riskmain}. All operational means include every partition; certification counts identify finite accepted thresholds.}
+\resizebox{\linewidth}{!}{\input{table_independent_risk_l14}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Complete ViT-B/32 independent-calibration comparison. Infeasible certification triggers the shared base-only reference fallback and zero novel accuracy.}
+\resizebox{\linewidth}{!}{\input{table_independent_risk_b32}}
 \end{table}
 
 \FloatBarrier

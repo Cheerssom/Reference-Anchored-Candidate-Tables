@@ -1,0 +1,26 @@
+\begin{tabular}{llrrrrrr}
+\toprule
+Dataset & Readout & Emp. met & Emp. novel & Cert. exp. & Test met & Cert. base & Cert. novel \\
+\midrule
+CIFAR-100 & Retained & 1/10 & 60.64 & 0/10 & 10/10 & 79.08 & 0.00 \\
+CIFAR-100 & Recalibrated removal & 2/10 & 47.79 & 0/10 & 10/10 & 79.08 & 0.00 \\
+CIFAR-100 & Dense prototypes & 2/10 & 52.74 & 0/10 & 10/10 & 79.08 & 0.00 \\
+CIFAR-100 & Raw fusion & 2/10 & 50.33 & 0/10 & 10/10 & 79.08 & 0.00 \\
+CIFAR-100 & Fixed temperature & 5/10 & 55.06 & 0/10 & 10/10 & 79.08 & 0.00 \\
+CIFAR-100 & Class-mean cache & 2/10 & 57.79 & 0/10 & 10/10 & 79.08 & 0.00 \\
+\midrule
+Pets & Retained & 1/10 & 75.10 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Pets & Recalibrated removal & 10/10 & 28.49 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Pets & Dense prototypes & 4/10 & 54.67 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Pets & Raw fusion & 6/10 & 53.57 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Pets & Fixed temperature & 5/10 & 64.90 & 0/10 & 10/10 & 90.24 & 0.00 \\
+Pets & Class-mean cache & 7/10 & 42.00 & 0/10 & 10/10 & 90.24 & 0.00 \\
+\midrule
+ImageNet-R & Retained & 2/10 & 56.51 & 10/10 & 10/10 & 73.66 & 45.30 \\
+ImageNet-R & Recalibrated removal & 9/10 & 3.58 & 0/10 & 10/10 & 75.01 & 0.00 \\
+ImageNet-R & Dense prototypes & 4/10 & 43.48 & 0/10 & 10/10 & 75.01 & 0.00 \\
+ImageNet-R & Raw fusion & 9/10 & 3.75 & 0/10 & 10/10 & 75.01 & 0.00 \\
+ImageNet-R & Fixed temperature & 2/10 & 52.45 & 7/10 & 10/10 & 74.24 & 27.28 \\
+ImageNet-R & Class-mean cache & 5/10 & 33.38 & 0/10 & 10/10 & 75.01 & 0.00 \\
+\bottomrule
+\end{tabular}

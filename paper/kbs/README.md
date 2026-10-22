@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 31-page main manuscript and 38-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 34-page main manuscript and 42-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -43,4 +43,10 @@ The primary comparison now has ten class partitions and two frozen CLIP architec
 
 ## User-supplied Elsevier template
 
-The manuscript and supplement use elsarticle 3.4 (2024/04/04), generated from the supplied Elsarticle bundle with `latex elsarticle.ins`. Both use the numeric starter, `preprint,review,12pt`, class-default margins and review line spacing. The template archive hash is recorded in `template_provenance.json`; editable releases include the class source, installer, starter and license notice. Main: 31 pages; supplement: 38 pages; combined review PDF: 69 pages. Template conversion and prose compression preserve all numerical result tables.
+The manuscript and supplement use elsarticle 3.4 (2024/04/04), generated from the supplied Elsarticle bundle with `latex elsarticle.ins`. Both use the numeric starter, `preprint,review,12pt`, class-default margins and review line spacing. The template archive hash is recorded in `template_provenance.json`; editable releases include the class source, installer, starter and license notice. Main: 34 pages; supplement: 42 pages; combined review PDF: 76 pages. Template conversion and prose compression preserve all numerical result tables.
+
+## Independent risk calibration
+
+Section J and `independent_risk_report.md` describe 60 refitted partition runs with disjoint fitting, tuning and risk-calibration indices. The 21,600 metric records and 16,404 threshold tests reconstruct independently. At 95% trajectory confidence and 95% retention, ImageNet-R admits nontrivial expansion in all ten partitions with both encoders (novel accuracy 77.64% L/14, 45.30% B/32). CIFAR and Pets select the explicit base-only fallback, with zero novel recognition. The sufficient protection bound is conditional on the stated sampling assumptions, and conservative for replacement readouts that recover reference errors. It is not a guarantee under distribution shift or on every finite test set.
+
+Run `scripts/run_kbs_independent_risk.ps1`, then `python src/experiments/kbs_verify_independent_risk.py` and `python paper/kbs/build_independent_risk_results.py`. The shared PAUSE marker is respected. A real rerun preserved hashes and modification times of all 1,320 completed checkpoint files. New experiment storage is approximately 184.5 MiB.

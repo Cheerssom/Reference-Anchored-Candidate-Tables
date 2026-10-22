@@ -248,3 +248,9 @@ python src/experiments/kbs_validation_budget.py
 python src/experiments/kbs_verify_validation_budget.py
 python paper/kbs/build_validation_budget_results.py
 ```
+
+## Independent protection-risk calibration
+
+The current manuscript adds independent fitting/tuning/calibration pools, macro-weighted fixed-sequence protection testing and explicit no-admission fallback. All 60 refitted partition runs (21,600 metric records) reconstruct independently. At 95% retention and 95% five-arrival confidence, retained ImageNet-R tables admit expansion in all ten partitions on each encoder; final novel accuracy is 77.64% (L/14) and 45.30% (B/32). All corresponding test paths meet their targets. CIFAR and Pets select fallback with zero novel recognition at this confidence level. These outcomes are not a claim of useful certified expansion on every dataset.
+
+See [the full report](paper/kbs/independent_risk_report.md) for assumptions, complete baselines and fallback accounting. Run `scripts/run_kbs_independent_risk.ps1`; verify using `src/experiments/kbs_verify_independent_risk.py`.

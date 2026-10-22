@@ -56,6 +56,16 @@ for filename in ['numbers.tex','retention_numbers.tex']+[p.name for p in H.glob(
  original=H.parent/'fcs'/filename
  if original.exists():assert (H/filename).read_bytes()==original.read_bytes(),filename
 report['numerical_inputs_byte_identical_to_checked_revision']=True
+if r'\label{sec:riskexperiment}' in main:
+ risk=json.loads((H/'independent_risk_summary.json').read_text())
+ verified=json.loads((H.parents[1]/'experiments/kbs_independent_risk/verification.json').read_text())
+ assert verified['complete'] and verified['metric_records']==21600
+ assert risk['metric_records']==21600
+ for encoder in ['l14','b32']:
+  row=next(r for r in risk['final'] if r['encoder']==encoder and r['dataset']=='imagenetr' and r['method']=='retained' and r['policy']=='risk' and r['level']==.05)
+  assert row['expanded']==10 and row['test_met']==10
+  assert f"{100*row['new_mean']:.2f}" in main
+ report['independent_risk_calibration']={'partition_runs':60,'metric_records':21600,'supplementary_section':'J','fallbacks_explicit':True}
 if (H/'strengthening_summary.json').exists():
  summary=json.loads((H/'strengthening_summary.json').read_text())
  assert set(summary)=={'cifar','pets','imagenetr'}

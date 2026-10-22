@@ -20,7 +20,7 @@ if (H/'revision_summary.json').exists():
   'Reference-anchored tables reuse trained classifiers during class expansion.',
   'Two CLIP encoders and ten class partitions test retained classifier value.',
   'ImageNet-R gains over dense prototypes are 0.71 points on L/14 and 0.90 on B/32.',
-  'Validation policies report feasibility and achieved test retention separately.'
+  'Independent risk calibration enables certified expansion on ImageNet-R.'
  ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
@@ -46,6 +46,8 @@ letter=letter.replace(' These are literature comparisons; we do not present unru
 if (H/'revision_summary.json').exists():
  a=letter.index('With frozen CLIP features');b=letter.index("The work contributes",a)
  letter=letter[:a]+'''Experiments cover CIFAR-100, Oxford-IIIT Pets and 200-class ImageNet-R with ten distinct class partitions, two arrival orders and frozen OpenAI CLIP ViT-L/14 and ViT-B/32. On ImageNet-R, the ViT-L/14 retained readout gives 84.31% novel accuracy at approximately 86.42% base accuracy in a descriptive matched-test-retention analysis. Across five arrivals, retaining the classifier adds 0.71 percentage points [conditional paired 95% CI: 0.46, 0.92] in average incremental accuracy over dense prototype fusion, and 1.42 points [1.15, 1.62] over class-mean semantic-cache retrieval. The dense-prototype comparison transfers to ViT-B/32 with a 0.90-point gain [0.69, 1.11]. These intervals describe class-assignment variation conditional on the fixed image pools and encoders. A main-paper validation-selected comparison reports achieved test group accuracies, feasibility and test-target attainment separately. Raw-score and fixed-temperature controls isolate reference normalization; the full tables retain regime-dependent outcomes, including comparisons favoring an alternative.\n\n'''+letter[b:]
+if (H/'independent_risk_summary.json').exists():
+ letter=letter.replace('The work contributes', 'A separate disjoint-pool study refits all readouts before independent protection-risk calibration. At the primary 95% retention and 95% trajectory-confidence setting, the ImageNet-R retained policy admits expansion on all ten partitions with both encoders, attaining 77.64% novel accuracy on L/14 and 45.30% on B/32. Every five-session test trajectory meets its retention targets. The macro-weighted protection argument states the sampling assumptions and accounts for threshold search and repeated arrivals. Explicit fallback and zero novel admission are reported when the CIFAR and Pets tail-class calibration budgets cannot certify useful expansion.\n\nThe work contributes')
 (H/'cover_letter.md').write_text(letter,encoding='utf-8')
 
 def doc(name,heading,paragraphs,bullets=False):
