@@ -19,321 +19,140 @@
 \cortext[cor1]{Corresponding author.}
 \affiliation[sdu]{organization={Shandong University},country={China}}
 \begin{abstract}
-Class expansion must recognize arriving categories while preserving an explicit accuracy requirement on the original classes. We introduce reference-anchored candidate tables to combine a trained base classifier, semantic anchors and novel visual prototypes in a persistent score frame. Base-only pseudo-expansion episodes calibrate the mixtures, and a group offset controls novel admission. The framework measures novel recognition at a common base-accuracy constraint and the additional value of retaining the classifier across repeated arrivals. Experiments span CIFAR-100, Oxford-IIIT Pets and 200-class ImageNet-R, with ten class partitions and two frozen CLIP architectures. On ImageNet-R with ViT-L/14, the descriptive matched-retention frontier reaches 84.31\% novel accuracy at 86.42\% base accuracy. Across five arrivals, retaining the classifier adds 0.71 percentage points over dense prototype fusion and 1.42 points over class-mean semantic-cache retrieval in average incremental accuracy. The gain over prototypes transfers to ViT-B/32 at 0.90 points. Paired confidence intervals quantify class-partition variation on fixed data. An additional study refits all readouts with independent risk calibration. On ImageNet-R, the retained policy admits expansion in all ten partitions per encoder and meets every five-session test-retention target; sparse-class calibration budgets trigger explicit fallback. Raw-score and fixed-temperature controls isolate reference normalization. These results establish the predictive value of retained discrimination for repeated class expansion on ImageNet-R.
+A trained classifier contains discrimination that can support new-class recognition under an explicit original-class accuracy requirement. We develop reference-anchored candidate tables to make this expansion capacity measurable and usable. Fixed base references normalize learned, semantic and support-derived evidence without changing existing scores; a separate offset controls novel admission. Matched-retention frontiers quantify capacity, paired sequential comparisons quantify the retained classifier's value, and independent protection-risk calibration selects admissible thresholds. Experiments use three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, the ViT-L/14 frontier reaches 84.31\% novel accuracy at 86.42\% base accuracy. Retaining the classifier adds 0.71 and 0.90 percentage points over dense prototypes across five arrivals with ViT-L/14 and ViT-B/32. Independent calibration accepts expansion on all ten ImageNet-R partitions per encoder, yielding 77.64\% and 45.30\% novel accuracy while meeting every five-session test-retention target. Sparse calibration pools select an explicit base-only fallback. These results connect retained discrimination to useful expansion under stated protection requirements.
 \end{abstract}
 \begin{keyword}
 Class expansion \sep Retention constraints \sep Incremental learning \sep Evidence fusion \sep Vision--language models \sep Long-tailed recognition
 \end{keyword}
 \end{frontmatter}
+
 \section{Introduction}
-Recognition systems often acquire new categories after deployment, while the original classifier has been fitted to imbalanced supervision. Long-tailed recognition addresses the unequal evidence available to common and rare classes~\cite{liu2019large,cao2019ldam,cui2019classbalanced}. Class expansion must put that learned discrimination to work alongside the names and sparse examples supplied for arriving categories.
+An expanding recognition system already has a classifier whose decision boundaries reflect task-specific supervision. New classes arrive with names and a few examples. The central question is how much new-class recognition that existing discrimination can support while maintaining a specified accuracy on the original classes. A second question follows across repeated arrivals: how much predictive value is gained by keeping the trained classifier rather than replacing it with prototypes or recalibrated semantic evidence?
 
-Pre-trained vision--language models provide a shared interface for this evidence. CLIP maps images and descriptions into an embedding space~\cite{radford2021clip}; prompt adaptation and lightweight fine-tuning specialize its predictions~\cite{zhou2022coop,zhou2022cocoop,shi2024lift}; caches and prototypes incorporate labeled support~\cite{zhang2022tipadapter,snell2017prototypical,wang2019simpleshot}. An expanded classifier can therefore retain trained base columns and append semantic anchors and prototypes for novel classes.
+We address these questions with \emph{reference-anchored candidate tables}. The table retains learned base columns and appends semantic anchors and support prototypes for arriving classes. Each evidence branch is normalized against fixed base references, so adding candidates leaves existing scores unchanged. An independent admission offset controls competition between base and novel classes. This separates the discrimination already learned from the decision to admit new alternatives.
 
-The practical criterion is novel recognition under a stated base-accuracy requirement. Fixing this requirement identifies how much new-class recognition the system can admit while preserving its established service level. Successive class arrivals introduce a second criterion: the paired gain obtained by retaining the base-trained classifier throughout the sequence. Separating a fixed-gate removal from a recalibrated classifier-free alternative measures both the contribution of the stored learned evidence and its value after calibration is restored.
-
-We address these criteria with \emph{reference-anchored candidate tables}. Each class stores the evidence available to it, and each branch normalizes its scores against fixed base-class references. The table retains the original learned columns and appends new rows without refitting them. This reference frame makes the existing scores independent of vocabulary size, allowing the novel admission threshold to be analyzed separately from within-group discrimination.
-
-Class-incremental learning studies retention of earlier knowledge~\cite{rebuffi2017icarl,tao2020fewshot}, and pre-trained prototypes and analytic readouts enable efficient class addition~\cite{zhou2024simplecil,mcdonnell2023ranpac}. Recent methods combine multiple feature spaces~\cite{xu2023mfs3}, calibrate prototypes through sharpness-aware learning~\cite{chen2024sagg}, and fuse CLIP prompts across modalities~\cite{fang2026bpcclip}. We quantify the retained classifier's contribution through matched-retention frontiers and paired comparisons across repeated arrivals.
-
-On the 200-class ImageNet-R task, the retained classifier adds 0.71 [0.46, 0.92] percentage points in average incremental accuracy over dense prototype fusion with ViT-L/14 and 0.90 [0.69, 1.11] with ViT-B/32. Brackets are paired 95\% bootstrap intervals across ten class partitions, conditional on the fixed image pools and encoders. Validation-selected admission policies report both novel recognition and achieved test retention. A separate refitted study adds independent protection-risk calibration and a no-admission fallback when a useful threshold cannot be certified. Removal, recalibration and replacement controls identify the source of the sequential gain.
-
-Our framework connects a persistent evidence table to two measurable benefits: novel recognition under a common base-accuracy requirement and the additional accuracy supplied by a retained classifier across successive arrivals. Fixed base references stabilize existing scores, and a separate admission threshold controls competition with new classes. Ten-partition comparisons with two encoders quantify these benefits against recalibration, prototype replacement and simpler normalization.
+The contribution is the connection between retained discrimination and class-expansion capacity: a persistent score frame makes the original classifier reusable, a common base-accuracy constraint makes its admission value comparable, and paired arrival sequences measure its continuing benefit. Independent protection-risk calibration adds a confidence-qualified admission rule. On ImageNet-R, the gain over dense prototypes persists across two frozen encoders; the independently calibrated tables admit novel classes on every evaluated partition. Complete comparisons also identify calibration budgets and datasets where the selected policy returns the base classifier.
 
 \section{Related work}
-\subsection{Imbalanced supervision and heterogeneous evidence}
-Long-tailed recognition motivates balanced fitting when class evidence is unequal~\cite{cao2019ldam,cui2019classbalanced}. CLIP supplies semantic anchors~\cite{radford2021clip}, prompt learning adapts textual evidence~\cite{zhou2022coop,zhou2022cocoop}, and prototypes and caches incorporate labeled support~\cite{snell2017prototypical,wang2019simpleshot,zhang2022tipadapter}. Our table combines these evidence types according to their availability, with a shared encoder and novel support budget across compared readouts.
+Long-tailed recognition addresses unequal class supervision through balanced fitting and losses~\cite{liu2019large,cao2019ldam,cui2019classbalanced}. CLIP supplies semantic image--text evidence~\cite{radford2021clip}, while prompt adaptation~\cite{zhou2022coop,shi2024lift}, prototypes~\cite{snell2017prototypical,wang2019simpleshot} and semantic caches~\cite{zhang2022tipadapter} adapt pre-trained representations to labeled data. Our setting combines these evidence types according to their availability at class arrival.
 
-\subsection{Few-shot expansion and retained discrimination}
-Multi-feature space similarity supplement (MFS3) combines base and incremental feature spaces to refine boundary decisions~\cite{xu2023mfs3}. Sharpness-aware gradient guidance (SAGG) couples flat-region optimization with prototype calibration~\cite{chen2024sagg}. Adaptive exploration uses reward-guided updates to balance knowledge retention and acquisition~\cite{han2025adaptive}. These approaches develop representations or classifiers for successive tasks. Our formulation evaluates the recognition capacity supplied by an existing classifier at a shared base-accuracy requirement. Fixed-gate removal, independent recalibration and dense prototype replacement identify distinct sources of its measured value.
+Class-incremental and few-shot incremental learning study retention across successive tasks~\cite{rebuffi2017icarl,tao2020fewshot}. SimpleCIL~\cite{zhou2024simplecil} and RanPAC~\cite{mcdonnell2023ranpac} show the value of pre-trained prototypes and analytic readouts. KBS approaches develop multi-feature similarity supplementation~\cite{xu2023mfs3}, sharpness-aware prototype calibration~\cite{chen2024sagg}, adaptive exploration~\cite{han2025adaptive}, representation-enhanced analytic learning~\cite{he2026real}, and multimodal prompt fusion~\cite{fang2026bpcclip}. CLIP-guided discovery~\cite{yan2025clipdiscovery} additionally uses unlabeled novel data, whereas our arriving classes provide names and labeled support. FeNeC~\cite{ksiazek2026fenec} supplies a recent clustered-representative readout for controlled frozen-feature comparisons.
 
-\subsection{Incremental recognition with pre-trained models}
-Class-incremental learning evaluates a model on the union of classes observed across successive training stages. Exemplar rehearsal and representation constraints are established tools for retaining earlier knowledge~\cite{rebuffi2017icarl}. Few-shot class-incremental learning adds a data scarcity condition to the arriving classes~\cite{tao2020fewshot}. Recent work studies temporal consistency with unlabeled memory replay~\cite{wang2025memory} and the geometry of inter-task and intra-task discrimination~\cite{tang2027global}. These approaches motivate explicit measurement of existing-class behavior.
+BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or heterogeneous recognition metrics. Calibrated seen/unseen recognition~\cite{chao2016calibrated} studies the related operating trade-off, and Learn then Test~\cite{angelopoulos2021ltt} supplies risk-controlled threshold selection. We focus on the retained classifier as a source of admission capacity: its contribution is measured at a common base requirement, over successive arrivals, and under a separately calibrated protection policy.
 
-SimpleCIL examines prototype classifiers built from pre-trained representations~\cite{zhou2024simplecil}; RanPAC combines random projections with accumulated class statistics~\cite{mcdonnell2023ranpac}. Reference-anchored fusion extends this setting to semantic, trained, and support-derived evidence with different availability patterns. Calibrated seen/unseen recognition~\cite{chao2016calibrated} provides a related perspective on the base--novel operating trade-off.
-
-Bimodal Prompt Collaborative CLIP combines attribute-enriched text with gated visual--textual prompts for few-shot incremental learning~\cite{fang2026bpcclip}. CLIP-guided continual novel class discovery uses semi-supervised prototype adaptation to transfer visual--language knowledge to a discovery model~\cite{yan2025clipdiscovery}. The latter operates with unlabeled novel data; our arriving classes have names and labeled support. REAL enhances representations for exemplar-free analytic learning through complementary base pretraining and feature fusion~\cite{he2026real}. These studies establish complementary ways to retain and combine prior knowledge. Reference-anchored tables organize semantic anchors, learned columns and support prototypes within one fixed score frame, making the retained classifier's admission value directly measurable.
-
-FeNeC represents classes with clustered feature representatives and class-specific distances, extending nearest-class-mean recognition to local neighborhoods~\cite{ksiazek2026fenec}. Its Mahalanobis and Euclidean variants provide recent frozen-feature comparisons under the same base fitting data and five-shot novel support. We report native predictions and an explicitly group-offset-calibrated form.
-
-BiMC~\cite{chen2025bimc} calibrates textual classifiers with fine-grained descriptions, adjusts novel visual prototypes using base prototypes, and combines modality and covariance-based metrics. HyCal~\cite{lee2026hycal} combines cosine and Mahalanobis information to address heterogeneous cross-discipline few-shot streams. These methods improve the evidence or metric used for incremental recognition. Our framework instead measures the contribution of a separately fitted base-discriminative branch under a shared retention requirement and preserves an explicit score frame while heterogeneous evidence is appended. The relevant comparison is the attainable base--novel trade-off after equalizing data access and calibration, rather than an unrestricted accuracy comparison across different protocols.
-
-TV100 studies categories unavailable during CLIP's original pre-training period~\cite{zhou2024tv100}. Here, novelty is defined relative to task-specific classifier fitting and calibration; CLIP retains its web-scale pre-training exposure.
-
-\section{Expandable recognition with heterogeneous evidence}
-\subsection{Problem definition}
-Let $\mathcal B$ denote base classes with a labeled training set $\mathcal D_B$, and let $\mathcal N$ denote novel classes supplied at expansion time. The active vocabulary is initially $\mathcal C_0=\mathcal B$ and subsequently becomes $\mathcal C=\mathcal B\cup\mathcal N$. An image encoder $f$ maps an input image to a normalized vector $v=f(x)\in\mathbb R^D$. A text encoder supplies a normalized class anchor $t_c$. For each $c\in\mathcal N$, the support set $\mathcal S_c$ contains $k$ labeled examples. Inference is over all active classes, without an oracle indicating whether an image belongs to a base or novel class.
-
-Base training can be imbalanced. If $n_c$ is the number of training images for class $c$, the classifier may use inverse-frequency weights or another balanced fitting procedure. After this stage, the encoder, base classifier, reference banks, and branch mixing coefficients are fixed. The group admission offset is either frozen or calibrated on base validation to enforce a retention target. At arrival, novel class information is restricted to its name and $\mathcal S_c$. Neither previous training images nor additional labeled novel validation images are required to construct its row.
-
-Each row has an availability mask $m_{ec}\in\{0,1\}$ over evidence sources $e$. We use semantic evidence $T$, learned discriminative evidence $L$, and visual prototype evidence $P$. The experimental configuration is
-\begin{equation}
- (m_{Tc},m_{Lc},m_{Pc})=
- \begin{cases}(1,1,0),&c\in\mathcal B,\\(1,0,1),&c\in\mathcal N.\end{cases}
- \label{eq:availability}
-\end{equation}
-Base prototypes form the visual branch's normalization references. The availability mask determines which evidence contributes to a candidate; the reference bank determines its scale.
+\section{From retained discrimination to novel admission}
+\subsection{Task and evidence}
+Base classes $\mathcal B$ have labeled, potentially imbalanced fitting data. Arriving classes $\mathcal N$ provide a name and $k$ labeled support images per class. Prediction selects from $\mathcal B\cup\mathcal N$ without a group oracle. A frozen encoder produces a normalized feature $v=f(x)$; normalized text anchors $t_c$ average eight fixed prompts. Learned base scores are $q_L(x,b)=v^\top w_b+b_b$, fitted by inverse-frequency-weighted ridge regression. Novel prototypes are normalized support means $p_n$, giving $q_P(x,n)=v^\top p_n$; semantic scores are $q_T(x,c)=v^\top t_c$.
 
 \begin{figure}[htbp]
-\centering
-\includegraphics[width=.98\textwidth]{framework.pdf}
-\caption{Reference-anchored candidate-table architecture. A shared frozen CLIP feature supplies semantic similarity and the base-trained readout. The candidate table stores text anchors for all classes, learned weights for base classes, and support prototypes for arriving classes. The inset shows the three evidence branches normalized against their respective fixed base reference sets before availability-masked fusion; $z_e=\widehat q_e$ denotes normalized evidence. A novel row is appended without updating the encoder, existing weights, references, or gates. Orange identifies base-fitted evidence and fusion; blue hatching identifies pre-trained or cached evidence. Branch gates remain fixed; retention control can adjust the separate novel admission offset.}
+\centering\includegraphics[width=.98\textwidth]{framework.pdf}
+\caption{Reference-anchored candidate tables. Fixed base references set each branch's score frame; learned base columns remain stored as novel text anchors and support prototypes are appended. The separate novel offset controls admission. Orange marks base-fitted evidence; blue hatching marks pre-trained or cached evidence.}
 \label{fig:framework}
 \end{figure}
 
-\subsection{Three notions of preservation}
-Preserving a parameter vector $\theta$ means that $\theta$ receives no update during expansion. Preserving a score additionally requires
-\begin{equation}
- s_{\mathcal C_0}(x,c)=s_{\mathcal C}(x,c),\quad c\in\mathcal C_0.
- \label{eq:scorepreservation}
-\end{equation}
-Preserving a prediction requires the maximizing class over the larger vocabulary to remain the same. The third property is stronger than the second: a newly admitted class can have a larger score than the previous winner. We seek score preservation while allowing that competition.
-
-The evaluation separates changes among existing classes from selection of an appended class. Under fixed evidence, reference anchoring preserves existing-class competition and admits new alternatives through their own scores.
-
-\section{Reference-anchored candidate tables}
-\subsection{Evidence construction}
-The semantic score is cosine similarity between a normalized image feature and a class text anchor,
-\begin{equation}
- q_T(x,c)=v^\top t_c.
-\end{equation}
-We average normalized text embeddings of eight fixed prompts and normalize the result. The same prompts construct anchors for base and arriving classes.
-
-The learned score is the output of a base classifier,
-\begin{equation}
- q_L(x,c)=v^\top w_c+b_c,\quad c\in\mathcal B.
-\end{equation}
-For the frozen-encoder experiments, the weights are fitted using class-balanced ridge regression. With augmented image features $\widetilde v=[v;1]$, one-hot targets $Y$, and diagonal sample-weight matrix $\Omega$, the solution is
-\begin{equation}
- W=(X^\top\Omega X+\lambda R)^{-1}X^\top\Omega Y,
- \label{eq:ridge}
-\end{equation}
-where $R=\operatorname{diag}(1,\ldots,1,0)$ leaves the intercept unregularized. A sample from class $c$ has weight $1/n_c$, giving each base class equal total fitting weight. We solve the corresponding linear system.
-
-The visual prototype of a novel class is
-\begin{equation}
- p_c=\frac{\sum_{x\in\mathcal S_c}f(x)}{\|\sum_{x\in\mathcal S_c}f(x)\|_2},
- \qquad q_P(x,c)=v^\top p_c.
- \label{eq:prototype}
-\end{equation}
-The same averaging rule applied to base training features produces a reference bank $\{p_b:b\in\mathcal B\}$. The novel prototype stores the information acquired at class arrival; the base bank fixes the coordinate system in which its score is interpreted.
-
-\subsection{Why a changing normalization population matters}
-Candidate-wise standardization computes the mean and standard deviation over the current valid candidates of a branch. For text evidence, this gives
-\begin{equation}
- z_T^{\mathcal C}(x,c)=\frac{q_T(x,c)-\mu_T(x;\mathcal C)}{\max(\sigma_T(x;\mathcal C),\epsilon)}.
- \label{eq:dynamic}
-\end{equation}
-Adding candidates changes $\mu_T$ and $\sigma_T$. For a text-only classifier, a common positive affine transformation preserves the ordering of the old classes. With heterogeneous fusion, however, the learned branch and text branch are rescaled differently. The relative strength of their votes can change.
-
-A two-class example illustrates the effect. Suppose the old text scores are $(0,2)$, giving standardized scores $(-1,1)$, while the learned branch contributes $(0.25,-0.25)$. The second old class has the larger fused score. Appending a text score of $100$ changes the two old standardized scores to approximately $(-0.728,-0.685)$. Their text separation is now about $0.043$, and the unchanged learned contribution reverses the old-class ordering. No classifier weight has changed. The example isolates a normalization effect independently of whether the new class ultimately wins the expanded decision.
-
-\subsection{Fixed references for each evidence source}
-Let $\mathcal R_e$ be a fixed bank of reference rows for source $e$. For every query, compute
+For each evidence source $e$, a fixed base reference bank $\mathcal R_e$ defines
 \begin{align}
- \mu_e(x)&=\frac{1}{|\mathcal R_e|}\sum_{r\in\mathcal R_e}q_e(x,r),\\
- \sigma_e^2(x)&=\frac{1}{|\mathcal R_e|}\sum_{r\in\mathcal R_e}(q_e(x,r)-\mu_e(x))^2.
+ \mu_e(x)&=|\mathcal R_e|^{-1}\sum_{b\in\mathcal R_e}q_e(x,b),\\
+ \sigma_e^2(x)&=|\mathcal R_e|^{-1}\sum_{b\in\mathcal R_e}(q_e(x,b)-\mu_e(x))^2.
  \label{eq:reference}
 \end{align}
-The normalized candidate score is
+We use base text anchors, learned columns and visual means as the text, learned and prototype references. Normalized evidence is
 \begin{equation}
- \widehat q_e(x,c)=\frac{q_e(x,c)-\mu_e(x)}{\max(\sigma_e(x),\epsilon)}.
+ \widehat q_e(x,c)=\frac{q_e(x,c)-\mu_e(x)}{\max(\sigma_e(x),10^{-6})}.
  \label{eq:anchored}
 \end{equation}
-The reference statistics remain query-dependent, which adapts the scale to the current image, but are independent of which novel candidates are active. We use base text anchors for $\mathcal R_T$, base classifier columns for $\mathcal R_L$, and base visual means for $\mathcal R_P$. Each bank contains 40 reference classes on CIFAR-100 and 15 on Pets. A zero-variance reference bank uses the same fixed denominator floor $\epsilon=10^{-6}$.
-
-The candidate score combines available normalized evidence:
-\begin{equation}
- s(x,c)=\sum_{e\in\{T,L,P\}}m_{ec}\alpha_e\widehat q_e(x,c)+\delta_c.
- \label{eq:fusion}
-\end{equation}
-We set $\alpha_T=1$, write $a=\alpha_L$ and $u=\alpha_P$, and use $\delta_c=d\,\mathbf 1[c\in\mathcal N]$. The resulting implementation is
+The statistics adapt to each query while remaining independent of the active novel vocabulary. Fusion uses the evidence available to each row:
 \begin{align}
- s(x,b)&=\widehat q_T(x,b)+a\widehat q_L(x,b),\quad b\in\mathcal B,\\
- s(x,n)&=\widehat q_T(x,n)+u\widehat q_P(x,n)+d,\quad n\in\mathcal N.
+ s(x,b)&=\widehat q_T(x,b)+a\widehat q_L(x,b),&&b\in\mathcal B,\\
+ s(x,n)&=\widehat q_T(x,n)+u\widehat q_P(x,n)+d,&&n\in\mathcal N.
  \label{eq:base-novel}
 \end{align}
-The offset $d$ calibrates competition between base and novel classes. The availability mask excludes absent learned evidence from the novel score and from reference statistics.
+The coefficients $a,u$ combine evidence; $d$ controls novel admission (Fig.~\ref{fig:framework}). Candidate-wise normalization instead changes the branch scales when new rows arrive, which can alter existing fused decisions. A numerical example appears in Supplementary Section K.
 
-\subsection{Score preservation under append-only expansion}
 \begin{proposition}
-Fix an input $x$, the evidence of every existing row, the encoder, the reference banks, the denominator floor, and the coefficients in Eq.~\eqref{eq:fusion}. Appending new rows leaves the score of every existing row unchanged. Hence, every pairwise score difference and the maximizing row restricted to the existing vocabulary are unchanged, using a fixed tie-breaking rule.
+With fixed input, encoder, existing row evidence, reference banks, coefficients and tie-breaking, appending rows preserves every existing score and its within-vocabulary ordering.
 \label{prop:invariance}
 \end{proposition}
-Each existing raw score, availability mask and base-reference statistic stays fixed, so their weighted sum stays fixed. The invariant applies to base and previously appended novel rows. Raw and fixed-temperature fusion share this property; the recognition comparisons in Section 5 isolate the contribution of reference normalization. Supplementary Section E provides the full proof and the consequence for expanded predictions. The implementation computes the fixed base text block separately from novel columns to keep its numerical kernel independent of the appended width.
+All terms of an existing row remain fixed. This structural property also holds for raw and fixed-temperature controls; their recognition comparisons isolate reference normalization. Appended rows can still win the expanded prediction. Supplementary Section E gives the proof and prediction consequence. Each new row costs $O(D)$ storage and $O(kD)$ prototype construction after encoding; scoring $K$ classes costs $O(KD)$.
 
-\subsection{Base-only calibration}
+\subsection{Calibration and expansion capacity}
 \label{sec:calibration}
-Fusion calibration must respect the distinction between base supervision and novel support. We construct a pseudo-expansion episode by splitting the base classes into approximately equal pseudo-base and pseudo-novel groups: 20/20 on CIFAR-100, 7/8 on Pets and 50/50 on ImageNet-R. A separate classifier is fitted using the pseudo-base classes alone. The pseudo-novel rows contain names and $k$ support examples from those base classes, while held-out base validation images supply query labels. This episode simulates missing learned evidence without consuming any actual novel-class validation labels.
-
-For each support budget, candidate coefficients are evaluated on this episode. The selection objective is the harmonic mean of macro accuracy on the two groups,
+A base-only pseudo-expansion episode splits base classes into pseudo-base and pseudo-novel groups. A classifier fitted on pseudo-base classes is combined with names and reserved support for pseudo-novel classes. Held-out base queries select $a,u,d$ by harmonic macro accuracy,
 \begin{equation}
- H=\frac{2A_BA_N}{A_B+A_N},
+ H=2A_BA_N/(A_B+A_N),
  \label{eq:harmonic}
 \end{equation}
-We set $H=0$ when both terms vanish. The calibration grids are $a\in\{0,0.25,0.5,1,2\}$, $u\in\{0,0.25,0.5,1,2,4\}$, and offsets $d\in[-4,4]$ in steps of $0.25$. Ties follow a fixed grid order. The full base classifier is then combined with actual novel rows using the selected coefficients. Neither actual novel validation queries nor test labels enter this selection rule.
+with zero assigned when both accuracies vanish. The coefficients then remain fixed across actual arrivals. Actual novel query labels and test labels are excluded from this selection; grids and split seeds are in Supplementary Section K.
 
-This procedure uses one pseudo-class split per true partition and the same support-index seed as the evaluated support condition. CIFAR and Pets pseudo splits use seed $100+p$ for class-partition seed $p$; ImageNet-R selects half the base classes with seed $900+p$. Coefficients are chosen once for a support budget and stay fixed when the vocabulary-size stress test appends successive subsets of novel classes.
+Let $A_{B,\mathrm{ref}}^{\mathrm{closed}}$ denote the retained table's closed-base macro accuracy. At retention fraction $r$, every readout receives the same absolute base target. Its empirical expansion capacity is
+\begin{equation}
+ N_r=\max_d A_N(d)\quad\text{subject to}\quad
+ A_B(d)\geq rA_{B,\mathrm{ref}}^{\mathrm{closed}}.
+ \label{eq:retentioncriterion}
+\end{equation}
+A test-label sweep characterizes this descriptive frontier; an operational threshold uses calibration data. The exact margin envelope is derived in Supplementary Section D. Reporting these two evaluations separately distinguishes attainable capacity from selected-policy behavior.
 
 \subsection{Independent protection-risk calibration}
 \label{sec:riskcontrol}
-An empirical validation constraint can be supplemented with a statistical admission rule on an independent calibration pool. Let $R$ indicate a correct prediction by the retained closed-base reference and $C_d$ a correct prediction by an expanded readout at offset $d$. For retention fraction $r$, define
+Let $R$ indicate correct prediction by the retained closed-base reference and $C_d$ correct prediction by the expanded readout. Define
 \begin{equation}
  L_d=R(1-C_d)+(1-r)(1-R).
  \label{eq:protectionloss}
 \end{equation}
-Writing $D=\Pr(R=1,C_d=0)$, the condition $\mathbb E L_d\leq1-r$ implies $D\leq(1-r)A_{B,\mathrm{ref}}$ and hence $A_B(d)\geq rA_{B,\mathrm{ref}}$. The same sufficient criterion applies to every readout; for replacement readouts it conservatively ignores recovery of reference errors.
+Writing $D=\Pr(R=1,C_d=0)$ gives $\mathbb E L_d=D+(1-r)(1-A_{B,\mathrm{ref}})$. Thus $\mathbb E L_d\leq1-r$ implies $A_B(d)\geq rA_{B,\mathrm{ref}}$. This common sufficient criterion conservatively ignores replacement readouts' recovery of reference errors.
 
-We adapt fixed-sequence risk testing~\cite{angelopoulos2021ltt} to class-stratified macro weights. Score models and the ordered threshold family are fixed using fitting and tuning data, before calibration. At $r=0.95$, a weighted bounded-loss test examines offsets from conservative to permissive and stops at the first failed test. Each session receives error budget $\delta/5$, giving simultaneous population protection across the five prespecified arrivals for each method, order and partition under the sampling assumptions. When no finite threshold passes, the policy serves the original reference classifier with no novel admission. Supplementary Section J states the weighted concentration argument, independence requirements and fallback rule.
-
-\subsection{Storage and computation}
-The frozen implementation uses one image feature per input. Class text anchors, base classifier weights, visual references, and novel prototypes are cached. For feature dimension $D$, the base reference banks require $O(|\mathcal B|D)$ storage; each novel row requires $O(D)$ additional storage for its prototype and text anchor. Once its support images have been encoded, constructing a novel prototype requires $O(kD)$ arithmetic and no optimization state.
-
-Scoring $K$ candidates requires $O(KD)$ arithmetic in addition to the fixed reference calculations. Image encoding is shared across the vocabulary, and existing row scores can be reused when appending candidates for the same query.
+Fitting and tuning data fix the score models and ordered candidate thresholds. Independent, class-stratified calibration observations test thresholds from conservative to permissive using weighted bounded-loss p-values and fixed-sequence testing~\cite{angelopoulos2021ltt}. Testing stops at the first failure. Allocating error probability $\delta/5$ per arrival controls population protection across five prespecified sessions for each method, order and partition under independent class-conditional sampling. It does not guarantee arbitrary distribution shifts or every finite test outcome. If no finite threshold passes, the policy returns the reference classifier with zero novel admission. Supplementary Section J provides the bound, assumptions and full selection rule.
 
 \section{Experiments}
-\subsection{Data, access conditions, and implementation}
-We evaluate expansion on CIFAR-100~\cite{krizhevsky2009cifar} with long-tailed base supervision. The training class counts follow an exponential schedule with imbalance parameter $\rho=100$ and nominal maximum 500 images. Five images per class are reserved before constructing the long-tailed pool, so the largest available pool contains 495 images. The remaining long-tailed pool contains 10,894 images, split into 10,487 fitting images and 407 held-out validation images. Validation reserves up to five examples per class, with smaller allocations for the rarest classes.
-
-For seeds $\{0,\ldots,9\}$, stratified sampling within head, medium, and tail frequency buckets yields distinct partitions of 40 base, 40 novel, and 20 unused classes. Proportional quotas use largest-remainder rounding after shuffling class membership. Evaluation uses the 80 base and novel classes.
-
-Oxford-IIIT Pets~\cite{parkhi2012cats} provides a complementary fine-grained task with 37 cat and dog breeds. We use its official trainval/test split and reserve five training images per breed as support. From the remaining training images, we construct an exponential long-tailed pool with $\rho=10$ and maximum class count 90, giving 1,168 fitting and 146 validation images. Each true partition contains 15 base, 15 novel, and seven unused breeds, sampled with the same allocation rule. The official test split contains 3,669 images. Unlike CIFAR, its images have varied spatial resolutions; RGB images are resized to $224\times224$ by PIL bicubic interpolation before the same CLIP normalization. These features are freshly extracted for this study.
-
-All primary expansion readouts use frozen OpenAI CLIP ViT-L/14 or ViT-B/32 features from a single $224\times224$ bicubic-resized image with CLIP channel normalization. Fitting, validation, and support pools are disjoint. Supplementary Section C gives feature-cache and image-pool verification details.
-
-Base ridge regularization is selected from $\{0.01,0.1,1,10\}$ by base validation macro accuracy; the pseudo-base classifier uses the same rule. The primary comparison uses all five reserved support images, ten distinct class partitions and two arrival orders per partition. Earlier one/two/five-shot and repeated-calibration studies use three original partitions and are reported separately in Supplementary Section G.
-
-Classifier fitting, regularization selection, and gate calibration use base classes exclusively. Five-shot CIFAR expansion consumes 200 support images for 40 novel classes. Its balanced test set supplies 4,000 base and 4,000 novel images for the expanded metrics.
-
-ImageNet-R~\cite{hendrycks2021manyfaces} extends the active vocabulary to 200 rendition classes: 100 base classes followed by five arrivals of 20 classes. After removing 59 byte-identical duplicates, per-class seeded splits reserve approximately 20\% each for validation and test, then five support images. The fitting pool is downsampled by class rank with a nominal 100:1 schedule, yielding 2--136 images per class after availability caps. The resulting pools contain 6,438 fitting, 5,911 validation, 1,000 support and 5,911 test images. Ten frequency-stratified class partitions and two arrival orders use the same selection and reporting rules as the other datasets. RGB images are resized to $224\times224$ with bicubic interpolation and encoded by the same selected frozen checkpoint within each encoder comparison.
-
-\subsection{Compared readouts and statistical unit}
+\subsection{Protocol and comparisons}
 \label{sec:tenpartitions}
-Every readout shares its encoder, fitting pool, class partition and novel support.
-The retained table combines text and trained columns for base classes with text
-and support prototypes for novel classes. Fixed-gate removal sets the learned
-coefficient to zero; recalibrated removal independently reselects its remaining
-mixture. Dense anchored text--prototype fusion supplies visual means for every
-class. Tip-Adapter~\cite{zhang2022tipadapter} supplies dense exponential semantic-cache
-retrieval from all permitted base fitting images and novel support. Both its
-published summed retrieval and an explicit class-mean control for unequal cache
-counts use the previously specified base-only selection grids. Recent FeNeC
-readouts~\cite{ksiazek2026fenec} remain a three-partition controlled comparison in
-Supplementary Section F; their published-protocol numbers are not mixed with the
-expanded comparison.
+We evaluate CIFAR-100~\cite{krizhevsky2009cifar}, Oxford-IIIT Pets~\cite{parkhi2012cats} and ImageNet-R~\cite{hendrycks2021manyfaces}, using frozen OpenAI CLIP ViT-L/14 and ViT-B/32 features, five-shot support, ten frequency-stratified class partitions and two five-session arrival orders. Base/novel counts are 40/40, 15/15 and 100/100; each session adds eight, three or 20 classes. Base pools follow long-tailed sampling. ImageNet-R uses task-specific splits after removing byte-identical duplicates. Novelty is relative to task fitting, with CLIP's pre-training exposure retained. Detailed pools, preprocessing and seeds are in Supplementary Sections C, I and K.
 
-Two simpler retained-classifier controls isolate normalization. Raw fusion uses
-cosine text/prototype scores and unnormalized ridge outputs. Fixed-temperature
-fusion divides each branch by one scalar, the mean per-query standard deviation
-across its fixed base reference columns on base-validation features. Scales are
-estimated once for the pseudo episode and once for the full base classifier,
-floored at $10^{-6}$, and remain fixed throughout arrivals. These controls use
-the same coefficient/offset grids and pseudo-episode objective as the retained
-table. All three constructions can preserve existing scores; their recognition
-outcomes test the benefit of per-query reference statistics.
+Every comparator shares its encoder, partition and support. We compare fixed-gate classifier removal, independently recalibrated removal, dense anchored text--prototype fusion, summed/class-mean Tip-Adapter caches, and raw/fixed-temperature retained fusion. The latter uses a single base-validation scale per branch. All mixtures use base-only selection; FeNeC and earlier three-partition auxiliary studies are retained in Supplementary Sections A--H.
 
-Two arrival orders use seeds $1000+p$ and $1100+p$ for partition $p$. Orders are
-averaged within each partition. We report means and sample standard deviations
-over ten distinct class assignments; the original three assignments are retained
-inside this expanded set. Paired differences use identical partition/order/session
-cells and, for constrained comparisons, their jointly feasible intersection.
-Percentile bootstrap intervals use 20,000 resamples of the paired partition means
-with seed 2026. These conditional intervals describe class-partition variation on
-shared fixed image pools and encoders, not independent-image or pretraining
-uncertainty. Supplementary Section I gives the full protocol and tables.
+Orders are averaged within a partition. Means and standard deviations describe ten class assignments on fixed images. Paired differences use identical cells; constrained comparisons use jointly feasible sets. Conditional paired 95\% bootstrap intervals resample partition means 20,000 times. Average incremental accuracy is the mean macro accuracy over five arrivals. These intervals characterize class-assignment variation, conditional on the fixed data and encoders.
 
-\subsection{Validation-selected admission and achieved retention}
-\label{sec:operational}
-For retention ratio $r$, each readout receives the same absolute target
-$\tau_r=rA_{B,\mathrm{ref}}^{\mathrm{closed}}$, using the retained table's
-closed-base accuracy on validation. We select the largest feasible group offset
-from the margins of correctly classified base-validation queries, then apply
-it to test queries without actual novel validation or test labels. A target
-above a readout's within-base ceiling is infeasible. We report both test group
-accuracies and separately count whether
-$A_{B,\mathrm{test}}\geq rA_{B,\mathrm{ref},\mathrm{test}}^{\mathrm{closed}}$.
-That test criterion evaluates the fixed policy; it never selects its threshold.
-
-\begin{table}[htbp]
-\centering
-\caption{Validation-selected 95\% retention policy with ViT-L/14 after five arrivals. Accuracies are percentages, mean $\pm$ sample standard deviation over feasible class partitions. Feasible counts validation-feasible partitions; Test met counts those attaining the separate test-retention criterion. All readouts share the same ten assignments and per-partition target; available means can cover different feasible subsets. The full ViT-B/32 and eight-readout comparisons appear in Supplementary Section I.}
-\label{tab:operational}
-\resizebox{\linewidth}{!}{\input{table_revision_validation_l14}}
-\end{table}
-
-On ImageNet-R, all ten partitions are validation-feasible for the retained, dense-prototype and class-mean cache readouts. Their novel test accuracies are 84.63\%, 83.94\% and 81.61\%, with base test accuracies 86.15\%, 86.01\% and 86.08\%, respectively (Table~\ref{tab:operational}). The retained policy attains the separate 95\% test target in 2 of ten partitions. Validation feasibility is therefore reported independently of realized test retention. The smaller-query study in Supplementary Section H measures threshold-label demand with the original fusion calibration held fixed.
-
-\subsection{Independent-calibration expansion}
-\label{sec:riskexperiment}
-A separate study refits every readout after splitting the original fitting and validation pools into disjoint fitting, tuning and risk-calibration subsets, approximately 40\%, 20\% and 40\% per class. Original support and test pools stay fixed. Regularization, mixtures, temperatures and cache settings use fitting/tuning data alone; actual novel query labels are excluded from selection. The resulting fitting budgets differ from the earlier comparisons, so the following empirical and certified policies are compared on these same newly fitted models.
-
-The primary policy uses $r=0.95$ and $\delta=0.05$. Candidate offsets are 101 quantiles of base tuning margins. Fixed-sequence testing uses independent base calibration predictions and the macro-weighted protection loss in Eq.~\eqref{eq:protectionloss}. The confidence statement applies to population retention across a prespecified five-session path under class-conditional independent sampling; it does not guarantee every finite test outcome or arbitrary distribution shifts. The benchmarks have been used previously in method development.
-
-\begin{table}[htbp]
-\centering
-\caption{Independent-calibration policies on refitted ViT-L/14 readouts after five arrivals. Emp. uses the empirical 95\% calibration constraint. Cert. exp. counts finite thresholds accepted at 95\% trajectory confidence; Test met counts attainment of the separate 95\% test target. Accuracies are percentages averaged over all ten partitions. Infeasible empirical policies and uncertified risk policies both fall back to the shared original reference with zero novel accuracy; fallback attainment is not useful certified expansion. All six readouts and ViT-B/32 appear in Supplementary Section J.}
-\label{tab:riskmain}
-\resizebox{\linewidth}{!}{\input{table_independent_risk_main}}
-\end{table}
-
-On ImageNet-R, retained tables accept finite thresholds on all ten partitions with both encoders. They achieve 89.73\% base and 77.64\% novel accuracy with L/14, and 73.66\% base and 45.30\% novel accuracy with B/32. Every final test target is met; all five sessions also meet their test targets along each of the 20 paths per encoder. Under the same sufficient protection certificate, L/14 fixed-temperature fusion admits expansion on ten partitions with 65.69\% novel accuracy; dense prototypes admit five and class-mean caches two, averaging 24.12\% and 6.20\% novel accuracy including fallback. These are comparisons under a common protection criterion, which is conservative for readouts recovering reference errors. CIFAR and Pets select fallback on all ten retained-table partitions with both encoders at this confidence level: their sparse tail-class calibration budgets do not support nontrivial certified expansion with this bound. Complete empirical safety margins and confidence levels are reported separately.
-
-\subsection{Classifier value over successive arrivals}
-Five sessions add eight CIFAR classes, three Pets breeds or 20 ImageNet-R classes
-at each arrival. With the base-only selected offset fixed throughout,
-$\overline A=5^{-1}\sum_{t=1}^{5}A_{\mathrm{all},t}$ is average incremental macro
-accuracy; final accuracy uses the complete active vocabulary. Table~\ref{tab:paired}
-reports paired retained-minus-comparator differences, separating recalibration
-after removal from replacement by dense prototypes or semantic caches.
-
-\begin{table}[htbp]
-\centering
-\caption{Paired classifier value with fixed base-only calibrated gates and offsets. Entries are mean gains in percentage points [conditional paired 95\% bootstrap CI] across ten class partitions after averaging the two arrival orders. Positive values favor retention. Intervals resample paired class assignments on the fixed image pools.}
-\label{tab:paired}
-\resizebox{\linewidth}{!}{\input{table_revision_paired}}
-\end{table}
-
-On ImageNet-R, the ViT-L/14 retained table reaches 87.24\% average incremental accuracy. Its paired gains are 0.71 [0.46, 0.92] points over dense prototypes and 1.42 [1.15, 1.62] over class-mean cache retrieval. With ViT-B/32, these gains are 0.90 [0.69, 1.11] and 1.71 [1.44, 1.98] points. The ImageNet-R gain therefore transfers across the two encoder architectures under identical image-pool access. CIFAR gains over classifier-free recalibration also appear with both encoders, while the dense-prototype comparison has intervals spanning zero. On Pets, average incremental intervals span zero for all three comparators with both encoders; the final B/32 comparisons can favor the alternatives. The clearest gain over prototype replacement occurs on ImageNet-R with both encoders.
-
-\subsection{Matched-test-retention capacity and simple fusion}
-The descriptive frontier fixes each mixture and asks
-\begin{equation}
- N_r=\max_d A_N(d)\quad\text{subject to}\quad
- A_B(d)\geq rA_{B,\mathrm{ref},\mathrm{test}}^{\mathrm{closed}}.
- \label{eq:retentioncriterion}
-\end{equation}
-This sweep uses base test labels to characterize attainable capacity; it is
-separate from the validation-selected policy above. Sorting correctly classified
-base-query margins with macro weights identifies the largest feasible offset;
-Supplementary Section D derives its exact empirical envelope. We evaluate
-$r\in\{0.80,0.85,0.90,0.95,0.99\}$, with the same per-partition reference target
-for every readout. Infeasible targets are missing with explicit counts.
+\subsection{Novel recognition at a shared base requirement}
+At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.31\% novel accuracy at 86.42\% base accuracy. Figure~\ref{fig:frontiers} shows the complete budgets across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
 
 \begin{figure}[htbp]
 \centering\includegraphics[width=.98\textwidth]{revision_frontiers.pdf}
-\caption{Descriptive novel-recognition frontiers over ten class partitions with two frozen CLIP encoders. Every readout receives the retained model's common absolute target within a partition and encoder. Error bars are partition-level sample standard deviations after averaging arrival orders. A point is drawn only when all ten partitions are feasible; Supplementary Section I reports available partial sets and counts. Thresholds use test labels for this capacity analysis and are not deployment calibration.}
+\caption{Descriptive matched-retention capacity. Readouts share the retained model's absolute base target within each partition/encoder. Error bars show partition standard deviations; plotted points require all ten partitions to be feasible. Offsets use test labels for this capacity analysis. Partial feasible sets and counts appear in Supplementary Section I.}
 \label{fig:frontiers}
 \end{figure}
 
+Reference normalization also improves the sequential comparison against fixed-temperature fusion on ImageNet-R by 0.94 [0.74, 1.12] percentage points with L/14. Both preserve existing scores, so this comparison measures the value of query-dependent branch scaling. Full normalization controls are in Supplementary Section I.
+
+\subsection{The classifier's value across arrivals}
+Table~\ref{tab:paired} quantifies retained-minus-comparator average incremental accuracy with fixed base-only selected gates and offsets. On ImageNet-R, retaining the classifier adds 0.71 [0.46, 0.92] points over dense prototypes with L/14 and 0.90 [0.69, 1.11] with B/32. Corresponding gains over class-mean caches are 1.42 [1.15, 1.62] and 1.71 [1.44, 1.98] points. The result persists across both encoders and after calibration is restored to the classifier-free alternative.
+
 \begin{table}[htbp]
 \centering
-\caption{Normalization controls with ViT-L/14. Fixed-gate average covers five arrivals; matched base/novel accuracy uses the descriptive 95\% test-retention budget after the fifth arrival. Values are percentages, mean $\pm$ partition-level sample standard deviation; counts identify feasible sets. All fusion controls share the pseudo-episode grids and retained base classifier.}
-\label{tab:simple}
-\resizebox{\linewidth}{!}{\input{table_revision_simple}}
+\caption{Paired retained-classifier gain in average incremental accuracy, percentage points [conditional paired 95\% bootstrap interval]. Two orders are averaged within each of ten partitions. Full final-session differences are in Supplementary Section I.}
+\label{tab:paired}
+\resizebox{\linewidth}{!}{\input{table_concise_paired}}
 \end{table}
 
-At the ImageNet-R 95\% budget, the retained ViT-L/14 readout reaches 86.42\% base and 84.31\% novel accuracy. Relative to fixed-temperature fusion, its paired average incremental gain is 0.94 [0.74, 1.12] points. This comparison isolates per-query branch scaling from the append-only invariant shared by both constructions. The complete budget curves characterize the admission capacity of each readout. Imbalance schedules remain fixed within each dataset, so the cross-dataset comparisons characterize operating regimes rather than the causal effect of imbalance.
+CIFAR also shows gains over recalibrated removal with both encoders; its dense-prototype intervals span zero. Pets' average incremental intervals span zero for these comparators. The gain over prototype replacement is clearest on ImageNet-R.
 
-\section{Discussion}
-Retained discrimination has an admission value beyond its closed-base accuracy. Under a shared base requirement, a classifier that separates the original classes more effectively can admit novel candidates at a more permissive threshold. The matched frontiers express this value directly as novel accuracy, while their feasible regions identify the base service levels that each readout can support.
+\subsection{Turning capacity into calibrated admission}
+\label{sec:operational}
+An empirical calibration threshold selects the largest offset satisfying $r$ times the reference's calibration accuracy. We separately evaluate whether test accuracy meets $r$ times its test reference. In the original L/14 pools, the retained 95\% policy is validation-feasible in all ten partitions but meets the test target in 7/10 CIFAR, 1/10 Pets and 2/10 ImageNet-R partitions. Supplementary Section I reports all methods; Section H varies threshold-label budgets.
 
-Sequential comparisons make the contribution measurable across repeated arrivals. Fixed-gate removal evaluates the learned branch inside a selected mixture; classifier-free recalibration measures the value that remains after restoring the mixture's operating point; dense base prototypes provide a stronger replacement alternative. These distinctions connect retained parameters to recognition outcomes rather than treating parameter preservation as the final objective.
+\label{sec:riskexperiment}
+For independent risk calibration, every readout is refitted after repartitioning the original fitting/validation pool into approximately 40\% fitting, 20\% tuning and 40\% calibration observations per class. Support and test pools remain separate. The comparison uses these newly fitted models throughout, with $r=0.95$, $\delta=0.05$ and 101 tuning-margin quantiles as candidate thresholds. The benchmarks have previously informed method development; this is a revised benchmark evaluation.
 
-Reference anchoring supplies a consistent score frame for this evaluation. Stored base columns and reference statistics remain fixed, branch coefficients transfer from base-only episodes, and the group threshold controls novel admission. A fixed threshold gives append-only score preservation; validation-based threshold adjustment supplies an explicit retention policy. Both operate on the same stored classifier. Independent protection-risk calibration adds a confidence-qualified admission rule: ImageNet-R supports useful certified expansion, while the smaller tail-class calibration budgets select fallback. The statistical statement concerns population risk under the sampling assumptions; the test-attainment counts are its empirical evaluation.
+\begin{table}[htbp]
+\centering
+\caption{Independent protection-risk calibration on ImageNet-R at 95\% retention and 95\% five-session confidence. Values are mean test percentages across ten partitions; Exp. counts finite accepted thresholds. Rejected expansion returns the shared reference with zero novel accuracy, included in the means. Complete datasets and confidence levels appear in Supplementary Section J.}
+\label{tab:riskmain}
+\resizebox{\linewidth}{!}{\input{table_concise_risk}}
+\end{table}
+
+Retained tables accept expansion on all ten ImageNet-R partitions with both encoders (Table~\ref{tab:riskmain}), reaching 77.64\% novel accuracy with L/14 and 45.30\% with B/32. All final test targets are met, as are all five targets along each of the 20 arrival paths per encoder. Under the common sufficient protection criterion, L/14 fixed-temperature fusion accepts ten partitions at 65.69\% novel accuracy, dense prototypes five, and class-mean caches two. On CIFAR and Pets, sparse tail-class calibration budgets select base-only fallback in every retained-table partition with both encoders; these outcomes represent abstention from expansion, with zero novel recognition.
 
 \section{Conclusion}
-Reference-anchored candidate tables turn a retained classifier into reusable evidence for class expansion. The framework measures novel recognition under a common base-accuracy requirement and the classifier's additional contribution over successive arrivals. On ImageNet-R, retaining learned discrimination improves average incremental accuracy over dense prototypes with both frozen encoders, while matched-retention frontiers quantify the available novel-recognition capacity. Fixed references and a separate admission threshold connect this predictive value to an expandable score system.
-
+Candidate tables turn retained discrimination into reusable expansion capacity. Fixed references preserve the existing score frame, while an admission threshold exposes the trade-off between original-class protection and novel recognition. Matched-retention and paired sequential comparisons quantify this value; independent calibration turns it into useful protected admission on ImageNet-R with two encoders. The framework connects what an existing classifier has learned to how much new recognition it can support.
 
 \section*{CRediT authorship contribution statement}
 Junyi Zhang: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review and editing.

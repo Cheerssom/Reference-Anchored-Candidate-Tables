@@ -7,47 +7,29 @@ from docx.shared import Inches,Pt
 H=Path(__file__).resolve().parent
 title='Retention-constrained class expansion with reference-anchored candidate tables'
 highlights=[
-'Novel recognition is measured under a common original-class accuracy constraint.',
-'Reference-anchored tables reuse trained classifiers during class expansion.',
-'CIFAR novel accuracy is 75.79% at a matched base accuracy of 83.48%.',
-'ImageNet-R novel accuracy is 84.48% versus 81.58% for a dense semantic cache.',
-'Repeated calibration retains a 2.14-point ImageNet-R gain over classifier removal.'
+ 'Retained discrimination supplies capacity for protected class expansion.',
+ 'Fixed references separate existing discrimination from novel admission.',
+ 'Classifier value is measured at matched retention and across repeated arrivals.',
+ 'ImageNet-R gains over dense prototypes persist with two frozen CLIP encoders.',
+ 'Independent calibration supports useful expansion on ImageNet-R.'
 ]
-if (H/'revision_summary.json').exists():
- revision=json.loads((H/'revision_summary.json').read_text())
- highlights=[
-  'Novel recognition is measured under a common original-class accuracy constraint.',
-  'Reference-anchored tables reuse trained classifiers during class expansion.',
-  'Two CLIP encoders and ten class partitions test retained classifier value.',
-  'ImageNet-R gains over dense prototypes are 0.71 points on L/14 and 0.90 on B/32.',
-  'Independent risk calibration enables certified expansion on ImageNet-R.'
- ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
-letter=f'''Dear Editors of Knowledge-Based Systems,
+letter=f"""Dear Editors of Knowledge-Based Systems,
 
 Please consider our manuscript, "{title}," as an original Research Article.
 
-An expanding recognition system must incorporate new categories while preserving an explicit accuracy requirement for its existing classes. This paper asks how much novel recognition a retained classifier enables under the same original-class accuracy constraint, and how much predictive value it contributes over successive class arrivals. Reference-anchored candidate tables combine learned class columns, semantic anchors and sparse visual prototypes in a consistent score system.
+The paper investigates how a trained classifier's discrimination can support new-class recognition under an explicit original-class accuracy requirement. Reference-anchored candidate tables preserve the existing score frame while a separate threshold controls novel admission. Matched-retention frontiers and paired arrival sequences quantify the retained classifier's expansion capacity and continuing predictive value.
 
-With frozen CLIP features on CIFAR-100, Oxford-IIIT Pets and ImageNet-R, three class partitions and disjoint five-shot support, the matched-retention analysis gives 75.79% novel accuracy at approximately 83.48% CIFAR base accuracy. Removing the learned columns and independently recalibrating the remaining branches gives 61.36% novel accuracy at the same base constraint. Across five CIFAR arrivals, retained columns add a paired 2.18 +/- 0.24 percentage points in average incremental accuracy over that recalibrated alternative. On the 200-class ImageNet-R extension, the corresponding paired gain is 2.22 +/- 0.40 points, with a 1.75 +/- 0.48-point final-accuracy gain. Dense Tip-Adapter cache readouts and recent FeNeC readouts share the encoder and permitted data. At the ImageNet-R 95% budget, retained columns give 84.48% novel accuracy versus 81.58% for class-mean Tip-Adapter. Across five arrivals, the paired average gain over that cache control is 1.48 +/- 0.35 points. An 81-configuration shot-and-calibration study retains a five-shot ImageNet-R gain of 2.14 +/- 0.37 points over recalibrated classifier removal. Complete frontiers, prototype-replacement controls and a separate validation-selected threshold policy distinguish recognition capacity from operational threshold selection.
+Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration admits expansion on all ten ImageNet-R partitions per encoder, with 77.64% and 45.30% novel accuracy and every five-session test target met. The manuscript states the sampling assumptions and reports explicit fallback when calibration cannot support useful expansion.
 
-The work contributes to the journal's machine-learning and knowledge-based computer-vision scope by organizing heterogeneous prior and arriving evidence for a constrained decision problem. We position it against relevant KBS studies of multi-feature similarity supplementation, sharpness-aware prototype calibration, adaptive exploration, CLIP prompt fusion, novel-class discovery and representation-enhanced analytic learning. These are literature comparisons; we do not present unrun methods as experimental baselines.
-
-The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve its submission to Knowledge-Based Systems and declare no competing interests. The research received no external funding. AI assistance is disclosed in the manuscript. Code and source-hashed experimental records are public at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
+The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 
 Sincerely,
 Junyi Zhang
 Shandong University, China
 cheerssom0876@gmail.com
-'''
-# Keep editor-facing narrative focused on the paper, without process commentary.
-letter=letter.replace(' These are literature comparisons; we do not present unrun methods as experimental baselines.','')
-if (H/'revision_summary.json').exists():
- a=letter.index('With frozen CLIP features');b=letter.index("The work contributes",a)
- letter=letter[:a]+'''Experiments cover CIFAR-100, Oxford-IIIT Pets and 200-class ImageNet-R with ten distinct class partitions, two arrival orders and frozen OpenAI CLIP ViT-L/14 and ViT-B/32. On ImageNet-R, the ViT-L/14 retained readout gives 84.31% novel accuracy at approximately 86.42% base accuracy in a descriptive matched-test-retention analysis. Across five arrivals, retaining the classifier adds 0.71 percentage points [conditional paired 95% CI: 0.46, 0.92] in average incremental accuracy over dense prototype fusion, and 1.42 points [1.15, 1.62] over class-mean semantic-cache retrieval. The dense-prototype comparison transfers to ViT-B/32 with a 0.90-point gain [0.69, 1.11]. These intervals describe class-assignment variation conditional on the fixed image pools and encoders. A main-paper validation-selected comparison reports achieved test group accuracies, feasibility and test-target attainment separately. Raw-score and fixed-temperature controls isolate reference normalization; the full tables retain regime-dependent outcomes, including comparisons favoring an alternative.\n\n'''+letter[b:]
-if (H/'independent_risk_summary.json').exists():
- letter=letter.replace('The work contributes', 'A separate disjoint-pool study refits all readouts before independent protection-risk calibration. At the primary 95% retention and 95% trajectory-confidence setting, the ImageNet-R retained policy admits expansion on all ten partitions with both encoders, attaining 77.64% novel accuracy on L/14 and 45.30% on B/32. Every five-session test trajectory meets its retention targets. The macro-weighted protection argument states the sampling assumptions and accounts for threshold search and repeated arrivals. Explicit fallback and zero novel admission are reported when the CIFAR and Pets tail-class calibration budgets cannot certify useful expansion.\n\nThe work contributes')
+"""
 (H/'cover_letter.md').write_text(letter,encoding='utf-8')
 
 def doc(name,heading,paragraphs,bullets=False):

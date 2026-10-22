@@ -20,7 +20,7 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder comparison; Section J adds the disjoint-pool risk-calibration study. Their statistical units are stated separately.
+Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder comparison; Section J adds the disjoint-pool risk-calibration study; Section K collects implementation details. Their statistical units are stated separately.
 
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}
@@ -515,6 +515,17 @@ and validation sufficient statistics.
 \resizebox{\linewidth}{!}{\input{table_revision_validation_b32}}
 \end{table}
 
+\begin{table}[htbp]
+\centering
+\caption{Full ten-partition paired average and final gains. Entries are retained-minus-comparator percentage points [conditional paired 95\% bootstrap CI], with orders averaged within each partition.}
+\resizebox{\linewidth}{!}{\input{table_revision_paired}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Complete L/14 normalization controls. Fixed-gate averages cover five sessions; matched base/novel accuracy uses the descriptive 95\% test-retention budget. Means and sample standard deviations use the reported feasible sets.}
+\resizebox{\linewidth}{!}{\input{table_revision_simple}}
+\end{table}
+
 \FloatBarrier
 \section{Independent protection-risk calibration}
 \label{app:independentrisk}
@@ -566,6 +577,39 @@ If the accepted finite set is empty, the policy returns the original reference c
 \caption{Complete ViT-B/32 independent-calibration comparison. Infeasible certification triggers the shared base-only reference fallback and zero novel accuracy.}
 \resizebox{\linewidth}{!}{\input{table_independent_risk_b32}}
 \end{table}
+
+\FloatBarrier
+\section{Reproducibility details for the concise main text}
+\label{app:concisedetails}
+\subsection{Dataset construction and access}
+
+We evaluate expansion on CIFAR-100~\cite{krizhevsky2009cifar} with long-tailed base supervision. The training class counts follow an exponential schedule with imbalance parameter $\rho=100$ and nominal maximum 500 images. Five images per class are reserved before constructing the long-tailed pool, so the largest available pool contains 495 images. The remaining long-tailed pool contains 10,894 images, split into 10,487 fitting images and 407 held-out validation images. Validation reserves up to five examples per class, with smaller allocations for the rarest classes.
+
+For seeds $\{0,\ldots,9\}$, stratified sampling within head, medium, and tail frequency buckets yields distinct partitions of 40 base, 40 novel, and 20 unused classes. Proportional quotas use largest-remainder rounding after shuffling class membership. Evaluation uses the 80 base and novel classes.
+
+Oxford-IIIT Pets~\cite{parkhi2012cats} provides a complementary fine-grained task with 37 cat and dog breeds. We use its official trainval/test split and reserve five training images per breed as support. From the remaining training images, we construct an exponential long-tailed pool with $\rho=10$ and maximum class count 90, giving 1,168 fitting and 146 validation images. Each true partition contains 15 base, 15 novel, and seven unused breeds, sampled with the same allocation rule. The official test split contains 3,669 images. Unlike CIFAR, its images have varied spatial resolutions; RGB images are resized to $224\times224$ by PIL bicubic interpolation before the same CLIP normalization. These features are freshly extracted for this study.
+
+All primary expansion readouts use frozen OpenAI CLIP ViT-L/14 or ViT-B/32 features from a single $224\times224$ bicubic-resized image with CLIP channel normalization. Fitting, validation, and support pools are disjoint. Supplementary Section C gives feature-cache and image-pool verification details.
+
+Base ridge regularization is selected from $\{0.01,0.1,1,10\}$ by base validation macro accuracy; the pseudo-base classifier uses the same rule. The primary comparison uses all five reserved support images, ten distinct class partitions and two arrival orders per partition. Earlier one/two/five-shot and repeated-calibration studies use three original partitions and are reported separately in Supplementary Section G.
+
+Classifier fitting, regularization selection, and gate calibration use base classes exclusively. Five-shot CIFAR expansion consumes 200 support images for 40 novel classes. Its balanced test set supplies 4,000 base and 4,000 novel images for the expanded metrics.
+
+ImageNet-R~\cite{hendrycks2021manyfaces} extends the active vocabulary to 200 rendition classes: 100 base classes followed by five arrivals of 20 classes. After removing 59 byte-identical duplicates, per-class seeded splits reserve approximately 20\% each for validation and test, then five support images. The fitting pool is downsampled by class rank with a nominal 100:1 schedule, yielding 2--136 images per class after availability caps. The resulting pools contain 6,438 fitting, 5,911 validation, 1,000 support and 5,911 test images. Ten frequency-stratified class partitions and two arrival orders use the same selection and reporting rules as the other datasets. RGB images are resized to $224\times224$ with bicubic interpolation and encoded by the same selected frozen checkpoint within each encoder comparison.
+
+The ridge readout uses an augmented constant feature, inverse-frequency sample weights and an unregularized intercept; only the feature slopes receive ridge regularization. Class prototypes are normalized means of the permitted fitting or support features.
+
+\subsection{Pseudo-expansion selection}
+Fusion calibration must respect the distinction between base supervision and novel support. We construct a pseudo-expansion episode by splitting the base classes into approximately equal pseudo-base and pseudo-novel groups: 20/20 on CIFAR-100, 7/8 on Pets and 50/50 on ImageNet-R. A separate classifier is fitted using the pseudo-base classes alone. The pseudo-novel rows contain names and $k$ support examples from those base classes, while held-out base validation images supply query labels. This episode simulates missing learned evidence without consuming any actual novel-class validation labels.
+
+For each support budget, candidate coefficients are evaluated on this episode. The selection objective is the harmonic mean of macro accuracy on the two groups,
+$H=2A_BA_N/(A_B+A_N)$
+We set $H=0$ when both terms vanish. The calibration grids are $a\in\{0,0.25,0.5,1,2\}$, $u\in\{0,0.25,0.5,1,2,4\}$, and offsets $d\in[-4,4]$ in steps of $0.25$. Ties follow a fixed grid order. The full base classifier is then combined with actual novel rows using the selected coefficients. Neither actual novel validation queries nor test labels enter this selection rule.
+
+This procedure uses one pseudo-class split per true partition and the same support-index seed as the evaluated support condition. CIFAR and Pets pseudo splits use seed $100+p$ for class-partition seed $p$; ImageNet-R selects half the base classes with seed $900+p$. Coefficients are chosen once for a support budget and stay fixed when the vocabulary-size stress test appends successive subsets of novel classes.
+
+\subsection{A normalization example}
+A two-class example illustrates the effect. Suppose the old text scores are $(0,2)$, giving standardized scores $(-1,1)$, while the learned branch contributes $(0.25,-0.25)$. The second old class has the larger fused score. Appending a text score of $100$ changes the two old standardized scores to approximately $(-0.728,-0.685)$. Their text separation is now about $0.043$, and the unchanged learned contribution reverses the old-class ordering. No classifier weight has changed. The example isolates a normalization effect independently of whether the new class ultimately wins the expanded decision.
 
 \FloatBarrier
 \begingroup

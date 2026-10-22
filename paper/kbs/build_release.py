@@ -39,7 +39,7 @@ def bundle():
     combined=fitz.open()
     for name in ['main.pdf','supplementary.pdf']:
         with fitz.open(H/name) as document:combined.insert_pdf(document)
-    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-J',report['documents']['main']['pages']+1]])
+    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-K',report['documents']['main']['pages']+1]])
     combined.save(H/'review_complete.pdf',garbage=4,deflate=True);combined.close()
     names+=['review_complete.pdf']
     instruction=(f"Prepared for Knowledge-Based Systems. Main: {report['documents']['main']['pages']} review-format pages; "

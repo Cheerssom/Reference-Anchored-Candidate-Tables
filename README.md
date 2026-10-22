@@ -15,6 +15,15 @@ The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
 The earlier `paper/fcs/` version is retained as a historical venue draft.
 No journal submission has been performed by this workflow.
 
+Current submission target: **Knowledge-Based Systems (KBS)**.
+The current KBS main manuscript is a concise 20-page review-format paper with a 154-word abstract. Its narrative centers on retained discrimination as class-expansion capacity; complete numerical evidence is preserved in Supplementary A--K.
+
+The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
+[supplementary material](paper/kbs/supplementary.pdf) and
+[editable Highlights](paper/kbs/Highlights.docx).
+The earlier `paper/fcs/` version is retained as a historical venue draft.
+No journal submission has been performed by this workflow.
+
 
 ## Current primary evidence: ten class partitions and two encoders
 
