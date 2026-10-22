@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 22-page main manuscript and 29-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 31-page main manuscript and 38-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -40,3 +40,7 @@ The depth extension adds dense summed/class-mean Tip-Adapter readouts, 81 shot/c
 The threshold-label extension evaluates nominal 25/50/100% base-validation query budgets with frozen fusion settings. Supplementary Section H distinguishes validation feasibility from attained test retention, reports actual query counts, and keeps all six readouts and both targets. See `validation_budget_report.md`.
 
 The primary comparison now has ten class partitions and two frozen CLIP architectures. Validation-selected strong-baseline results are in the main text, with conditional paired bootstrap intervals and raw/fixed-temperature controls. Earlier three-partition studies remain explicitly scoped in Supplementary A–H; Section I contains the expanded comparison. See `revision_evidence_report.md`. The bookmarked `review_complete.pdf` combines the main and full supplement for review.
+
+## User-supplied Elsevier template
+
+The manuscript and supplement use elsarticle 3.4 (2024/04/04), generated from the supplied Elsarticle bundle with `latex elsarticle.ins`. Both use the numeric starter, `preprint,review,12pt`, class-default margins and review line spacing. The template archive hash is recorded in `template_provenance.json`; editable releases include the class source, installer, starter and license notice. Main: 31 pages; supplement: 38 pages; combined review PDF: 69 pages. Template conversion and prose compression preserve all numerical result tables.

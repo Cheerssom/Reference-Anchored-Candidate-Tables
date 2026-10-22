@@ -1,7 +1,6 @@
-\documentclass[review,12pt]{elsarticle}
+\documentclass[preprint,review,12pt]{elsarticle}
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,placeins}
-\usepackage[a4paper,margin=25mm]{geometry}
 \usepackage{microtype}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
@@ -96,7 +95,7 @@ Under the common 95\% validation retention target, reference anchoring reaches 8
 
 The vocabulary test appends nested sets of 10, 20, and 40 novel classes to the 40 CIFAR base classes, using sorted novel IDs and fixed five-shot gates. At each stage, we compare existing scores with the original base decision.
 
-Reference anchoring gives zero measured base-score drift and zero base-only ranking churn in all nine CIFAR partition--vocabulary conditions (Fig.~\ref{fig:stability}(a,b)). Candidate normalization changes existing scores by up to approximately 1.29--1.74 normalized units and changes a fraction of base-only predictions. The Pets test appends 3, 7, and 15 breeds and likewise records zero anchored score drift and ranking churn in all nine conditions.
+Reference anchoring gives zero measured base-score drift and zero base-only ranking churn across all nine CIFAR partition and vocabulary settings (Fig.~\ref{fig:stability}(a,b)). Candidate normalization changes existing scores by up to approximately 1.29--1.74 normalized units and changes a fraction of base-only predictions. The Pets test appends 3, 7, and 15 breeds and likewise records zero anchored score drift and ranking churn in all nine conditions.
 
 At 40 appended classes, expanded predictions change on $\RefChurn\pm\RefChurnSD$\% of base images, including $\RefErrorFlip\pm\RefErrorFlipSD$\% correct-to-wrong changes (Fig.~\ref{fig:stability}(c)). Wrong-to-correct changes are zero, as specified by Corollary~\ref{cor:competition}. The preserved base scores isolate these changes as competition from appended rows.
 
@@ -273,8 +272,8 @@ transfers the published readout under controlled feature access; the original
 augmented-cache extraction and trainable Tip-Adapter-F are distinct settings.
 
 On each original base-only pseudo episode, we search
-$\beta\in\{0.1,1,2,5,10,20,50\}$ and
-$\alpha\in\{0.1,1,5,10,20,50,100,200\}$.
+$\beta\in\{0.1,\allowbreak 1,\allowbreak 2,\allowbreak 5,\allowbreak 10,\allowbreak 20,\allowbreak 50\}$ and
+$\alpha\in\{0.1,\allowbreak 1,\allowbreak 5,\allowbreak 10,\allowbreak 20,\allowbreak 50,\allowbreak 100,\allowbreak 200\}$.
 The native form selects both parameters with zero offset. The calibrated form
 jointly selects these parameters and an offset from $[-40,40]$ in steps of $2.5$,
 using macro harmonic accuracy. This 33-point offset grid reflects the raw
@@ -434,16 +433,7 @@ supply a finite-sample guarantee on test retention.
 \resizebox{\linewidth}{!}{\input{table_validation_budget_comparators}}
 \end{table}
 
-The full-budget policies reproduce the original validation-selected outcomes
-exactly, including their feasibility. Saved test and validation predictions
-independently reconstruct every new selected offset, macro-weighted result and
-target-attainment flag. The 315 atomic session units contain 3,780 metric
-records across all five arrivals. Repeating the run preserves completed file
-hashes and modification times. The complete 50\%/100\% comparator outcomes,
-actual retained fractions and achieved test-retention ratios are provided in
-\texttt{validation\_budget\_summary.csv} and the raw records. This experiment
-measures threshold-selection label demand; the initial full-data fusion
-calibration remains fixed throughout.
+The full-budget policies reproduce the original validation-selected outcomes exactly. Saved predictions reconstruct every offset, macro accuracy and attainment flag across 315 session units and 3,780 metric records. The complete budgets, query fractions and test-retention ratios are in \nolinkurl{validation_budget_summary.csv}. This experiment varies threshold-selection queries while holding the initial full-data fusion calibration fixed.
 
 \FloatBarrier
 \section{Ten-partition replication, encoder transfer and simple fusion}
@@ -525,7 +515,6 @@ and validation sufficient statistics.
 \resizebox{\linewidth}{!}{\input{table_revision_validation_b32}}
 \end{table}
 
-\FloatBarrier
 \FloatBarrier
 \begingroup
 \small

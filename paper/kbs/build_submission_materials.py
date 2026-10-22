@@ -70,6 +70,7 @@ doc('declarations.docx','Declarations',[
 ])
 
 sources=[H/n for n in ['main.tex','main.bbl','supplementary.tex','supplementary.bbl','references.bib','elsarticle.cls','elsarticle-num.bst','numbers.tex','retention_numbers.tex','strengthening_results.tex','depth_results.tex'] if (H/n).exists()]
+sources += [H/n for n in ['elsarticle.dtx','elsarticle.ins','template_README','template_manifest.txt','elsarticle-template-num.tex','template_provenance.json']]
 sources+=list(H.glob('table_*.tex'))
 sources+=[H/'validation_budget_results.tex']
 sources+=[p for p in H.glob('*.pdf') if p.name!='logo.pdf']
