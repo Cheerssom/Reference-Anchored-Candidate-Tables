@@ -263,3 +263,30 @@ python paper/kbs/build_validation_budget_results.py
 The current manuscript adds independent fitting/tuning/calibration pools, macro-weighted fixed-sequence protection testing and explicit no-admission fallback. All 60 refitted partition runs (21,600 metric records) reconstruct independently. At 95% retention and 95% five-arrival confidence, retained ImageNet-R tables admit expansion in all ten partitions on each encoder; final novel accuracy is 77.64% (L/14) and 45.30% (B/32). All corresponding test paths meet their targets. CIFAR and Pets select fallback with zero novel recognition at this confidence level. These outcomes are not a claim of useful certified expansion on every dataset.
 
 See [the full report](paper/kbs/independent_risk_report.md) for assumptions, complete baselines and fallback accounting. Run `scripts/run_kbs_independent_risk.ps1`; verify using `src/experiments/kbs_verify_independent_risk.py`.
+
+## Calibration coverage revision
+
+The current main manuscript remains 20 review-format pages (153-word abstract);
+the supplement is 54 pages, Sections A-L. Independent calibration coverage is
+evaluated with all fitted models, tuning parameters, supports and test archives
+frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
+At cap 40 (subject to image availability), retained tables certify final-session
+expansion in 10/10 partitions of every dataset and encoder, and all final test
+targets are met. L/14 novel accuracy is 72.76% CIFAR, 88.51% Pets and 80.74%
+ImageNet-R. Early Pets fallback is reported separately from finite admission.
+
+All 93,600 records and 88,216 threshold tests reconstruct; a real rerun leaves
+1,996 completed checkpoint hashes and modification times unchanged. See
+[calibration budget report](paper/kbs/calibration_budget_report.md) and Supplement L.
+
+```powershell
+powershell -File scripts/run_kbs_calibration_budget.ps1 -Python python
+python src/experiments/kbs_verify_calibration_budget.py
+python src/experiments/test_kbs_calibration_budget.py
+python paper/kbs/build_calibration_budget_results.py
+```
+
+Reuse the existing local image/feature assets. The runner serializes GPU work,
+uses small batches and supports the shared PAUSE marker and checkpoint resume.
+Image data, weights and PT feature caches are excluded from this public export.
+No new model downloads or paid compute are required for the original local run.

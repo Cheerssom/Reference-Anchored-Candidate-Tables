@@ -11,7 +11,7 @@ highlights=[
  'Fixed references separate existing discrimination from novel admission.',
  'Classifier value is measured at matched retention and across repeated arrivals.',
  'ImageNet-R gains over dense prototypes persist with two frozen CLIP encoders.',
- 'Independent calibration supports useful expansion on ImageNet-R.'
+ 'Independent class coverage supports certified admission across three datasets.'
 ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
@@ -21,7 +21,7 @@ Please consider our manuscript, "{title}," as an original Research Article.
 
 The paper investigates how a trained classifier's discrimination can support new-class recognition under an explicit original-class accuracy requirement. Reference-anchored candidate tables preserve the existing score frame while a separate threshold controls novel admission. Matched-retention frontiers and paired arrival sequences quantify the retained classifier's expansion capacity and continuing predictive value.
 
-Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration admits expansion on all ten ImageNet-R partitions per encoder, with 77.64% and 45.30% novel accuracy and every five-session test target met. The manuscript states the sampling assumptions and reports explicit fallback when calibration cannot support useful expansion.
+Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration with up to 40 images per base class certifies final-session expansion in all ten partitions of every dataset and encoder. ViT-L/14 novel accuracy reaches 72.76% on CIFAR-100, 88.51% on Pets and 80.74% on ImageNet-R, with the 95% test-retention target met in each partition. A coverage condition explains certification feasibility; all readouts share calibration access and the manuscript reports fallback separately from useful admission.
 
 The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 

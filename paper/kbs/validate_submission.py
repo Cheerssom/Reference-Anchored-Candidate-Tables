@@ -64,8 +64,22 @@ if r'\label{sec:riskexperiment}' in main:
  for encoder in ['l14','b32']:
   row=next(r for r in risk['final'] if r['encoder']==encoder and r['dataset']=='imagenetr' and r['method']=='retained' and r['policy']=='risk' and r['level']==.05)
   assert row['expanded']==10 and row['test_met']==10
-  assert f"{100*row['new_mean']:.2f}" in main
+  with fitz.open(H/'supplementary.pdf') as document:
+   assert f"{100*row['new_mean']:.2f}" in '\n'.join(page.get_text() for page in document)
  report['independent_risk_calibration']={'partition_runs':60,'metric_records':21600,'supplementary_section':'J','fallbacks_explicit':True}
+if r'\label{sec:budgetexperiment}' in main:
+ budget=json.loads((H/'calibration_budget_summary.json').read_text())
+ verified=json.loads((H.parents[1]/'experiments/kbs_calibration_budget/verification.json').read_text())
+ restart=json.loads((H.parents[1]/'experiments/kbs_calibration_budget/restart_verification.json').read_text())
+ assert verified['complete'] and verified['metric_records']==93600
+ assert budget['metric_records']==93600
+ primary=[r for r in budget['summary'] if r['method']=='retained' and r['policy']=='risk' and r['cap']==40]
+ assert len(primary)==6
+ maintext='\n'.join(p.get_text() for p in fitz.open(H/'main.pdf'))
+ for row in primary:
+  assert row['finite_admission_cells']==10 and row['test_met_cells']==10
+  assert f"{100*row['new_mean']:.2f}" in maintext
+ report['calibration_budget']={'metric_records':93600,'reconstructed_tests':verified['reconstructed_tests'],'primary_conditions':6,'supplementary_section':'L','restart':restart}
 if (H/'strengthening_summary.json').exists():
  summary=json.loads((H/'strengthening_summary.json').read_text())
  assert set(summary)=={'cifar','pets','imagenetr'}

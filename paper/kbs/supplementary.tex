@@ -20,7 +20,7 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the expanded ten-partition, two-encoder comparison; Section J adds the disjoint-pool risk-calibration study; Section K collects implementation details. Their statistical units are stated separately.
+Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the ten-partition, two-encoder comparison; Section J gives the independent protection bound and original calibration allocation; Section K collects implementation details; Section L evaluates independent calibration coverage with frozen score models. Their statistical units are stated separately.
 
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}
@@ -527,6 +527,12 @@ and validation sufficient statistics.
 \end{table}
 
 \FloatBarrier
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\textwidth]{revision_frontiers.pdf}
+\caption{Descriptive matched-retention capacity. Readouts share the retained model's absolute base target within each partition/encoder. Error bars show partition standard deviations; plotted points require all ten partitions to be feasible. Offsets use test labels for this capacity analysis; tables in this section include partially feasible sets.}
+\label{fig:frontiers}
+\end{figure}
+\FloatBarrier
 \section{Independent protection-risk calibration}
 \label{app:independentrisk}
 \subsection{Disjoint access and refitting}
@@ -569,12 +575,12 @@ If the accepted finite set is empty, the policy returns the original reference c
 
 \begin{table}[htbp]
 \centering
-\caption{Complete ViT-L/14 independent-calibration comparison, with meanings and fallback accounting as in main Table~\ref{main-tab:riskmain}. All operational means include every partition; certification counts identify finite accepted thresholds.}
+\caption{ViT-L/14 independent calibration under the original allocation in Section J. All operational means include every partition and base-only fallback; certification counts identify finite accepted thresholds. Section L expands calibration coverage with these score models frozen.}
 \resizebox{\linewidth}{!}{\input{table_independent_risk_l14}}
 \end{table}
 \begin{table}[htbp]
 \centering
-\caption{Complete ViT-B/32 independent-calibration comparison. Infeasible certification triggers the shared base-only reference fallback and zero novel accuracy.}
+\caption{ViT-B/32 independent calibration under the original allocation. Infeasible certification triggers the shared base-only reference fallback and zero novel accuracy.}
 \resizebox{\linewidth}{!}{\input{table_independent_risk_b32}}
 \end{table}
 
@@ -610,6 +616,53 @@ This procedure uses one pseudo-class split per true partition and the same suppo
 
 \subsection{A normalization example}
 A two-class example illustrates the effect. Suppose the old text scores are $(0,2)$, giving standardized scores $(-1,1)$, while the learned branch contributes $(0.25,-0.25)$. The second old class has the larger fused score. Appending a text score of $100$ changes the two old standardized scores to approximately $(-0.728,-0.685)$. Their text separation is now about $0.043$, and the unchanged learned contribution reverses the old-class ordering. No classifier weight has changed. The example isolates a normalization effect independently of whether the new class ultimately wins the expanded decision.
+
+\FloatBarrier
+\section{Independent calibration coverage and label budgets}
+\label{app:calibrationbudget}
+\subsection{Frozen models and disjoint calibration images}
+The locked protocol in \nolinkurl{experiments/kbs_calibration_budget_protocol.md} fixes all score models, tuning parameters, support, test predictions and candidate thresholds from Section J before varying calibration coverage. Six readouts receive identical class-wise subsets: retained tables, recalibrated classifier removal, dense anchored prototypes, raw fusion, fixed-temperature fusion and class-mean Tip-Adapter. No score-model refitting or hyperparameter selection uses these calibration labels. Previously cached calibration scores are reused exactly after checking reconstruction against the frozen models.
+
+The pool prioritizes Section J's independent calibration images, then adds previously unused training images up to 40 per class. Image identities and content hashes exclude fitting, tuning, support and test images. The audit uses raw pixel hashes on CIFAR, resized-image pixel hashes on Pets, and file-content hashes on ImageNet-R. Across all classes, the resulting pools contain 4,000 CIFAR images, 1,480 Pets images and 7,376 ImageNet-R images, of which 1,805, 970 and 3,020 are supplemental. Each experiment selects its base classes from these pools. Both encoders reuse their pinned local checkpoints; only supplemental images require new encoding. Witness re-encodings verify agreement with the cached feature space.
+
+Per-class caps $m\in\{2,5,10,20,40\}$ use nested random subsets selected without scores or correctness outcomes, with subset seeds 0, 1 and 2. At cap 40 these seeds select the same full pool, which is counted once. CIFAR and Pets have 40 available images per class; ImageNet-R has a minimum of 14, with 44 classes below 40. At cap 40 the actual base-calibration query totals are 1,600, 600 and 3,636--3,778 across partitions, respectively. The cap changes both total sample size and tail-class coverage; the curves do not isolate a causal effect of total label count alone.
+
+\subsection{A necessary coverage condition for certification}
+For the weighted bound in Section J, even $q=0$ gives
+\begin{equation}
+ p(0)=\exp[-\operatorname{kl}(0,1-r)/b]=r^{1/b}.
+\end{equation}
+Since $p(q)$ increases on $0\leq q<1-r$, passing at level $\delta/5$ requires
+\begin{equation}
+ n_{\mathrm{eff}}=1/b=B\min_c n_c\geq\frac{\log(\delta/5)}{\log r}.
+\end{equation}
+At $r=0.95$ and $\delta=0.05$, this floor is 89.78. It is a necessary condition for this certificate, not a sufficient condition for successful expansion. Under the original allocation, CIFAR has $n_{\mathrm{eff}}=80$, Pets has 45 or 60 and ImageNet-R has 600, 700 or 800. Thus the original CIFAR/Pets calibration allocation cannot pass this bound even at zero observed loss. Balanced per-class caps must be at least 3 for CIFAR, 6 for Pets and 1 for ImageNet-R to clear the zero-loss floor. Actual protection losses require further evidence. A balanced allocation can improve the bound even with fewer total labels than a larger, uneven pool.
+
+\subsection{Aggregation, admission and complete comparisons}
+Main Fig.~\ref{main-fig:budget} and Fig.~\ref{fig:budgetcertification} show the fifth arrival in order 0, the first prespecified order. Novel-accuracy means average three subset seeds within each of ten partitions below cap 40, and use the full pool once per partition at 40. Retained-table shading shows sample standard deviation across ten partition means, clipped to [0,100]. Finite-admission fractions count 30 correlated partition/subset cells below 40 and ten at 40, with equal partition weights; these cells are not independent Bernoulli trials. Confidence applies to five arrivals for each prespecified method/order/partition and budget separately, without a simultaneous statement across plotted budgets or methods.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\textwidth]{calibration_certification_curve.pdf}
+\caption{Finite certified admission after the fifth arrival in order 0, under 95\% retention and 95\% five-arrival confidence. Fractions use 30 partition/subset cells below cap 40 and ten full-pool cells at 40. Grey lines mark the necessary balanced cap for the zero-loss bound; ImageNet-R's floor of one lies below the plotted range. Every readout receives the same images and protection rule. Base-only fallback counts as no finite admission.}
+\label{fig:budgetcertification}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Complete L/14 cap-40 comparison after the fifth arrival in order 0. Empirical thresholds and independent risk certification use the same frozen score models and calibration pools. All means include ten partitions, with zero novel accuracy on base-only fallback. Exp. counts finite admissions; Test met counts test targets.}
+\resizebox{\linewidth}{!}{\input{table_calibration_budget_l14}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Complete B/32 cap-40 comparison, with access and fallback accounting as in the L/14 table.}
+\resizebox{\linewidth}{!}{\input{table_calibration_budget_b32}}
+\end{table}
+
+All six retained-table dataset/encoder conditions certify final expansion in 10/10 partitions and meet all ten final test targets. Across both orders, all 20 paths per condition meet the test target at every arrival. Finite admission throughout holds for all CIFAR and ImageNet-R paths, and for 17/20 Pets paths with L/14 and 16/20 with B/32; other Pets paths use an early fallback. A path containing fallback therefore counts toward test protection but not uninterrupted useful admission.
+
+Paired policy differences include all ten partitions, including fallback; \nolinkurl{calibration_budget_paired.csv} additionally reports jointly finite partition counts and conditional accuracy differences. These distinguish improved ability to certify admission from predictive differences after both methods admit. For example, L/14 retained-minus-dense policy differences are 42.02 [23.83,60.07] points on CIFAR and 26.12 [$-0.01$,53.10] on Pets. On their jointly finite sets, the means are 12.84 points over five CIFAR partitions and $-0.63$ over seven Pets partitions. Conditional paired percentile intervals resample ten partition means 20,000 times with seed 2026; they describe class-assignment variation on fixed images. The sufficient protection criterion ignores recovery of reference errors by replacement models, as derived in Section J.
+
+The 93,600 records cover 60 dataset/encoder/partition runs, two orders, five arrivals, 13 distinct cap/subset settings, six methods and two policies. The independent verifier reconstructs 88,216 threshold tests, selected thresholds and final predictions; it verifies zero protected-pool overlap and unchanged original models and test archives. A completed rerun preserves hashes and modification times of 1,996 checkpoint files. Complete cap-specific metrics, query counts and trajectories are supplied in \nolinkurl{calibration_budget_summary.json} and its CSV export. The study uses previously examined benchmarks; the population confidence statement retains Section J's class-conditional sampling assumptions.
 
 \FloatBarrier
 \begingroup
