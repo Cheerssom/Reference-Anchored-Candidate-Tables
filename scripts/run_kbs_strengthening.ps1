@@ -1,5 +1,5 @@
 param(
-  [ValidateSet('All','Download','Features','Experiments','Status','Pause','Resume')]
+  [ValidateSet('All','Download','Features','Experiments','Depth','Status','Pause','Resume')]
   [string]$Stage = 'All',
   [string]$Python = 'python'
 )
@@ -17,6 +17,10 @@ if ($Stage -eq 'Status') {
   Write-Output ('Pause requested: ' + (Test-Path -LiteralPath $pausePath))
   Get-ChildItem -LiteralPath $controlDir -Filter complete.json -Recurse |
     ForEach-Object { Write-Output $_.FullName }
+  $depthDir = Join-Path $projectRoot 'experiments/kbs_depth'
+  if (Test-Path -LiteralPath $depthDir) {
+    Write-Output ('Depth configurations complete: ' + @(Get-ChildItem -LiteralPath $depthDir -Filter complete.json -Recurse).Count + ' / 90')
+  }
   Get-ChildItem (Join-Path $projectRoot 'experiments/kbs_imagenetr') -Filter 'frozen_imagenetr.pt' -ErrorAction SilentlyContinue |
     Select-Object Name,Length,LastWriteTime
   exit 0
@@ -53,5 +57,10 @@ if ($Stage -in @('All','Experiments')) {
     Run-SavedStage 'src/experiments/kbs_strengthen.py' @('--dataset',$dataset) "$dataset-all.log"
     Run-SavedStage 'src/experiments/kbs_fenec_euclidean.py' @('--dataset',$dataset) "$dataset-euclidean.log"
     Run-SavedStage 'src/experiments/kbs_fenec_vit.py' @('--dataset',$dataset) "$dataset-fenec-vit.log"
+  }
+}
+if ($Stage -in @('All','Depth')) {
+  foreach ($dataset in @('cifar','pets','imagenetr')) {
+    Run-SavedStage 'src/experiments/kbs_depth.py' @('--dataset',$dataset) "$dataset-depth.log"
   }
 }

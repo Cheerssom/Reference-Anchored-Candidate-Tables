@@ -11,12 +11,13 @@ sys.path.insert(0,str(ROOT/'src/experiments'))
 from kbs_verify_strengthening import records
 DATASETS=['cifar','pets','imagenetr']
 NAMES={'cifar':'CIFAR-100','pets':'Pets','imagenetr':'ImageNet-R'}
-METHODS=['retained','removed_fixed','no_learned_tuned','anchored_tp','fenec_calibrated','fenec_euclidean_calibrated']
+METHODS=['retained','removed_fixed','no_learned_tuned','anchored_tp','tip_sum_calibrated','tip_mean_calibrated']
 LABELS={'retained':'Retained classifier','removed_fixed':'Classifier removed (fixed gates)',
  'no_learned_tuned':'No classifier (recalibrated)','anchored_tp':'Anchored text + prototypes',
  'fenec_calibrated':'FeNeC-M + offset','fenec_euclidean_calibrated':'FeNeC-E + offset',
  'fenec_native':'FeNeC-M (native)','fenec_euclidean_native':'FeNeC-E (native)'}
-ALL=METHODS+['fenec_native','fenec_euclidean_native']
+LABELS.update({'tip_sum_calibrated':'Tip-Adapter sum + offset','tip_mean_calibrated':'Tip-Adapter mean + offset','tip_sum_native':'Tip-Adapter sum (native)','tip_mean_native':'Tip-Adapter mean (native)'})
+ALL=METHODS+['fenec_calibrated','fenec_euclidean_calibrated','fenec_native','fenec_euclidean_native','tip_sum_native','tip_mean_native']
 rows={}
 for name in DATASETS:
  folder=ROOT/'experiments/kbs_strengthening'/name
@@ -26,6 +27,10 @@ for name in DATASETS:
  extra=[r for path in corrected.glob('p*/*_o*_t*.json') for r in json.loads(path.read_text())['records']]
  rows[name]=[r for r in records(name) if not r['method'].startswith('fenec')]+extra
  assert len(rows[name])==2640
+ depth=ROOT/'experiments/kbs_depth'/name/'tip'
+ assert len(list(depth.glob('p*/complete.json')))==3
+ rows[name]+=[r for path in depth.glob('p*/o*_t*.json') for r in json.loads(path.read_text())['records']]
+ assert len(rows[name])==3960
 
 def select(ds,method,evaluation,ratio=None,session=5):
  return [r for r in rows[ds] if r['method']==method and r['evaluation']==evaluation and (session is None or r['session']==session)
@@ -77,7 +82,7 @@ lines[-1]=r'\bottomrule';lines.append(r'\end{tabular}')
 
 lines=[r'\begin{tabular}{llrrrr}',r'\toprule',r'Data & Readout & Incremental avg. & Final & $\Delta$ avg. & $\Delta$ final \\',r'\midrule']
 for ds in DATASETS:
- for method in ALL:
+ for method in METHODS:
   average=select(ds,method,'fixed_gate',session=None);final=select(ds,method,'fixed_gate')
   def gain_cell(key):
    s=summary[ds]['gains'][method][key];return f"{s['mean']:.2f} $\\pm$ {s['sd']:.2f}"
@@ -109,7 +114,7 @@ if baseline['n']==3:
  paragraph+=f"The recalibrated classifier-free readout gives {measured(baseline)}\\% novel accuracy, a paired novel-accuracy gain of {measured(gain['matched95_novel'])} points for the retained classifier. "
 else:paragraph+=f"The recalibrated classifier-free readout meets this budget in {baseline['n']} of three partitions; the table identifies the corresponding feasible sets. "
 paragraph+=f"Across the five 20-class arrivals, retaining the classifier adds {measured(gain['incremental_average'])} percentage points in average incremental accuracy and {measured(gain['final'])} points in final accuracy over the recalibrated removal (Table~\\ref{{tab:sequentialvalue}}).\n\n"
-paragraph+='The FeNeC comparisons use the same fitting and support pools on all three datasets. Their native and group-offset-calibrated trajectories are reported separately in Table~\\ref{tab:sequentialvalue}; matching the test-retention target reselects the full offset and therefore yields the same frontier for both forms. Supplementary Section F reports the full ImageNet-R budgets and the independent base-validation policy.\n'
+paragraph+='The FeNeC comparisons use the same fitting and support pools on all three datasets. Their native and group-offset-calibrated trajectories are reported separately in Supplementary Section G; matching the test-retention target reselects the full offset and therefore yields the same frontier for both forms. Supplementary Section F reports the full ImageNet-R budgets and the independent base-validation policy.\n'
 (H/'strengthening_results.tex').write_text(paragraph,encoding='utf-8')
 
 plt.rcParams.update({'font.size':9,'pdf.fonttype':42,'ps.fonttype':42,'axes.spines.top':False,'axes.spines.right':False})

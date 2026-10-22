@@ -165,6 +165,35 @@ Let $M_B(x)=\max_{b\in\mathcal B}[\widehat q_T(x,b)+a\widehat q_L(x,b)]$ and $M_
 For nested candidate sets and fixed references, adding novel rows can increase $M_N$ but cannot change $M_B$. An existing-class example may therefore cross the admission boundary as the vocabulary grows, while its base scores remain identical. This distinguishes the deployment behavior measured by expanded prediction churn from the normalization behavior measured by base-only ranking churn.
 
 \FloatBarrier
+\subsection{Exact empirical retention envelope}
+For a fixed readout, let $b_i$ and $n_i$ be the canonical winning base and novel
+class for query $i$, and let $\Delta_i=M_B(x_i)-M_N(x_i)$. Define
+$g_i(d)=\mathbf 1[d>\Delta_i\ \text{or}\ (d=\Delta_i\ \text{and}\ n_i<b_i)]$.
+With the class-macro weights $w_i$, the two group accuracies are
+\begin{align}
+ A_B(d)&=\sum_{i:y_i\in\mathcal B}w_i\mathbf 1[b_i=y_i](1-g_i(d)),\\
+ A_N(d)&=\sum_{i:y_i\in\mathcal N}w_i\mathbf 1[n_i=y_i]g_i(d).
+\end{align}
+Thus $A_B$ is nonincreasing and $A_N$ is nondecreasing in $d$.
+For the stored finite-precision scores, an exact search need only consider each
+observed margin and its immediately preceding representable offset, together
+with the all-base and all-novel endpoints. Between adjacent margins every group
+decision is fixed. If $\tau$ exceeds
+$\sum_{i:y_i\in\mathcal B}w_i\mathbf 1[b_i=y_i]$, the constraint is infeasible.
+Otherwise, sorting the margins of correctly classified base queries in descending
+order and accumulating their macro weights locates the boundary at which retained
+base mass first reaches $\tau$. The tie rule selects that boundary or its
+predecessor. This is the largest feasible offset in the implementation's offset
+ordering. Monotonicity of $A_N$ proves that it maximizes novel accuracy under the
+empirical constraint. The argument applies identically to base-validation
+selection; that policy's test outcome is evaluated on separate queries.
+
+The envelope separates the within-base feasible ceiling, the admitted group
+threshold and the distribution of correctly classified novel-query margins.
+It therefore measures the joint operating value of a learned readout and its
+competition with arriving evidence, beyond the statement that stored scores
+are preserved.
+
 \section{Additional background and score-preservation proof}
 \subsection{Long-tailed recognition and calibration}
 Long-tailed recognition addresses the bias induced by unequal class frequencies. Margin adjustment allocates different classification margins to frequent and rare classes~\cite{cao2019ldam}; class-balanced weighting uses effective sample counts~\cite{cui2019classbalanced}; and prior-aware objectives modify the relationship between logits and class probabilities~\cite{ren2020bsm,menon2021logitadj}. Representation--classifier decoupling provides a complementary route: a representation is learned first and a balanced classifier is then fitted to that representation~\cite{kang2020decoupling}. These developments motivate our use of a balanced base classifier as one source of evidence.
@@ -213,10 +242,152 @@ All ImageNet-R images are content-hashed before pool assignment. Fifty-nine byte
 
 \begin{table}[htbp]
 \centering
-\caption{ImageNet-R test outcomes with the 95\% base-validation-only threshold policy. Validation feasibility is reported separately from achieved test accuracy. Both native and calibrated FeNeC forms lead to the same policy because the full offset is reselected.}
+\caption{ImageNet-R test outcomes with the 95\% base-validation-only threshold policy. Validation feasibility is reported separately from achieved test accuracy. Tip-Adapter uses its base-only selected calibrated cache settings, followed by validation-only threshold selection.}
 \label{tab:imagenetrvalidation}
 \resizebox{\linewidth}{!}{\input{table_imagenetr_validation}}
 \end{table}
+\begin{table}[htbp]
+\centering
+\caption{FeNeC matched-test-retention operating points at strict budgets. Values are percentages, mean $\pm$ sample standard deviation over feasible partitions; missing values have zero feasible partitions. Native and offset-calibrated forms share a score matrix and hence the same complete offset-sweep frontier.}
+\label{tab:fenecfrontiers}
+\resizebox{\linewidth}{!}{\input{table_depth_fenec}}
+\end{table}
+
+\FloatBarrier
+\section{Dense caches, repeated calibration and measured readout cost}
+\label{app:depth}
+\subsection{Dense semantic-cache protocol}
+The training-free Tip-Adapter score follows the ECCV paper and the author
+implementation~\cite{zhang2022tipadapter}: cosine similarity to labeled cache keys
+is transformed by $\exp[-\beta(1-\mathrm{similarity})]$, summed into classes and
+added to $100$ times text similarity with weight $\alpha$. The author code is
+pinned at commit \nolinkurl{d0e2d6f8c5feb8b6ce937b757810761f7155d4d5}.
+All permitted base fitting images and five reserved novel support images supply
+the keys. The sum variant retains the published aggregation. A separate
+class-mean variant divides each class's retrieval score by its key count,
+isolating the effect of unequal long-tailed cache sizes. Both reuse the same
+single-view frozen features and text anchors as the tables. This comparison
+transfers the published readout under controlled feature access; the original
+augmented-cache extraction and trainable Tip-Adapter-F are distinct settings.
+
+On each original base-only pseudo episode, we search
+$\beta\in\{0.1,1,2,5,10,20,50\}$ and
+$\alpha\in\{0.1,1,5,10,20,50,100,200\}$.
+The native form selects both parameters with zero offset. The calibrated form
+jointly selects these parameters and an offset from $[-40,40]$ in steps of $2.5$,
+using macro harmonic accuracy. This 33-point offset grid reflects the raw
+100-scaled CLIP score system. No actual novel query or test label is used in
+selection. Both forms are reported because their selected cache settings can
+differ. All matched-retention targets are the original retained readout's
+partition-specific absolute targets.
+
+\begin{table}[htbp]
+\centering
+\caption{Complete five-shot fixed-gate readout comparison. Values are percentages, mean $\pm$ sample standard deviation over three class partitions after averaging the two arrival orders. The paired gain is retained minus comparator average incremental accuracy; a negative gain favors the comparator. Native and calibrated cache forms are selected separately.}
+\label{tab:allreadouts}
+\resizebox{\linewidth}{!}{\input{table_depth_all_readouts}}
+\end{table}
+
+\subsection{Repeated calibration and support budgets}
+The 81 configurations span three datasets, three original class partitions,
+$k\in\{1,2,5\}$ and three joint calibration/support trials. Trial zero reuses the
+original pseudo split. The other trials select $\lfloor|\mathcal B|/2\rfloor$
+pseudo-base classes with seeds $1701+p$ and $2701+p$. Pseudo classifiers select
+ridge regularization on pseudo-base validation. Support-index seeds $7,8,9$
+select one- and two-shot subsets from each five-image reserve. At five shots,
+the support set is identical across trials: variation comes from the pseudo
+split. These are correlated trials of the same underlying class partitions.
+We average the orders and trials within each partition and report the mean and
+sample standard deviation of the three partition means.
+
+Each configuration independently calibrates the retained, recalibrated-removal,
+dense-prototype and dynamic-reference readouts on the same base-only episode.
+Fixed-gate removal preserves the retained mixture's remaining parameters. Dynamic
+normalization uses the current text candidates and current novel prototypes as
+references, with the same learned branch and calibration grid as the retained
+table. Its own mixture is selected independently and stays fixed across arrivals.
+All retention targets are shared within each configuration. Feasibility counts
+refer to nine partition/trial combinations per support budget. When only some
+trials are feasible, the group accuracies average those trials within each
+partition before summarizing partitions; paired constrained comparisons use
+the intersection of feasible trial IDs.
+
+\begin{table}[htbp]
+\centering
+\caption{Calibration and support robustness. Average incremental and final accuracies use fixed gates. Paired gains are retained minus each independently calibrated comparator, after averaging two arrival orders and three trials within each partition. Values are percentages or percentage points, mean $\pm$ sample standard deviation across three partitions.}
+\label{tab:depthrobustness}
+\resizebox{\linewidth}{!}{\input{table_depth_robustness}}
+\end{table}
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{depth_robustness.pdf}
+\caption{Paired average incremental gains under one-, two- and five-shot support. Error bars are partition-level sample standard deviations after averaging correlated calibration/support trials and arrival orders. The horizontal zero line identifies which readout has higher average accuracy in each setting.}
+\label{fig:depthrobustness}
+\end{figure}
+
+Fixed references have zero restricted pre-offset candidate-ranking changes in
+all $648$ append checks (81 configurations, two orders, four appends). The largest
+floating-point score differences are $1.40\times10^{-4}$ on CIFAR,
+$5.36\times10^{-6}$ on Pets and $2.19\times10^{-5}$ on ImageNet-R. Dynamic references
+produce maximum score changes of $2.40$, $1.78$ and $1.30$, respectively, and up
+to $429$, $206$ and $118$ restricted prediction changes per append over the full
+cached test query pool. These diagnostics compare the same previously active
+candidate IDs before adding the fixed group offset; they isolate changes induced
+by reference statistics. Recognition accuracy is reported separately in the
+fixed-gate and retention-policy tables.
+
+\begin{table}[htbp]
+\centering
+\caption{CIFAR-100: final-session outcomes in the repeated-calibration study at the 95\% budget. Match uses base test labels descriptively; Val. uses base validation only and reports achieved test accuracy. Feasibility is counted over nine correlated partition/trial combinations.}
+\label{tab:depthpolicycifar}
+\resizebox{\linewidth}{!}{\input{table_depth_policy_cifar}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{Oxford-IIIT Pets: final-session outcomes under the same repeated-calibration policies and aggregation as Table~\ref{tab:depthpolicycifar}.}
+\label{tab:depthpolicypets}
+\resizebox{\linewidth}{!}{\input{table_depth_policy_pets}}
+\end{table}
+\begin{table}[htbp]
+\centering
+\caption{ImageNet-R: final-session outcomes under the same repeated-calibration policies and aggregation as Table~\ref{tab:depthpolicycifar}.}
+\label{tab:depthpolicyimagenetr}
+\resizebox{\linewidth}{!}{\input{table_depth_policy_imagenetr}}
+\end{table}
+
+\FloatBarrier
+\subsection{Readout cost and restart verification}
+Table~\ref{tab:depthcost} measures 512 cached queries on the RTX 4070 Laptop in
+float32. Each readout receives five warm-ups and 20 synchronized timing
+repetitions. Static cache values are constructed before timing, query chunks
+contain 256 images for retrieval, and unused score branches are skipped.
+An independently checked implementation verifies score agreement within
+$10^{-3}$ for every optimized readout. Persistent tensor bytes count text anchors,
+learned weights and references/prototypes for the tables, or text anchors, cache
+keys and the stored dense one-hot/class-mean value matrix for retrieval. These
+are implementation-level readout costs, excluding the common image encoder,
+query features and temporary workspaces. They do not represent complete model
+memory or end-to-end image inference time.
+
+\begin{table}[htbp]
+\centering
+\caption{Measured readout latency and persistent tensor storage for a final-session 512-query batch on the same laptop GPU. MiB denotes $2^{20}$ bytes. Cache keys number 4,937 on CIFAR, 553 on Pets and 3,830 on ImageNet-R in partition zero.}
+\label{tab:depthcost}
+\resizebox{\linewidth}{!}{\input{table_depth_cost}}
+\end{table}
+
+Every calibration and arrival-session result is written atomically. A live
+pause/resume check preserved a completed session's SHA-256 hash and modification
+time, then completed all 90 configuration units. The numerical verifier
+reconstructs group predictions, macro weights, selected thresholds and test
+metrics from archived sufficient statistics, including the base-validation
+selection arrays. The trial-zero five-shot table results agree exactly with the
+prior three-dataset records. Source, protocol and cache hashes, all outcomes and
+reproduction commands accompany the release.
+
+\begingroup
+\small
 \bibliographystyle{elsarticle-num}
 \bibliography{references}
+\endgroup
 \end{document}

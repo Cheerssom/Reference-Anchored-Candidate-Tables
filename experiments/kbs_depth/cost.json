@@ -1,0 +1,103 @@
+{
+  "source_sha256": "f7fc79d830af749fa1373cc344d4ee401999a0658e85c34a8f2a3c2d0ab53d42",
+  "device": "NVIDIA GeForce RTX 4070 Laptop GPU",
+  "warmups": 5,
+  "repetitions": 20,
+  "image_encoding_included": false,
+  "precision": "float32",
+  "results": {
+    "cifar": {
+      "queries": 512,
+      "cache_keys": 4937,
+      "active_classes": 80,
+      "readouts": {
+        "retained": {
+          "median_ms": 0.7151499999054067,
+          "p90_ms": 0.7625099999586382,
+          "persistent_tensor_bytes": 614560,
+          "score_parity_max_abs": 1.329183578491211e-05
+        },
+        "anchored_tp": {
+          "median_ms": 0.5148000002463959,
+          "p90_ms": 0.5424500000117405,
+          "persistent_tensor_bytes": 491520,
+          "score_parity_max_abs": 0.0
+        },
+        "tip_sum": {
+          "median_ms": 0.8384499999465334,
+          "p90_ms": 0.8618999999725929,
+          "persistent_tensor_bytes": 16992064,
+          "score_parity_max_abs": 9.5367431640625e-06
+        },
+        "tip_mean": {
+          "median_ms": 0.841000000036729,
+          "p90_ms": 0.8570500001496839,
+          "persistent_tensor_bytes": 16992064,
+          "score_parity_max_abs": 1.52587890625e-05
+        }
+      }
+    },
+    "pets": {
+      "queries": 512,
+      "cache_keys": 553,
+      "active_classes": 30,
+      "readouts": {
+        "retained": {
+          "median_ms": 0.8800499999779277,
+          "p90_ms": 1.27953000001071,
+          "persistent_tensor_bytes": 230460,
+          "score_parity_max_abs": 4.76837158203125e-07
+        },
+        "anchored_tp": {
+          "median_ms": 0.5860500000380853,
+          "p90_ms": 0.6799300001603116,
+          "persistent_tensor_bytes": 184320,
+          "score_parity_max_abs": 0.0
+        },
+        "tip_sum": {
+          "median_ms": 0.5640500000936299,
+          "p90_ms": 0.6725200000801124,
+          "persistent_tensor_bytes": 1857336,
+          "score_parity_max_abs": 5.7220458984375e-06
+        },
+        "tip_mean": {
+          "median_ms": 0.5693999999039079,
+          "p90_ms": 0.7320600002913125,
+          "persistent_tensor_bytes": 1857336,
+          "score_parity_max_abs": 7.62939453125e-06
+        }
+      }
+    },
+    "imagenetr": {
+      "queries": 512,
+      "cache_keys": 3830,
+      "active_classes": 200,
+      "readouts": {
+        "retained": {
+          "median_ms": 0.864299999875584,
+          "p90_ms": 0.918209999872488,
+          "persistent_tensor_bytes": 1536400,
+          "score_parity_max_abs": 8.344650268554688e-06
+        },
+        "anchored_tp": {
+          "median_ms": 0.6314999998267012,
+          "p90_ms": 0.78952000035315,
+          "persistent_tensor_bytes": 1228800,
+          "score_parity_max_abs": 0.0
+        },
+        "tip_sum": {
+          "median_ms": 0.7587499999317515,
+          "p90_ms": 0.8734499999263794,
+          "persistent_tensor_bytes": 15444160,
+          "score_parity_max_abs": 2.288818359375e-05
+        },
+        "tip_mean": {
+          "median_ms": 0.7322000001295237,
+          "p90_ms": 0.8981399999811405,
+          "persistent_tensor_bytes": 15444160,
+          "score_parity_max_abs": 2.288818359375e-05
+        }
+      }
+    }
+  }
+}

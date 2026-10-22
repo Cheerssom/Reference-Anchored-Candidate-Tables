@@ -1,0 +1,44 @@
+\begin{tabular}{llrrr}
+\toprule
+Data & Readout & Incremental avg. & Final & Paired avg. gain \\
+\midrule
+CIFAR-100 & Retained classifier & 82.02 $\pm$ 0.84 & 79.31 $\pm$ 1.14 & 0.00 $\pm$ 0.00 \\
+CIFAR-100 & Classifier removed (fixed gates) & 71.40 $\pm$ 14.78 & 68.03 $\pm$ 15.63 & 10.62 $\pm$ 15.22 \\
+CIFAR-100 & No classifier (recalibrated) & 79.84 $\pm$ 0.82 & 77.56 $\pm$ 1.02 & 2.18 $\pm$ 0.24 \\
+CIFAR-100 & Anchored text + prototypes & 81.56 $\pm$ 0.52 & 79.30 $\pm$ 0.59 & 0.46 $\pm$ 0.44 \\
+CIFAR-100 & Tip-Adapter sum + offset & 79.57 $\pm$ 0.41 & 77.21 $\pm$ 0.38 & 2.45 $\pm$ 0.63 \\
+CIFAR-100 & Tip-Adapter mean + offset & 81.74 $\pm$ 0.93 & 79.40 $\pm$ 1.11 & 0.28 $\pm$ 1.07 \\
+CIFAR-100 & FeNeC-M + offset & 66.60 $\pm$ 1.34 & 63.65 $\pm$ 1.55 & 15.42 $\pm$ 0.49 \\
+CIFAR-100 & FeNeC-E + offset & 72.63 $\pm$ 1.34 & 69.00 $\pm$ 1.97 & 9.39 $\pm$ 0.68 \\
+CIFAR-100 & FeNeC-M (native) & 59.11 $\pm$ 0.85 & 53.58 $\pm$ 1.27 & 22.91 $\pm$ 0.31 \\
+CIFAR-100 & FeNeC-E (native) & 72.63 $\pm$ 1.34 & 69.00 $\pm$ 1.97 & 9.39 $\pm$ 0.68 \\
+CIFAR-100 & Tip-Adapter sum (native) & 79.57 $\pm$ 0.41 & 77.21 $\pm$ 0.38 & 2.45 $\pm$ 0.63 \\
+CIFAR-100 & Tip-Adapter mean (native) & 81.74 $\pm$ 0.93 & 79.40 $\pm$ 1.11 & 0.28 $\pm$ 1.07 \\
+\midrule
+Pets & Retained classifier & 94.09 $\pm$ 2.37 & 91.77 $\pm$ 3.16 & 0.00 $\pm$ 0.00 \\
+Pets & Classifier removed (fixed gates) & 77.17 $\pm$ 26.01 & 76.85 $\pm$ 23.25 & 16.92 $\pm$ 28.33 \\
+Pets & No classifier (recalibrated) & 94.20 $\pm$ 2.05 & 92.57 $\pm$ 2.31 & -0.11 $\pm$ 0.56 \\
+Pets & Anchored text + prototypes & 94.35 $\pm$ 0.60 & 92.48 $\pm$ 1.10 & -0.26 $\pm$ 1.82 \\
+Pets & Tip-Adapter sum + offset & 93.38 $\pm$ 2.32 & 91.50 $\pm$ 2.78 & 0.71 $\pm$ 1.21 \\
+Pets & Tip-Adapter mean + offset & 94.47 $\pm$ 2.38 & 92.88 $\pm$ 2.51 & -0.37 $\pm$ 1.61 \\
+Pets & FeNeC-M + offset & 80.34 $\pm$ 1.29 & 75.66 $\pm$ 1.72 & 13.76 $\pm$ 1.61 \\
+Pets & FeNeC-E + offset & 84.43 $\pm$ 2.37 & 79.82 $\pm$ 2.35 & 9.67 $\pm$ 1.50 \\
+Pets & FeNeC-M (native) & 73.66 $\pm$ 4.73 & 66.74 $\pm$ 6.13 & 20.44 $\pm$ 2.69 \\
+Pets & FeNeC-E (native) & 84.43 $\pm$ 2.37 & 79.82 $\pm$ 2.35 & 9.67 $\pm$ 1.50 \\
+Pets & Tip-Adapter sum (native) & 94.35 $\pm$ 1.08 & 92.72 $\pm$ 1.65 & -0.25 $\pm$ 1.32 \\
+Pets & Tip-Adapter mean (native) & 95.15 $\pm$ 1.28 & 93.74 $\pm$ 1.29 & -1.06 $\pm$ 1.33 \\
+\midrule
+ImageNet-R & Retained classifier & 87.23 $\pm$ 0.21 & 85.40 $\pm$ 0.36 & 0.00 $\pm$ 0.00 \\
+ImageNet-R & Classifier removed (fixed gates) & 77.13 $\pm$ 6.75 & 74.64 $\pm$ 7.19 & 10.09 $\pm$ 6.55 \\
+ImageNet-R & No classifier (recalibrated) & 85.01 $\pm$ 0.57 & 83.65 $\pm$ 0.70 & 2.22 $\pm$ 0.40 \\
+ImageNet-R & Anchored text + prototypes & 86.36 $\pm$ 0.24 & 84.67 $\pm$ 0.39 & 0.87 $\pm$ 0.29 \\
+ImageNet-R & Tip-Adapter sum + offset & 84.62 $\pm$ 0.08 & 82.94 $\pm$ 0.07 & 2.61 $\pm$ 0.21 \\
+ImageNet-R & Tip-Adapter mean + offset & 85.75 $\pm$ 0.30 & 84.19 $\pm$ 0.35 & 1.48 $\pm$ 0.35 \\
+ImageNet-R & FeNeC-M + offset & 59.12 $\pm$ 0.54 & 55.79 $\pm$ 0.63 & 28.11 $\pm$ 0.46 \\
+ImageNet-R & FeNeC-E + offset & 69.66 $\pm$ 0.97 & 66.09 $\pm$ 0.62 & 17.56 $\pm$ 0.80 \\
+ImageNet-R & FeNeC-M (native) & 54.57 $\pm$ 0.47 & 49.71 $\pm$ 0.32 & 32.65 $\pm$ 0.37 \\
+ImageNet-R & FeNeC-E (native) & 69.66 $\pm$ 0.97 & 66.09 $\pm$ 0.62 & 17.56 $\pm$ 0.80 \\
+ImageNet-R & Tip-Adapter sum (native) & 84.62 $\pm$ 0.08 & 82.94 $\pm$ 0.07 & 2.61 $\pm$ 0.21 \\
+ImageNet-R & Tip-Adapter mean (native) & 85.75 $\pm$ 0.30 & 84.19 $\pm$ 0.35 & 1.48 $\pm$ 0.35 \\
+\bottomrule
+\end{tabular}

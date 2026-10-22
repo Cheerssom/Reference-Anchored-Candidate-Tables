@@ -9,13 +9,13 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 22-page main manuscript and 16-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 23-page main manuscript and 22-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
 ```bash
 pip install pymupdf python-docx
-python build_strengthening_results.py
+python build_depth_results.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error supplementary.tex
 python validate_submission.py
@@ -29,6 +29,8 @@ at one directory level for Editorial Manager.
 
 The original numerical macros and legacy tables remain byte-identical to the checked FCS retention-focus revision. New KBS tables and plots are generated from `experiments/kbs_strengthening/`, using the corrected `fenec_vit/` records. Initial probes remain separate. `experiments/kbs_strengthening/README.md` describes the real pause/resume test, bounded memory and serial GPU runner. The source protocols, correction ledger and source-hashed margin archives preserve the exact comparison conditions.
 
-`literature/reading_notes.md` records the six added KBS papers and the actual
+`literature/reading_notes.md` records the seven added KBS papers and the actual
 reading scope. `submission_check.md` records authoritative links and the
 remaining limitation in directly accessing the current journal guide.
+
+The depth extension adds dense summed/class-mean Tip-Adapter readouts, 81 shot/calibration configurations, 648 append diagnostics and optimized readout measurements. See `depth_report.md`. Local archive checks pass; the fresh-agent claim-audit invocation failed on a model usage limit, and its ERROR record is preserved. It is not a completed external review.

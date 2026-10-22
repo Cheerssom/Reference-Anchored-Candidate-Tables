@@ -38,3 +38,23 @@ $env:KBS_GPU_FRACTION = '.60'
 最终比较必须等待三个划分全部完成，不能把中间记录当作论文最终结果。
 
 最终 FeNeC 对照在各数据集的 `fenec_vit/` 中，使用官方 ViT 单次收缩设置。此前双次收缩探针保留在上层目录。论文生成器会明确读取更正后的版本，详细原因见 `experiments/kbs_fenec_vit_correction.md`。
+
+## 本轮稳健性与稠密缓存实验
+
+```powershell
+# 仅续跑新增实验，不重复图像编码
+.\scripts\run_kbs_strengthening.ps1 -Stage Depth
+```
+
+结果保存在 `experiments/kbs_depth/`，含 9 个稠密缓存划分和 81 个支持预算/校准配置；`Status` 显示完成数（90/90）。沿用同一个 PAUSE 标志和 GPU 互斥锁。真实暂停恢复记录见 `experiments/kbs_depth/resume_validation.json`：已完成文件哈希与修改时间不变。
+
+验证与表格重建：
+
+```powershell
+python src/experiments/test_kbs_depth.py
+python src/experiments/kbs_verify_depth.py
+python src/experiments/kbs_depth_cost.py
+python paper/kbs/build_depth_results.py
+```
+
+冻结特征缺失时先按原流程生成缓存。81 个配置是相关子实验，论文按三个类别划分汇总，不是81个独立随机种子。新增实验复用本地环境与数据，无付费计算。

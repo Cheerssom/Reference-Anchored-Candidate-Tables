@@ -170,3 +170,24 @@ python src/experiments/kbs_verify_strengthening.py
 python src/experiments/test_kbs_strengthening.py
 python paper/kbs/build_strengthening_results.py
 ```
+
+## Calibration and dense-cache extension
+
+The current manuscript includes summed and class-mean Tip-Adapter comparisons,
+81 shot/calibration configurations, 648 append diagnostics per normalization
+variant, and measured readout costs on the same laptop. Trials/orders are
+averaged within each of three class partitions; 81 is not an independent seed count.
+
+On ImageNet-R, the retained readout gives 84.48 +/- 0.72% novel accuracy at the
+95% shared retention budget versus 81.58 +/- 1.72% for class-mean Tip-Adapter.
+Its paired average incremental gain over that cache is 1.48 +/- 0.35 percentage
+points. Across repeated five-shot calibration, the paired average gain over
+recalibrated removal is 2.14 +/- 0.37 points. All outcomes and operating scopes
+are retained. See [the completion report](paper/kbs/depth_report.md).
+
+```bash
+python src/experiments/test_kbs_depth.py
+python src/experiments/kbs_verify_depth.py
+python src/experiments/kbs_depth_cost.py
+python paper/kbs/build_depth_results.py
+```
