@@ -36,6 +36,9 @@ def bundle():
     names=['main.pdf','supplementary.pdf','Highlights.docx','cover_letter.docx','title_page.docx','declarations.docx',
            'candidate_tables_kbs_source.zip','candidate_tables_kbs_supplement_source.zip']
     report=json.loads((H/'validation.json').read_text())
+    audit=json.loads((H/'five_point_revision_completion.json').read_text()).get('experiment_audit',{})
+    audit_note=(f"The completed same-family experimental integrity audit has status {audit.get('status')}; its semantic assessment remains provisional. "
+                if audit.get('complete') else "The fresh-agent experiment audit was interrupted by a model usage limit; no completed experiment-audit PASS is claimed. ")
     combined=fitz.open()
     for name in ['main.pdf','supplementary.pdf']:
         with fitz.open(H/name) as document:combined.insert_pdf(document)
@@ -47,7 +50,7 @@ def bundle():
                  "No journal submission has been performed. Use the portal's current instructions for upload fields, "
                  "article length and required affiliation/mailing details. Direct access to the journal-specific guide "
                  "was unavailable; see submission_check.md in the project.\n"
-                 "The fresh-agent experiment audit was interrupted by a model usage limit; no completed experiment-audit PASS is claimed. The direct-risk proof received a conditional same-family mathematical review. "
+                 +audit_note+"The direct-risk proof received a conditional same-family mathematical review. "
                  "Separate local archive reconstruction, numerical tests and clean source compilation are recorded.\n"
                  "The source archive contains editable LaTeX sources; Highlights and letter are editable DOCX files.\n")
     hashes={name:hashlib.sha256((H/name).read_bytes()).hexdigest() for name in names}

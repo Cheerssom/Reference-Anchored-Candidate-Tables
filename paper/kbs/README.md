@@ -110,7 +110,7 @@ The current abstract has106 words, covering the mechanism, direct calibration co
 
 ## Five-point reviewer revision
 
-See [revision response](five_point_revision_response.md), the new summary and Supplement M-O. All24,000 new records and54,960 threshold tests reconstruct. The direct-risk proof has a conditional same-family review; the separate experiment audit was interrupted by a model usage limit and has no completed PASS. New data/model/PT feature files are not redistributed.
+See [revision response](five_point_revision_response.md), the new summary and Supplement M-O. All24,000 new records and54,960 threshold tests reconstruct. The direct-risk proof has a conditional same-family review; the completed experiment audit has a same-family/provisional PASS, with no material issue and one corrected fixture-label wording. The previous interrupted run remains in private history; the public status receipt is experiment_audit_status.json. New data/model/PT feature files are not redistributed.
 
 For fresh HyCal feature computation, obtain the upstream author code separately (not bundled) before running the fixture:
 

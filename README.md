@@ -296,7 +296,7 @@ The current presentation restores the matched-retention capacity curve to the ma
 
 ## Five-point reviewer revision
 
-Controlled normalization, class-quality diagnosis, recovery-aware calibration, a matched HyCal transfer and prespecified query-shift tests are complete. New raw records:24,000; independently reconstructed threshold tests:54,960. See paper/kbs/five_point_revision_response.md and Supplement M-O. The experiment audit was interrupted by a model usage limit; no completed audit PASS is claimed.
+Controlled normalization, class-quality diagnosis, recovery-aware calibration, a matched HyCal transfer and prespecified query-shift tests are complete. New raw records:24,000; independently reconstructed threshold tests:54,960. See paper/kbs/five_point_revision_response.md and Supplement M-O. The completed same-family experimental integrity audit has status PASS; semantic review remains provisional. No material experimental defect was identified in the scoped revision; see the status receipt in paper/kbs/experiment_audit_status.json.
 
 ```powershell
 powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python

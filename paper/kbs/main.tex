@@ -87,7 +87,7 @@ A base-only pseudo-expansion episode splits base classes into pseudo-base and ps
 \end{equation}
 with zero assigned when both accuracies vanish. The coefficients then remain fixed across actual arrivals. Actual novel query labels and test labels are excluded from this selection; grids and split seeds are in Supplementary Section K.
 
-Let $A_{B,\mathrm{ref}}^{\mathrm{closed}}$ denote the retained table's closed-base macro accuracy. At retention fraction $r$, every readout receives the same absolute base target. Its empirical expansion capacity is
+Let $A_{B,\mathrm{ref}}^{\mathrm{closed}}$ denote the retained table's closed-base macro accuracy. At retention fraction $r$, every readout receives the same absolute base target. Thus a 90\% reference gives an 85.5\% absolute target at 95\% retention. Its empirical expansion capacity is
 \begin{equation}
  N_r=\max_d A_N(d)\quad\text{subject to}\quad
  A_B(d)\geq rA_{B,\mathrm{ref}}^{\mathrm{closed}}.
@@ -169,6 +169,8 @@ For independent risk calibration, the original fitting/validation pool is repart
 
 \label{sec:budgetexperiment}
 Class coverage determines whether certification is attainable. For macro weights $w_i=1/(Bn_c)$ and $b=\max_iw_i$, even zero observed loss requires $1/b\geq\log(\delta/5)/\log r=89.78$ to pass the weighted bound. The original CIFAR and Pets allocations have effective counts 80 and 45--60, respectively. Increasing tail-class coverage makes useful certification possible (Supplementary Section L); total query counts and the derivation are reported there.
+
+A deployment use is staged expansion of a labeled catalog: a reserved audit split or separately annotated known-class queries supplies calibration labels before new classes are admitted. This pool is excluded from fitting and tuning. Cap 40 requires 1,600 base queries on CIFAR, 600 on Pets and 3,636--3,778 on ImageNet-R. These labels are a separate resource from five-shot novel support. The coverage curves quantify smaller budgets, with reference fallback when finite admission cannot be certified.
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{calibration_fairness.pdf}

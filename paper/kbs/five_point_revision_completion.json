@@ -11,11 +11,38 @@
   "main_figures": 3,
   "main_tables": 3,
   "experiment_audit": {
-    "status": "ERROR",
-    "complete": false,
-    "reason": "fresh reviewer interrupted by model usage limit",
+    "status": "PASS",
+    "complete": true,
+    "date": "2026-10-23",
+    "scope": "five-point reviewer revision",
     "review_independence": "same-family",
-    "acceptance_status": "not_accepted"
+    "acceptance_status": "provisional",
+    "configured_reviewer_model": "gpt-6-astra",
+    "configured_reasoning": "ultra",
+    "reason": "primary_artifact_checks_pass_minor_wording_resolved",
+    "material_issues": [],
+    "unresolved_scientific_obligations": [],
+    "resolved_issue": "HyCal fixture wording corrected to Mahalanobis-distance relative error; no numerical changes",
+    "independent_checks": {
+      "record_metric_arithmetic": 24000,
+      "summary": "zero differences",
+      "recorded_bindings": 3624,
+      "paired_tests_passed": 5,
+      "full_threshold_replay": "four conditions completed; not all54960 tests replayed by the fresh reviewer"
+    },
+    "preserved_scope": [
+      "post-run provenance is not pre-run registration",
+      "population sampling assumptions remain conditional",
+      "HyCal is a matched transfer",
+      "shift evaluation is custom CIFAR corruption, not an untouched dataset"
+    ],
+    "audit_receipt_sha256": "d5b96ec0b56605729ac411c50bd7f72f0dc788192017fc749ce4f3bb384630f1",
+    "prior_interrupted_review_retained_in_private_history": true,
+    "post_audit_editorial_additions": [
+      "Explicit relative-retention arithmetic example in main Section3.2",
+      "Existing calibration query counts and deployment label-access explanation in main Section4.5"
+    ],
+    "post_audit_experimental_results_changed": false
   },
   "proof_review": {
     "status": "PASS",
