@@ -78,3 +78,11 @@ adding existing partition SDs. Supplement L groups empirical/certified policies
 and bolds the largest displayed certified novel mean, with the rule stated.
 No performance values are imported from any exemplar. Avoiding excessive columns
 keeps our tables readable without reproducing tiny-font layouts.
+
+## 2026-10-23 reviewer revision
+
+HyCal CVPR2026 official proceedings: https://openaccess.thecvf.com/content/CVPR2026/html/Lee_HyCal_A_Training-Free_Prototype_Calibration_Method_for_Cross-Discipline_Few-Shot_Class-Incremental_CVPR_2026_paper.html , pp29462–29471. Author repository https://github.com/EJLEE5826/HyCal-CIL commit4558fb7fa6aa389310c9e9dc7db7c2cbebc84a41. Read author method/implementation; shared eight-prompt anchors and L/14/B/32 are controlled-transfer choices, rather than the published B/16/single-prompt setting. Fixtures and scope in Supplement M. No third-party full text or code is redistributed.
+
+BiMC CVPR2025: https://www.tianyuding.com/papers/bimc-cvpr25.pdf ; https://github.com/yychen016/BiMC commitb4ef2ea01b268098631f75ace4e716daff75db6b. Inspected for comparison relevance; not implemented.
+
+Waudby-Smith and Ramdas (2024), Estimating means of bounded random variables by betting, JRSSB86(1),1–27, DOI10.1093/jrsssb/qkad009: https://academic.oup.com/jrsssb/article/86/1/1/7043257 . Citation supplies betting context; our unequal-stratum fixed-sample proof is given self-contained and is not attributed as an existing theorem from this paper.

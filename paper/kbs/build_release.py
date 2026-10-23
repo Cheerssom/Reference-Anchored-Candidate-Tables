@@ -39,7 +39,7 @@ def bundle():
     combined=fitz.open()
     for name in ['main.pdf','supplementary.pdf']:
         with fitz.open(H/name) as document:combined.insert_pdf(document)
-    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-L',report['documents']['main']['pages']+1]])
+    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-O',report['documents']['main']['pages']+1]])
     combined.save(H/'review_complete.pdf',garbage=4,deflate=True);combined.close()
     names+=['review_complete.pdf']
     instruction=(f"Prepared for Knowledge-Based Systems. Main: {report['documents']['main']['pages']} review-format pages; "
@@ -47,7 +47,7 @@ def bundle():
                  "No journal submission has been performed. Use the portal's current instructions for upload fields, "
                  "article length and required affiliation/mailing details. Direct access to the journal-specific guide "
                  "was unavailable; see submission_check.md in the project.\n"
-                 "The fresh-agent numeric audit could not start due to its model usage limit; no review PASS is claimed. "
+                 "The fresh-agent experiment audit was interrupted by a model usage limit; no completed experiment-audit PASS is claimed. The direct-risk proof received a conditional same-family mathematical review. "
                  "Separate local archive reconstruction, numerical tests and clean source compilation are recorded.\n"
                  "The source archive contains editable LaTeX sources; Highlights and letter are editable DOCX files.\n")
     hashes={name:hashlib.sha256((H/name).read_bytes()).hexdigest() for name in names}

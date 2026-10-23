@@ -1,0 +1,40 @@
+% Proof source for the reviewer-revision direct calibration procedure.
+% Included in the supplement after experimental completion.
+\subsection{Direct paired accuracy calibration}
+Fix the models, arrivals and candidate thresholds independently of calibration.
+Let independent class-stratified calibration pairs have correctness indicators
+$R_i,C_i\in\{0,1\}$ and deterministic macro weights
+$w_i=1/(B n_{c(i)})$, with $\sum_iw_i=1$ and $b=\max_iw_i$.
+Define $A_X=\sum_iw_i\mathbb E X_i$ for $X\in\{C,R\}$.
+For a class-macro target, each class's observations must follow its target
+class-conditional law, or their averaged marginal law must equal that target.
+Disjoint, deduplicated benchmark pools establish separation of data access;
+independence and target-law correspondence remain explicit sampling assumptions.
+Set $Z_i=C_i-rR_i\in[-r,1]$. Under the unsafe null
+$\sum_iw_i\mathbb E Z_i\leq0$, for any fixed $0\leq\lambda<1/r$,
+\begin{align}
+ E_\lambda&=\prod_i[1+\lambda(w_i/b)Z_i]\geq0,\\
+ \mathbb E E_\lambda
+ &=\prod_i[1+\lambda(w_i/b)\mathbb E Z_i]
+ \leq\exp\!\left(\frac{\lambda}{b}\sum_iw_i\mathbb E Z_i\right)
+ \leq1.
+\end{align}
+Independence gives the equality; $1+x\leq e^x$ gives the first inequality.
+Every factor is positive since $w_i/b\leq1$ and $\lambda r<1$.
+For the prespecified grid
+$\Lambda=\{.01,.025,.05,.1,.2,.3,.4,.5,.65,.8,.95,1\}$ at $r=.95$,
+$E=|\Lambda|^{-1}\sum_{\lambda\in\Lambda}E_\lambda$ also has null expectation
+at most one. Thus $p=\min(1,1/E)$ is a valid fixed-sample p-value by Markov's
+inequality. Unlike the sufficient protection loss, $Z_i$ credits recovery
+($R_i=0,C_i=1$) while charging destruction ($R_i=1,C_i=0$).
+
+The test directly addresses $A_C\geq rA_R$ for the class-macro population.
+It uses fixed sample sizes and mixture weights, with no optimization of
+$\lambda$ or sample stopping based on the calibration observations.
+Thresholds are tested from conservative to permissive; stop at the first
+failure at level $\delta/5$. Rejecting any unsafe null entails rejecting the
+first unsafe null in this prespecified sequence, of probability at most
+$\delta/5$. A union bound covers five prespecified arrivals for each fixed
+method/order/partition/policy under the class-conditional sampling model.
+No independence between threshold tests or arrivals is required, and no
+simultaneous guarantee across experimental configurations is asserted.

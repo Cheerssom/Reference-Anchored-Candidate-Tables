@@ -1,0 +1,971 @@
+{
+  "records": [
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "query_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 0.5,
+      "fallback": false,
+      "old": 0.8467500000000003,
+      "new": 0.92875,
+      "overall": 0.8604166666666669,
+      "harmonic": 0.8858564488876375
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "query_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": 1.0597436428070068,
+      "fallback": false,
+      "ceiling": 0.8685000000000003,
+      "old": 0.8270000000000003,
+      "new": 0.945,
+      "overall": 0.846666666666667,
+      "harmonic": 0.8820711060948082
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "query_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": 0.647965886592865,
+      "certified_expansion": true,
+      "fallback": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -3.2454543113708496,
+          "pvalue": 3.3311810483041928e-18,
+          "loss": 0.009750000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -1.0711982798576354,
+          "pvalue": 1.725108211706723e-17,
+          "loss": 0.010375000000000006,
+          "accepted": true
+        },
+        {
+          "offset": -0.5533681774139404,
+          "pvalue": 6.9706915027366e-15,
+          "loss": 0.012875000000000008,
+          "accepted": true
+        },
+        {
+          "offset": -0.12692130804061885,
+          "pvalue": 4.0863371272574716e-11,
+          "loss": 0.017250000000000005,
+          "accepted": true
+        },
+        {
+          "offset": 0.09948135375976562,
+          "pvalue": 6.4061120486396086e-09,
+          "loss": 0.020375000000000004,
+          "accepted": true
+        },
+        {
+          "offset": 0.33716819882392945,
+          "pvalue": 8.481037574126254e-06,
+          "loss": 0.02600000000000001,
+          "accepted": true
+        },
+        {
+          "offset": 0.647965886592865,
+          "pvalue": 0.008615028635713175,
+          "loss": 0.034125,
+          "accepted": true
+        },
+        {
+          "offset": 0.8815187174081803,
+          "pvalue": 0.08973878035793521,
+          "loss": 0.038500000000000006,
+          "accepted": false
+        }
+      ],
+      "old": 0.8425000000000002,
+      "new": 0.9312499999999999,
+      "overall": 0.8572916666666668,
+      "harmonic": 0.8846546863988725,
+      "destroyed_test": 0.029500000000000002,
+      "recovered_test": 0.0015,
+      "test_target_met": true,
+      "target_gap_pp": 1.5525000000000455
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "query_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": 0.33716819882392945,
+      "fallback": false,
+      "certified_expansion": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -3.2454543113708496,
+          "pvalue": 3.400323932234567e-23,
+          "accepted": true,
+          "log_evalue": 51.735586437592595,
+          "accuracy_surplus": 0.04275000000000004,
+          "destroyed": 0.0037500000000000003,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -1.0711982798576354,
+          "pvalue": 4.401331293960341e-22,
+          "accepted": true,
+          "log_evalue": 49.17496498389973,
+          "accuracy_surplus": 0.04212500000000004,
+          "destroyed": 0.0043749999999999995,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -0.5533681774139404,
+          "pvalue": 8.726688268804966e-18,
+          "accepted": true,
+          "log_evalue": 39.280145726665324,
+          "accuracy_surplus": 0.039000000000000035,
+          "destroyed": 0.006875000000000001,
+          "recovered": 0.001875
+        },
+        {
+          "offset": -0.12692130804061885,
+          "pvalue": 5.407608997882821e-13,
+          "accepted": true,
+          "log_evalue": 28.2457991734831,
+          "accuracy_surplus": 0.034625000000000045,
+          "destroyed": 0.011250000000000001,
+          "recovered": 0.001875
+        },
+        {
+          "offset": 0.09948135375976562,
+          "pvalue": 6.161808196183937e-10,
+          "accepted": true,
+          "log_evalue": 21.20748065712743,
+          "accuracy_surplus": 0.03087500000000004,
+          "destroyed": 0.014375,
+          "recovered": 0.00125
+        },
+        {
+          "offset": 0.33716819882392945,
+          "pvalue": 3.6074704076040002e-06,
+          "accepted": true,
+          "log_evalue": 12.532503749352404,
+          "accuracy_surplus": 0.025250000000000043,
+          "destroyed": 0.020000000000000004,
+          "recovered": 0.00125
+        },
+        {
+          "offset": 0.647965886592865,
+          "pvalue": 0.010704659179530314,
+          "accepted": false,
+          "log_evalue": 4.5370761949503216,
+          "accuracy_surplus": 0.01712500000000004,
+          "destroyed": 0.028125,
+          "recovered": 0.00125
+        }
+      ],
+      "old": 0.8495000000000004,
+      "new": 0.9212499999999999,
+      "overall": 0.8614583333333337,
+      "harmonic": 0.8839213610052239,
+      "destroyed_test": 0.02275,
+      "recovered_test": 0.00175,
+      "test_target_met": true,
+      "target_gap_pp": 2.2525000000000572
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_query_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 0.5,
+      "fallback": false,
+      "old": 0.8260000000000003,
+      "new": 0.8949999999999999,
+      "overall": 0.8375000000000002,
+      "harmonic": 0.8591167925624639
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_query_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": 0.4761214256286621,
+      "fallback": false,
+      "ceiling": 0.8705000000000003,
+      "old": 0.8270000000000003,
+      "new": 0.8949999999999999,
+      "overall": 0.8383333333333335,
+      "harmonic": 0.8596573751451801
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_query_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": -0.0035537528991698673,
+      "certified_expansion": true,
+      "fallback": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -5.416492462158203,
+          "pvalue": 3.6997820740081365e-23,
+          "loss": 0.006000000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -2.018229043483734,
+          "pvalue": 2.3110823879074457e-21,
+          "loss": 0.007250000000000006,
+          "accepted": true
+        },
+        {
+          "offset": -1.2118898677825927,
+          "pvalue": 6.9706915027366e-15,
+          "loss": 0.012875000000000004,
+          "accepted": true
+        },
+        {
+          "offset": -0.740551142692566,
+          "pvalue": 4.0863371272574716e-11,
+          "loss": 0.01725000000000001,
+          "accepted": true
+        },
+        {
+          "offset": -0.47339191436767575,
+          "pvalue": 3.857823252360075e-08,
+          "loss": 0.021625000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -0.1302180528640747,
+          "pvalue": 1.651821332047228e-05,
+          "loss": 0.026625000000000003,
+          "accepted": true
+        },
+        {
+          "offset": -0.0035537528991698673,
+          "pvalue": 0.0003257893098427966,
+          "loss": 0.029750000000000006,
+          "accepted": true
+        },
+        {
+          "offset": 0.3376703071594239,
+          "pvalue": 0.03658067707803142,
+          "loss": 0.036625000000000005,
+          "accepted": false
+        }
+      ],
+      "old": 0.8395000000000004,
+      "new": 0.8737499999999999,
+      "overall": 0.8452083333333337,
+      "harmonic": 0.8562826499343353,
+      "destroyed_test": 0.031000000000000003,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 1.2525000000000563
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_query_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": -0.0035537528991698673,
+      "fallback": false,
+      "certified_expansion": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -5.416492462158203,
+          "pvalue": 1.6973266210657276e-29,
+          "accepted": true,
+          "log_evalue": 66.24591325940409,
+          "accuracy_surplus": 0.04400000000000004,
+          "destroyed": 0.0,
+          "recovered": 0.0
+        },
+        {
+          "offset": -2.018229043483734,
+          "pvalue": 6.835495166163709e-27,
+          "accepted": true,
+          "log_evalue": 60.24766859761603,
+          "accuracy_surplus": 0.04275000000000004,
+          "destroyed": 0.00125,
+          "recovered": 0.0
+        },
+        {
+          "offset": -1.2118898677825927,
+          "pvalue": 5.829725827840147e-17,
+          "accepted": true,
+          "log_evalue": 37.380976609456944,
+          "accuracy_surplus": 0.03712500000000004,
+          "destroyed": 0.006875,
+          "recovered": 0.0
+        },
+        {
+          "offset": -0.740551142692566,
+          "pvalue": 3.0382731481699222e-12,
+          "accepted": true,
+          "log_evalue": 26.51973180527333,
+          "accuracy_surplus": 0.03275000000000004,
+          "destroyed": 0.01125,
+          "recovered": 0.0
+        },
+        {
+          "offset": -0.47339191436767575,
+          "pvalue": 1.5271211425980912e-08,
+          "accepted": true,
+          "log_evalue": 17.997296387137613,
+          "accuracy_surplus": 0.028375000000000043,
+          "destroyed": 0.015625,
+          "recovered": 0.0
+        },
+        {
+          "offset": -0.1302180528640747,
+          "pvalue": 1.863838951432409e-05,
+          "accepted": true,
+          "log_evalue": 10.890287151885609,
+          "accuracy_surplus": 0.02337500000000004,
+          "destroyed": 0.020625,
+          "recovered": 0.0
+        },
+        {
+          "offset": -0.0035537528991698673,
+          "pvalue": 0.0005189383868675951,
+          "accepted": true,
+          "log_evalue": 7.563725396936919,
+          "accuracy_surplus": 0.020250000000000042,
+          "destroyed": 0.02375,
+          "recovered": 0.0
+        },
+        {
+          "offset": 0.3376703071594239,
+          "pvalue": 0.09897908198777146,
+          "accepted": false,
+          "log_evalue": 2.3128467442258827,
+          "accuracy_surplus": 0.01337500000000004,
+          "destroyed": 0.030625000000000003,
+          "recovered": 0.0
+        }
+      ],
+      "old": 0.8395000000000004,
+      "new": 0.8737499999999999,
+      "overall": 0.8452083333333337,
+      "harmonic": 0.8562826499343353,
+      "destroyed_test": 0.031000000000000003,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 1.2525000000000563
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 0.5,
+      "fallback": false,
+      "old": 0.8020000000000003,
+      "new": 0.8987499999999999,
+      "overall": 0.8181250000000002,
+      "harmonic": 0.8476231074525946
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": -0.0045456886291503915,
+      "fallback": false,
+      "ceiling": 0.8685000000000003,
+      "old": 0.8270000000000003,
+      "new": 0.8787499999999999,
+      "overall": 0.8356250000000003,
+      "harmonic": 0.8520899897405836
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": -0.31328592777252195,
+      "certified_expansion": true,
+      "fallback": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -4.710524797439575,
+          "pvalue": 6.029031289578836e-19,
+          "loss": 0.009125000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -2.3652035665512083,
+          "pvalue": 3.867088347438502e-16,
+          "loss": 0.011625000000000007,
+          "accepted": true
+        },
+        {
+          "offset": -1.3771953058242798,
+          "pvalue": 1.3376156399873202e-11,
+          "loss": 0.016625000000000008,
+          "accepted": true
+        },
+        {
+          "offset": -1.0535760927200317,
+          "pvalue": 1.5961390638978764e-08,
+          "loss": 0.021000000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -0.7845134925842285,
+          "pvalue": 9.87526741340025e-07,
+          "loss": 0.024125000000000008,
+          "accepted": true
+        },
+        {
+          "offset": -0.47594944238662706,
+          "pvalue": 0.0009197417505740612,
+          "loss": 0.031000000000000007,
+          "accepted": true
+        },
+        {
+          "offset": -0.31328592777252195,
+          "pvalue": 0.008615028635713175,
+          "loss": 0.034125,
+          "accepted": true
+        },
+        {
+          "offset": -0.05236124992370596,
+          "pvalue": 0.28660681780007624,
+          "loss": 0.04162500000000001,
+          "accepted": false
+        }
+      ],
+      "old": 0.8380000000000003,
+      "new": 0.8599999999999999,
+      "overall": 0.8416666666666668,
+      "harmonic": 0.8488574793875149,
+      "destroyed_test": 0.034,
+      "recovered_test": 0.0015,
+      "test_target_met": true,
+      "target_gap_pp": 1.1025000000000507
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "fixed_center_fixed_scale",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": -0.31328592777252195,
+      "fallback": false,
+      "certified_expansion": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -4.710524797439575,
+          "pvalue": 2.3580787976480448e-24,
+          "accepted": true,
+          "log_evalue": 54.40419501314672,
+          "accuracy_surplus": 0.04337500000000004,
+          "destroyed": 0.003125,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -2.3652035665512083,
+          "pvalue": 5.630856792563737e-20,
+          "accepted": true,
+          "log_evalue": 44.32344024590417,
+          "accuracy_surplus": 0.040875000000000036,
+          "destroyed": 0.005625,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -1.3771953058242798,
+          "pvalue": 7.30644577816054e-14,
+          "accepted": true,
+          "log_evalue": 30.24743436005307,
+          "accuracy_surplus": 0.03587500000000004,
+          "destroyed": 0.010625,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -1.0535760927200317,
+          "pvalue": 6.70438613413476e-10,
+          "accepted": true,
+          "log_evalue": 21.12308897084555,
+          "accuracy_surplus": 0.03150000000000004,
+          "destroyed": 0.015,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -0.7845134925842285,
+          "pvalue": 1.0585143293293812e-07,
+          "accepted": true,
+          "log_evalue": 16.061229302065215,
+          "accuracy_surplus": 0.02837500000000004,
+          "destroyed": 0.018125000000000002,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -0.47594944238662706,
+          "pvalue": 0.0003852456440899772,
+          "accepted": true,
+          "log_evalue": 7.861629390537958,
+          "accuracy_surplus": 0.02150000000000004,
+          "destroyed": 0.025,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -0.31328592777252195,
+          "pvalue": 0.0056417602871019394,
+          "accepted": true,
+          "log_evalue": 5.17755915452544,
+          "accuracy_surplus": 0.018375000000000037,
+          "destroyed": 0.028125000000000004,
+          "recovered": 0.0025
+        },
+        {
+          "offset": -0.05236124992370596,
+          "pvalue": 0.42861336673258377,
+          "accepted": false,
+          "log_evalue": 0.8472000094653991,
+          "accuracy_surplus": 0.01087500000000004,
+          "destroyed": 0.035625000000000004,
+          "recovered": 0.0025
+        }
+      ],
+      "old": 0.8380000000000003,
+      "new": 0.8599999999999999,
+      "overall": 0.8416666666666668,
+      "harmonic": 0.8488574793875149,
+      "destroyed_test": 0.034,
+      "recovered_test": 0.0015,
+      "test_target_met": true,
+      "target_gap_pp": 1.1025000000000507
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_half",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 0.5,
+      "fallback": false,
+      "old": 0.8217500000000003,
+      "new": 0.9349999999999999,
+      "overall": 0.8406250000000002,
+      "harmonic": 0.874724633556283
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_half",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": 0.3405907154083252,
+      "fallback": false,
+      "ceiling": 0.8585000000000003,
+      "old": 0.8270000000000003,
+      "new": 0.9312499999999999,
+      "overall": 0.8443750000000003,
+      "harmonic": 0.8760344092137069
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_half",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": -0.6324078226089477,
+      "certified_expansion": true,
+      "fallback": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -5.064388751983643,
+          "pvalue": 4.0863371272574716e-11,
+          "loss": 0.017250000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -1.9715146017074585,
+          "pvalue": 4.0863371272574716e-11,
+          "loss": 0.017250000000000005,
+          "accepted": true
+        },
+        {
+          "offset": -1.1939650535583497,
+          "pvalue": 9.052799064617702e-08,
+          "loss": 0.022250000000000006,
+          "accepted": true
+        },
+        {
+          "offset": -0.6324078226089477,
+          "pvalue": 0.00010582362886292992,
+          "loss": 0.028500000000000004,
+          "accepted": true
+        },
+        {
+          "offset": -0.27112576484680173,
+          "pvalue": 0.012713287011553,
+          "loss": 0.03475,
+          "accepted": false
+        }
+      ],
+      "old": 0.8450000000000003,
+      "new": 0.8974999999999999,
+      "overall": 0.8537500000000002,
+      "harmonic": 0.8704591104734577,
+      "destroyed_test": 0.02925,
+      "recovered_test": 0.00375,
+      "test_target_met": true,
+      "target_gap_pp": 1.8025000000000513
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_half",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": -0.27112576484680173,
+      "fallback": false,
+      "certified_expansion": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -5.064388751983643,
+          "pvalue": 5.232396087954382e-15,
+          "accepted": true,
+          "log_evalue": 32.88390707873701,
+          "accuracy_surplus": 0.03962500000000004,
+          "destroyed": 0.01125,
+          "recovered": 0.006875
+        },
+        {
+          "offset": -1.9715146017074585,
+          "pvalue": 5.232396087954382e-15,
+          "accepted": true,
+          "log_evalue": 32.88390707873701,
+          "accuracy_surplus": 0.03962500000000004,
+          "destroyed": 0.01125,
+          "recovered": 0.006875
+        },
+        {
+          "offset": -1.1939650535583497,
+          "pvalue": 1.6036081319889966e-10,
+          "accepted": true,
+          "log_evalue": 22.553594757083914,
+          "accuracy_surplus": 0.034625000000000045,
+          "destroyed": 0.01625,
+          "recovered": 0.006875
+        },
+        {
+          "offset": -0.6324078226089477,
+          "pvalue": 1.6292550451401625e-06,
+          "accepted": true,
+          "log_evalue": 13.327387675135885,
+          "accuracy_surplus": 0.02837500000000004,
+          "destroyed": 0.022500000000000003,
+          "recovered": 0.006875
+        },
+        {
+          "offset": -0.27112576484680173,
+          "pvalue": 0.0012640053178598098,
+          "accepted": true,
+          "log_evalue": 6.6734697760987505,
+          "accuracy_surplus": 0.02150000000000004,
+          "destroyed": 0.02875,
+          "recovered": 0.00625
+        },
+        {
+          "offset": 0.19530830383300796,
+          "pvalue": 0.7856069631792407,
+          "accepted": false,
+          "log_evalue": 0.24129865846379817,
+          "accuracy_surplus": 0.009625000000000042,
+          "destroyed": 0.04,
+          "recovered": 0.005625000000000001
+        }
+      ],
+      "old": 0.8390000000000003,
+      "new": 0.9124999999999999,
+      "overall": 0.8512500000000002,
+      "harmonic": 0.8742078218669713,
+      "destroyed_test": 0.035250000000000004,
+      "recovered_test": 0.00375,
+      "test_target_met": true,
+      "target_gap_pp": 1.2025000000000508
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_zero",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 0.5,
+      "fallback": false,
+      "old": 0.7352500000000002,
+      "new": 0.9512499999999999,
+      "overall": 0.7712500000000002,
+      "harmonic": 0.829417803142603
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_zero",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": -3.613686084747315,
+      "fallback": false,
+      "ceiling": 0.8277500000000003,
+      "old": 0.8270000000000003,
+      "new": 0.69,
+      "overall": 0.8041666666666668,
+      "harmonic": 0.752313777191826
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_zero",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": null,
+      "certified_expansion": false,
+      "fallback": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -6.1785502433776855,
+          "pvalue": 1.0,
+          "loss": 0.054125000000000006,
+          "accepted": false
+        }
+      ],
+      "old": 0.8704999999999998,
+      "new": 0.0,
+      "overall": 0.7254166666666665,
+      "harmonic": 0.0,
+      "destroyed_test": 0.0,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 4.352500000000004
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "classifier_zero",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": null,
+      "fallback": true,
+      "certified_expansion": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -6.1785502433776855,
+          "pvalue": 1.0,
+          "accepted": false,
+          "log_evalue": -0.18929635514578314,
+          "accuracy_surplus": 0.009000000000000041,
+          "destroyed": 0.048125,
+          "recovered": 0.013125
+        }
+      ],
+      "old": 0.8704999999999998,
+      "new": 0.0,
+      "overall": 0.7254166666666665,
+      "harmonic": 0.0,
+      "destroyed_test": 0.0,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 4.352500000000004
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "hycal",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "fixed_gate",
+      "offset": 8.881784197001252e-16,
+      "fallback": false,
+      "old": 0.8050000000000003,
+      "new": 0.7024999999999999,
+      "overall": 0.7879166666666668,
+      "harmonic": 0.7502653399668324
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "hycal",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "matched_test",
+      "offset": null,
+      "fallback": true,
+      "ceiling": 0.8082500000000002
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "hycal",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "protection",
+      "offset": null,
+      "certified_expansion": false,
+      "fallback": true,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "calibration_max_weight": 0.000625,
+      "trace": [
+        {
+          "offset": -0.04081583023071289,
+          "pvalue": 1.0,
+          "loss": 0.101625,
+          "accepted": false
+        }
+      ],
+      "old": 0.8704999999999998,
+      "new": 0.0,
+      "overall": 0.7254166666666665,
+      "harmonic": 0.0,
+      "destroyed_test": 0.0,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 4.352500000000004
+    },
+    {
+      "encoder": "l14",
+      "dataset": "cifar",
+      "part": 7,
+      "order": 1,
+      "session": 1,
+      "method": "hycal",
+      "reference_closed_test": 0.8704999999999998,
+      "policy": "paired_accuracy",
+      "offset": null,
+      "fallback": true,
+      "certified_expansion": false,
+      "delta": 0.05,
+      "per_session_delta": 0.01,
+      "trace": [
+        {
+          "offset": -0.04081583023071289,
+          "pvalue": 1.0,
+          "accepted": false,
+          "log_evalue": -1.9851417155142848,
+          "accuracy_surplus": -0.013499999999999955,
+          "destroyed": 0.09562499999999999,
+          "recovered": 0.038125000000000006
+        }
+      ],
+      "old": 0.8704999999999998,
+      "new": 0.0,
+      "overall": 0.7254166666666665,
+      "harmonic": 0.0,
+      "destroyed_test": 0.0,
+      "recovered_test": 0.0,
+      "test_target_met": true,
+      "target_gap_pp": 4.352500000000004
+    }
+  ],
+  "raw_sha256": "d5325651b653a7ae07c11d9581d42f90df78c339a0fb175a841def44ea0ff42d",
+  "frozen_selection_sha256": "13a979fff1e5ce5c3408349768ead65f0c55b80ac47f0b00188e3a02c6619e4b"
+}

@@ -49,7 +49,7 @@ abstract=main.split(r'\begin{abstract}')[1].split(r'\end{abstract}')[0]
 report['abstract_words']=len(abstract.split());assert report['abstract_words']<=250
 with fitz.open(H/'main.pdf') as document:
  first=' '.join(document[0].get_text().split())
- assert 'average incremental accuracy with ViT-L/14 and ViT-B/32.' in first
+ assert 'role of calibration' in first and 'target correspondence.' in first
  assert 'Keywords:' in first
  report['abstract_complete_on_first_page']=True
  report['keywords_on_first_page']=True
@@ -94,14 +94,30 @@ if r'\label{fig:capacity}' in main:
  for name,sha in presentation['source_sha256'].items():
   assert hashlib.sha256((H/name).read_bytes()).hexdigest()==sha
  assert len(re.findall(r'\\begin\{figure\}',main))==3
- assert len(re.findall(r'\\begin\{table\}',main))==2
+ assert len(re.findall(r'\\begin\{table\}',main))==3
  assert len(added)==10
- report['presentation_revision']={'main_figures':3,'main_tables':2,'kbs_citations':10,'paired_comparisons_preserved':18,'numerical_sources_unchanged':True}
+ report['presentation_revision']={'main_figures':3,'main_tables':3,'kbs_citations':10,'paired_comparisons_preserved':18,'numerical_sources_unchanged':True}
 if (H/'strengthening_summary.json').exists():
  summary=json.loads((H/'strengthening_summary.json').read_text())
  assert set(summary)=={'cifar','pets','imagenetr'}
  for name in summary:assert summary[name]['methods']['retained']['final']['n']==3
  report['strengthening_datasets']=list(summary)
  report['new_result_inputs']={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in H.glob('table_strengthened_*.tex')}
+if r'\label{sec:shift}' in main:
+ revision=json.loads((H/'reviewer_revision_summary.json').read_text())
+ verified=json.loads((H.parents[1]/'experiments/kbs_reviewer_revision/verification.json').read_text())
+ provenance=json.loads((H.parents[1]/'experiments/kbs_reviewer_revision/provenance_verification.json').read_text())
+ restart=json.loads((H.parents[1]/'experiments/kbs_reviewer_revision/restart_verification.json').read_text())
+ assert verified['complete'] and verified['metric_records']==24000 and verified['reconstructed_threshold_tests']==54960
+ assert provenance['complete'] and provenance['pixel_overlap']==0 and provenance['protected_overlap']==0
+ assert restart['complete']
+ maintext='\n'.join(p.get_text() for p in fitz.open(H/'main.pdf'))
+ pair=next(r for r in revision['comparisons'] if (r['encoder'],r['dataset'],r['comparator'])==('l14','imagenetr','anchored_tp'))
+ assert pair['jointly_admitted']==10
+ assert f"{pair['all_partition_gain']['mean']:.2f}" in maintext
+ for m in ['retained','anchored_tp']:
+  row=next(r for r in revision['policy'] if (r['encoder'],r['dataset'],r['method'],r['policy'])==('l14','imagenetr',m,'paired_accuracy'))
+  assert row['finite']==10 and f"{100*row['novel']['mean']:.2f}" in maintext
+ report['five_point_revision']={'metric_records':24000,'threshold_tests':54960,'supplementary_sections':'M-O','provenance_verified':True,'restart':restart}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

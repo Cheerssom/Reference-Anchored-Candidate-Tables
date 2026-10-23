@@ -266,8 +266,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 22 review-format pages (114-word abstract),3 figures and2 tables;
-the supplement is 54 pages, Sections A-L. Ten KBS references are cited. Independent calibration coverage is
+The current main manuscript has 26 review-format pages (106-word abstract),3 figures and3 tables;
+the supplement is 68 pages, Sections A-O. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -292,4 +292,12 @@ uses small batches and supports the shared PAUSE marker and checkpoint resume.
 Image data, weights and PT feature caches are excluded from this public export.
 No new model downloads or paid compute are required for the original local run.
 
-The current presentation restores the matched-retention capacity curve to the main manuscript; its row ranges are50-100% and30-90%. Table-layout exemplars and the three added KBS references are documented in paper/kbs/literature/reading_notes.md. No numerical outcomes changed.
+The current presentation restores the matched-retention capacity curve to the main manuscript; its row ranges are50-100% and30-90%. Table-layout exemplars and the three added KBS references are documented in paper/kbs/literature/reading_notes.md. Original numerical outcomes are retained; new controlled experiments are reported separately.
+
+## Five-point reviewer revision
+
+Controlled normalization, class-quality diagnosis, recovery-aware calibration, a matched HyCal transfer and prespecified query-shift tests are complete. New raw records:24,000; independently reconstructed threshold tests:54,960. See paper/kbs/five_point_revision_response.md and Supplement M-O. The experiment audit was interrupted by a model usage limit; no completed audit PASS is claimed.
+
+```powershell
+powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python
+```

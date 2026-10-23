@@ -634,8 +634,14 @@ Since $p(q)$ increases on $0\leq q<1-r$, passing at level $\delta/5$ requires
 \end{equation}
 At $r=0.95$ and $\delta=0.05$, this floor is 89.78. It is a necessary condition for this certificate, not a sufficient condition for successful expansion. Under the original allocation, CIFAR has $n_{\mathrm{eff}}=80$, Pets has 45 or 60 and ImageNet-R has 600, 700 or 800. Thus the original CIFAR/Pets calibration allocation cannot pass this bound even at zero observed loss. Balanced per-class caps must be at least 3 for CIFAR, 6 for Pets and 1 for ImageNet-R to clear the zero-loss floor. Actual protection losses require further evidence. A balanced allocation can improve the bound even with fewer total labels than a larger, uneven pool.
 
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\linewidth]{calibration_budget_curve.pdf}
+\caption{Protection-calibrated novel accuracy versus class-wise calibration cap, fifth arrival in order 0. Means include reference fallback, which contributes zero novel accuracy. Shading shows retained partition standard deviations. All six readouts share calibration images; three subset seeds are averaged below cap 40.}
+\label{fig:coverage}
+\end{figure}
+
 \subsection{Aggregation, admission and complete comparisons}
-Main Fig.~\ref{main-fig:budget} and Fig.~\ref{fig:budgetcertification} show the fifth arrival in order 0, the first prespecified order. Novel-accuracy means average three subset seeds within each of ten partitions below cap 40, and use the full pool once per partition at 40. Retained-table shading shows sample standard deviation across ten partition means, clipped to [0,100]. Finite-admission fractions count 30 correlated partition/subset cells below 40 and ten at 40, with equal partition weights; these cells are not independent Bernoulli trials. Confidence applies to five arrivals for each prespecified method/order/partition and budget separately, without a simultaneous statement across plotted budgets or methods.
+Figures~\ref{fig:coverage} and~\ref{fig:budgetcertification} show the fifth arrival in order 0, the first prespecified order. Novel-accuracy means average three subset seeds within each of ten partitions below cap 40, and use the full pool once per partition at 40. Retained-table shading shows sample standard deviation across ten partition means, clipped to [0,100]. Finite-admission fractions count 30 correlated partition/subset cells below 40 and ten at 40, with equal partition weights; these cells are not independent Bernoulli trials. Confidence applies to five arrivals for each prespecified method/order/partition and budget separately, without a simultaneous statement across plotted budgets or methods.
 
 \begin{figure}[htbp]
 \centering\includegraphics[width=.98\textwidth]{calibration_certification_curve.pdf}
@@ -659,6 +665,107 @@ All six retained-table dataset/encoder conditions certify final expansion in 10/
 Paired policy differences include all ten partitions, including fallback; \nolinkurl{calibration_budget_paired.csv} additionally reports jointly finite partition counts and conditional accuracy differences. These distinguish improved ability to certify admission from predictive differences after both methods admit. For example, L/14 retained-minus-dense policy differences are 42.02 [23.83,60.07] points on CIFAR and 26.12 [$-0.01$,53.10] on Pets. On their jointly finite sets, the means are 12.84 points over five CIFAR partitions and $-0.63$ over seven Pets partitions. Conditional paired percentile intervals resample ten partition means 20,000 times with seed 2026; they describe class-assignment variation on fixed images. The sufficient protection criterion ignores recovery of reference errors by replacement models, as derived in Section J.
 
 The 93,600 records cover 60 dataset/encoder/partition runs, two orders, five arrivals, 13 distinct cap/subset settings, six methods and two policies. The independent verifier reconstructs 88,216 threshold tests, selected thresholds and final predictions; it verifies zero protected-pool overlap and unchanged original models and test archives. A completed rerun preserves hashes and modification times of 1,996 checkpoint files. Complete cap-specific metrics, query counts and trajectories are supplied in \nolinkurl{calibration_budget_summary.json} and its CSV export. The study uses previously examined benchmarks; the population confidence statement retains Section J's class-conditional sampling assumptions.
+
+
+\FloatBarrier
+\section{Controlled normalization, learned evidence and HyCal transfer}
+\label{app:normalizationrevision}
+\subsection{Frozen-gate factorial and learned-weight interventions}
+The locked protocol is \nolinkurl{experiments/kbs_reviewer_revision_protocol.md}; its sampling clarification is \nolinkurl{experiments/kbs_reviewer_revision_scope.md}. The four normalization cells independently replace query centering or query scaling with the corresponding branch moments averaged over base-tuning queries. Reference banks, models, support, gates and offsets are unchanged. Main Table~\ref{main-tab:factorial} reports the resulting average incremental accuracy. This differs from the independently tuned fixed-temperature comparator in Section I. Halving or removing the learned coefficient additionally tests its contribution within the original score frame. Complete paired contrasts and fixed-gate means are in \nolinkurl{reviewer_revision_summary.json}; bootstrap intervals average orders within each partition and condition on the fixed benchmark data.
+
+\subsection{Class-level quality diagnosis}
+For each observed base class, we average its test accuracy across partitions in which it occurs, then compare the retained and dense closed-base classifiers. Prototype quality is accuracy of the pure visual-mean readout; cohesion is mean within-class feature--prototype cosine similarity. Frequency is the permitted base-fitting count. Classes are sorted by frequency into three approximately equal groups. These are descriptive associations on overlapping benchmark tasks, not independent class-level significance tests or causal estimates. Table~\ref{tab:diagnostics} reports all observed classes and correlations; Figure~\ref{fig:classquality} shows the class-level relationship. The distinct closed-base and incremental metrics should not be equated.
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Closed-base retained-minus-dense accuracy gap (pp) and Spearman correlations between class-level gain and fitting count, pure-prototype accuracy and cohesion. Classes counts distinct classes observed as base across ten partitions.}
+\label{tab:diagnostics}
+\resizebox{\linewidth}{!}{\input{table_classifier_diagnostics}}
+\end{table}
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\linewidth]{classifier_quality_diagnosis.pdf}
+\caption{Pure-prototype class accuracy versus the retained-minus-dense closed-base accuracy gap. Each point is a distinct observed base class, averaged over its available partitions. Correlations and sample units are in Table~\ref{tab:diagnostics}.}
+\label{fig:classquality}
+\end{figure}
+
+\subsection{Recent HyCal baseline under matched access}
+We implement HyCal~\cite{lee2026hycal} from the author repository \url{https://github.com/EJLEE5826/HyCal-CIL}, pinned at \nolinkurl{4558fb7fa6aa389310c9e9dc7db7c2cbebc84a41}. The controlled transfer shares our encoders, eight-prompt text anchors, base-fitting pool, five novel supports, base-only tuning, calibration images, arrival orders and reference-accuracy target. It retains normalized visual/text sum prototypes, class-specific regularized covariance, count-dependent sigmoid weighting, unbiased cross-class score standardization and Gaussian-CDF calibration. The background Mahalanobis term is common to all classes of a query and cancels under this standardization. Precision computation uses the author's regularized covariance setting; sample-space inversion changes the computation rather than the score definition.
+
+Covariance regularization is selected from $\{10^{-4},10^{-3},10^{-2}\}$ by base-only pseudo-expansion; the novel offset grid is $[-1,1]$ in steps of .05. The author's count parameter is fixed at five and scale at one. No actual novel tuning queries are used. Actual novel fitting statistics are excluded; only their five support images construct their visual prototypes and covariance. Isolated author-code fixtures give maximum relative precision error $4.46\times10^{-6}$ and zero Gaussian-CDF discrepancy. Source provenance and numerical fixtures are in \nolinkurl{hycal_author_fixture.json}. The author's published encoder/prompt protocol and balanced task differ from this matched transfer, so these are newly measured transfer results.
+
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Controlled HyCal transfer: unrestricted average incremental macro accuracy and final descriptive novel capacity at the common 95\% base requirement (\%). Capacity averages partitions feasible in both orders; HyCal feasible reports that count, and -- denotes none. Unequal feasible sets are not paired accuracy comparisons.}
+\resizebox{\linewidth}{!}{\input{table_hycal_transfer}}
+\end{table}
+
+\FloatBarrier
+\section{Recovery-aware direct accuracy calibration and fair policy comparison}
+\label{app:pairedrevision}
+\input{paired_accuracy_proof}
+\subsection{Identical-access policy comparison}
+Both certificates use identical cap-40 calibration images, fixed models and independently fixed candidate sequences, $r=.95$ and $\delta=.05$. Each stops at the first failure and returns the retained reference if no finite threshold passes. The original sufficient criterion is preserved without modification. Tables below report final order-0 outcomes: Finite is the number of admitted partitions, Met counts finite-test target attainment including reference fallback, Novel and Base average all ten partitions, and Given admission averages novel accuracy over admitted partitions only. Thus high protection through fallback is distinct from useful admission. Neither certificate dominates by construction; the paper reports both rather than choosing between them after inspecting test results. Confidence statements condition on a fixed method/order/partition/policy and five prespecified arrivals; they do not apply simultaneously across the full collection of reported configurations. Finite test attainment is an empirical diagnostic rather than the population guarantee itself.
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L14, CIFAR-100: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_l14_cifar}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L14, Pets: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_l14_pets}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L14, ImageNet-R: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_l14_imagenetr}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B32, CIFAR-100: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_b32_cifar}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B32, Pets: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_b32_pets}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B32, ImageNet-R: sufficient protection and direct paired accuracy calibration. Accuracy columns are percentages; both admission and fallback are explicit.}
+\resizebox{\linewidth}{!}{\input{table_fairness_b32_imagenetr}}
+\end{table}
+
+\FloatBarrier
+\section{Prespecified query-shift stress test}
+\label{app:shiftrevision}
+Two deterministic corruption mechanisms are applied to CIFAR RGB images before the original bicubic resize and CLIP normalization: additive Gaussian noise with standard deviation .08 in $[0,1]$ intensity (clipped to the valid range), and Gaussian blur of radius 1.25 pixels at the original $32\times32$ resolution. The noise seed depends on image identity and role. The evaluation subset contains 20 original test images per class, sampled with seed 23102026 before outcomes, and the calibration pool contains 40 held-out images per class. Every method uses the same transformed images. Fitting, support and hyperparameter-tuning queries remain clean. These custom perturbations constitute a controlled covariate-shift stress test, rather than the official CIFAR-C suite or an untouched external dataset.
+
+Clean calibration applies the original clean-query certificate to shifted queries; matched-shift calibration instead uses independently held-out images transformed by the same mechanism as test queries. Both preserve the clean-tuning candidate families. We evaluate ten partitions, the first prespecified order and all five arrivals, with both encoders and retained, dense-prototype and HyCal readouts. The direct-test retained policy meets every empirical session target on all ten matched-shift paths per corruption and encoder. Clean-to-shift target violations demonstrate why access separation alone cannot justify transfer of a population guarantee to a changed query law.
+
+The tables give the fifth arrival, Finite admission and Met test-target counts out of ten, fallback-inclusive novel accuracy, and novel accuracy conditional on admission. All-session counts and base accuracies are provided in the machine-readable summary. The newly transformed 24,000 query embeddings are generated from existing local checkpoints; clean-image witness re-encodings verify feature-space consistency. No new models are trained or downloaded.
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L14, protection certificate under clean or matched-shift calibration. Novel columns are percentages.}
+\resizebox{\linewidth}{!}{\input{table_shift_l14_protection}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L14, paired accuracy certificate under clean or matched-shift calibration. Novel columns are percentages.}
+\resizebox{\linewidth}{!}{\input{table_shift_l14_paired_accuracy}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B32, protection certificate under clean or matched-shift calibration. Novel columns are percentages.}
+\resizebox{\linewidth}{!}{\input{table_shift_b32_protection}}
+\end{table}
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B32, paired accuracy certificate under clean or matched-shift calibration. Novel columns are percentages.}
+\resizebox{\linewidth}{!}{\input{table_shift_b32_paired_accuracy}}
+\end{table}
+
+\FloatBarrier
+The five revision blocks contain 24,000 metric records. A separate reconstruction verifies 54,960 threshold tests, their first-failure selection, predictions, macro accuracies, unchanged original references and source hashes. Original experiments remain intact. These checks and the locked protocol are distributed with the code; raw image data, model weights and PT feature caches are obtained separately.
 
 \FloatBarrier
 \begingroup

@@ -11,7 +11,7 @@ highlights=[
  'Fixed references separate existing discrimination from novel admission.',
  'Classifier value is measured at matched retention and across repeated arrivals.',
  'ImageNet-R gains over dense prototypes persist with two frozen CLIP encoders.',
- 'Independent class coverage supports certified admission across three datasets.'
+ 'Recovery-aware calibration separates admission from recognition gains.'
 ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
@@ -21,7 +21,7 @@ Please consider our manuscript, "{title}," as an original Research Article.
 
 The paper investigates how a trained classifier's discrimination can support new-class recognition under an explicit original-class accuracy requirement. Reference-anchored candidate tables preserve the existing score frame while a separate threshold controls novel admission. Matched-retention frontiers and paired arrival sequences quantify the retained classifier's expansion capacity and continuing predictive value.
 
-Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration with up to 40 images per base class certifies final-session expansion in all ten partitions of every dataset and encoder. ViT-L/14 novel accuracy reaches 72.76% on CIFAR-100, 88.51% on Pets and 80.74% on ImageNet-R, with the 95% test-retention target met in each partition. A coverage condition explains certification feasibility; all readouts share calibration access and the manuscript reports fallback separately from useful admission.
+Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration with up to 40 images per base class certifies final-session expansion in all ten partitions of every dataset and encoder. ViT-L/14 novel accuracy reaches 72.76% on CIFAR-100, 88.51% on Pets and 80.74% on ImageNet-R, with the 95% test-retention target met in each partition. A direct paired accuracy certificate credits recovery of reference errors: on ImageNet-R L/14 both retained and dense readouts admit all ten partitions, with novel accuracy 81.61% and 76.76%. Frozen-gate normalization controls, an author-code-checked HyCal transfer and query-shift stress tests isolate the source and scope of the gains. All readouts share calibration access and report fallback separately from useful admission.
 
 The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 
@@ -53,7 +53,7 @@ doc('declarations.docx','Declarations',[
 'AI assistance: OpenAI Codex assisted literature discovery, manuscript drafting and revision, experiment and verification scripts, and LaTeX and table preparation. The author is responsible for the accuracy, interpretation and originality of the submitted work and for reviewing and approving the final manuscript and supporting materials.'
 ])
 
-sources=[H/n for n in ['main.tex','main.bbl','supplementary.tex','supplementary.bbl','references.bib','elsarticle.cls','elsarticle-num.bst','numbers.tex','retention_numbers.tex','strengthening_results.tex','depth_results.tex'] if (H/n).exists()]
+sources=[H/n for n in ['main.tex','main.bbl','supplementary.tex','supplementary.bbl','references.bib','elsarticle.cls','elsarticle-num.bst','numbers.tex','retention_numbers.tex','strengthening_results.tex','depth_results.tex','paired_accuracy_proof.tex'] if (H/n).exists()]
 sources += [H/n for n in ['elsarticle.dtx','elsarticle.ins','template_README','template_manifest.txt','elsarticle-template-num.tex','template_provenance.json']]
 sources+=list(H.glob('table_*.tex'))
 sources+=[H/'validation_budget_results.tex']

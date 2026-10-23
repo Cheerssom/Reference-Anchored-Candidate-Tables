@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 22-page main manuscript and 54-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 26-page main manuscript and 68-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -22,6 +22,7 @@ python build_independent_risk_results.py
 python build_concise_tables.py
 python build_calibration_budget_results.py
 python build_kbs_presentation.py
+python build_reviewer_revision_results.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error main.tex
 latexmk -pdf -interaction=nonstopmode -halt-on-error supplementary.tex
 python validate_submission.py
@@ -105,4 +106,18 @@ The new citations are related work, not unrun experimental baselines.
 
 ## First-page abstract (2026-10-23)
 
-Abstract shortened to114 words with the core mechanism, calibration conditions and key results preserved. Both the complete abstract and keywords fit on page1 using the existing class fonts, margins and review spacing. Validator checks their first-page placement.
+The current abstract has106 words, covering the mechanism, direct calibration comparison and query-shift scope. Both the complete abstract and keywords fit on page1 using the existing class fonts, margins and review spacing. Validator checks their first-page placement.
+
+## Five-point reviewer revision
+
+See [revision response](five_point_revision_response.md), the new summary and Supplement M-O. All24,000 new records and54,960 threshold tests reconstruct. The direct-risk proof has a conditional same-family review; the separate experiment audit was interrupted by a model usage limit and has no completed PASS. New data/model/PT feature files are not redistributed.
+
+For fresh HyCal feature computation, obtain the upstream author code separately (not bundled) before running the fixture:
+
+```powershell
+git clone https://github.com/EJLEE5826/HyCal-CIL paper/kbs/literature/reviewer_baselines/hycal
+git -C paper/kbs/literature/reviewer_baselines/hycal checkout 4558fb7fa6aa389310c9e9dc7db7c2cbebc84a41
+powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python
+```
+
+Run those commands from the repository root after constructing the original dataset/feature caches. Reproduction on new software/hardware can differ in floating-point details; pinned source hashes identify the recorded run. Readout manifests bind source/protocol; the additional provenance file is explicitly a post-run binding, with cache numerical witnesses and raw-pixel separation checks. Completed session shards and feature batches support resume; PAUSE uses experiments/kbs_strengthening/PAUSE. No additional model download or paid compute was needed for the original local run.
