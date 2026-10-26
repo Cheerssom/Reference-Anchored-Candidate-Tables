@@ -256,7 +256,7 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 30 review-format pages (115-word abstract),5 figures and3 tables;
+The current main manuscript has 30 review-format pages (120-word abstract),5 figures and3 tables;
 the supplement is 87 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.

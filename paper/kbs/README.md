@@ -2,7 +2,7 @@
 
 Target journal: Knowledge-Based Systems. No journal submission has been performed.
 
-Current review-format manuscript:30 pages,5 figures and3 tables. Supplement:87 pages, Sections A–R. The abstract and keywords fit on the first page. Read review_complete.pdf for the full paper and supplement; main.pdf and supplementary.pdf are separate upload files.
+Current review-format manuscript:30 pages,5 figures and3 tables. Supplement:87 pages, Sections A–R. The 120-word abstract and keywords fit on the first page. Read review_complete.pdf for the full paper and supplement; main.pdf and supplementary.pdf are separate upload files.
 
 The paper connects vocabulary-invariant alignment of asymmetric evidence with finite-sample retention certification. Its central analysis relates adaptive admission margins, preserved error structure and the gap between recognition capacity and selected policies. The main text includes the ridge mean identity, protection coverage condition, direct accuracy test, paired-score variance identity and empirical policy decomposition. Descriptive test-label capacity is separate from independently selected policies. Confidence is conditional on the stated class-conditional sampling assumptions, per fixed configuration over five prespecified arrivals; bootstrap intervals describe class-assignment variation on fixed images.
 
@@ -38,3 +38,7 @@ powershell -File scripts/run_kbs_sketch_validation.ps1 -Python python
 These reuse the original cached source features, local CLIP snapshots and source selection records. Reconstruct these inputs with the repository's original data/feature instructions. The runtime serializes GPU jobs, uses two PyTorch CPU threads, caps process GPU memory and honors experiments/kbs_strengthening/PAUSE. Each feature batch and per-session result is atomic. Remove the PAUSE marker to resume the same invocation. ImageNet-Sketch acquisition uses a pinned author-linked ZIP index and requests only mapped class ranges; images live separately under ../data/imagenet-sketch-r200. Images, pretrained weights and PT feature caches are excluded from public releases.
 
 The source-hashed old evidence ZIP and the separate Q/R extension evidence ZIP preserve their respective scopes. Highlights, cover letter, declarations and title page are regenerated with the submission-materials builder. Literature/template provenance remains under literature/ and template_provenance.json.
+
+## Submission freeze — 2026-10-26
+
+The final three cohort/conditioning/attribution clarifications are incorporated. `submission_freeze_manifest.json` records the frozen artifacts; `python paper/kbs/verify_submission_freeze.py` checks them without rebuilding. See `submission_check.md` for the upload map and the distinct status of local checks versus journal-specific rules. Current direct access to the KBS guide failed, so anonymity and length are not marked as officially verified. No journal submission has occurred.

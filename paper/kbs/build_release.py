@@ -36,9 +36,6 @@ def bundle():
     names=['main.pdf','supplementary.pdf','Highlights.docx','cover_letter.docx','title_page.docx','declarations.docx',
            'candidate_tables_kbs_source.zip','candidate_tables_kbs_supplement_source.zip']
     report=json.loads((H/'validation.json').read_text())
-    audit=json.loads((H/'five_point_revision_completion.json').read_text()).get('experiment_audit',{})
-    audit_note=(f"The completed same-family experimental integrity audit has status {audit.get('status')}; its semantic assessment remains provisional. "
-                if audit.get('complete') else "The fresh-agent experiment audit was interrupted by a model usage limit; no completed experiment-audit PASS is claimed. ")
     combined=fitz.open();toc=[]
     last='R' if 'app:sketchvalidation' in (H/'supplementary.tex').read_text(encoding='utf-8') else ('Q' if 'app:fullretuning' in (H/'supplementary.tex').read_text(encoding='utf-8') else 'P')
     for name,title in [('main.pdf','Main manuscript'),('supplementary.pdf','Supplementary material A-'+last)]:
@@ -55,10 +52,14 @@ def bundle():
                  "No journal submission has been performed. Use the portal's current instructions for upload fields, "
                  "article length and required affiliation/mailing details. Direct access to the journal-specific guide "
                  "was unavailable; see submission_check.md in the project.\n"
-                 +audit_note+"The direct-risk proof received a conditional same-family mathematical review. "
-                 "That completed audit covers the previous five-point revision. Post-audit additions from Supplement P onward have separate deterministic checks; no completed fresh semantic-audit verdict is claimed for those additions. "
-                 "Separate local archive reconstruction, numerical tests and clean source compilation are recorded.\n"
-                 "The source archive contains editable LaTeX sources; Highlights and letter are editable DOCX files.\n")
+                 "Upload main.pdf as the manuscript and supplementary.pdf as supplementary material. "
+                 "Highlights.docx and cover_letter.docx are separate editable attachments; title_page.docx and "
+                 "declarations.docx are supplied for corresponding portal fields.\n"
+                 "The flat source archives contain editable LaTeX files and figures. Use the portal's LaTeX-source "
+                 "item type when requested. review_complete.pdf is a local reading copy combining main and supplement; "
+                 "do not upload it alongside both individual PDFs unless requested.\n"
+                 "This outer ZIP is a delivery bundle: extract it and upload the requested individual files. "
+                 "UPLOAD_INSTRUCTIONS.txt and file_hashes.json are local handling aids.\n")
     hashes={name:hashlib.sha256((H/name).read_bytes()).hexdigest() for name in names}
     target=H/'candidate_tables_kbs_submission.zip'
     with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as z:

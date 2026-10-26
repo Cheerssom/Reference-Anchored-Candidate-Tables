@@ -21,7 +21,7 @@
 \cortext[cor1]{Corresponding author.}
 \affiliation[sdu]{organization={Shandong University},country={China}}
 \begin{abstract}
-Class expansion must integrate few-shot novel evidence while preserving base-class accuracy. We couple vocabulary-invariant reference alignment with finite-sample admission certification. Fixed references preserve existing rankings; query normalization induces an adaptive admission margin. Preserved base rankings make protection equivalent to the retention requirement, while a direct test credits replacement readouts' recoveries. On ImageNet-R, independently tuned query normalization adds 3.60 and 5.29 percentage points of novel capacity over uncentered fusion at 95\% retention with L/14 and B/32. L/14 retained and dense capacities are comparable, yet directly certified policies differ by 4.85 points. Separately, original source-selected models reach 86.82\% and 58.96\% novel accuracy on ImageNet-Sketch with target calibration and empirical retention attainment in all ten partitions per encoder.
+Class expansion must integrate few-shot novel evidence while preserving base-class accuracy. We couple vocabulary-invariant reference alignment with finite-sample admission certification. Fixed references preserve existing rankings; query normalization induces an adaptive admission margin. Preserved base rankings make protection equivalent to the retention requirement, while a direct test credits replacement readouts' recoveries. On ImageNet-R, independently tuned query normalization adds 3.60 and 5.29 percentage points of novel capacity over uncentered fusion at 95\% retention with L/14 and B/32. In the original frozen L/14 readouts, retained and dense capacities are comparable, yet directly certified policies differ by 4.85 points. Separately, original source-selected models reach 86.82\% and 58.96\% novel accuracy on ImageNet-Sketch with target calibration and empirical retention attainment in all ten partitions per encoder.
 
 \end{abstract}
 \begin{keyword}
@@ -149,6 +149,8 @@ For every readout, let $R$ denote correctness of the same original closed-base r
 \end{equation}
 Its risk is $D+\alpha(1-A_{\mathrm{ref}})$. Thus $\mathbb E L_d\leq\alpha$ is sufficient for retention and, when $G=0$, equivalent to $A_B\geq rA_{\mathrm{ref}}$. This is the direct connection between preserved base rankings and the accuracy-control objective.
 
+We specialize bounded-loss concentration within the Learn then Test framework~\cite{angelopoulos2021ltt} to class-macro retention. The resulting weighted certificate exposes the role of tail-class coverage.
+
 \begin{theorem}[Macro protection and tail coverage]
 For independent class-stratified calibration losses in $[0,1]$, set $w_i=1/(Bn_{c(i)})$, $b=\max_iw_i$, and $q=\sum_iw_iL_i$. A valid p-value for the null $\sum_iw_i\mathbb E L_i\geq\alpha$ is
 \begin{equation}
@@ -167,6 +169,8 @@ For $\mu=\sum_iw_i\mathbb E L_i$ and $x<\mu$, the bounded-loss Chernoff argument
 \end{proof}
 The least-covered class controls this certificate's effective count. The condition is necessary for this bound; observed losses determine whether a covered candidate passes.
 
+We adapt bounded-mean betting~\cite{waudby2024betting} to paired correctness with class-macro weights, so that the direct test credits recovered reference errors.
+
 \begin{theorem}[Recovery-aware direct accuracy test]
 For independent correctness pairs with the same macro weights, let $Z_i=C_{d,i}-rR_i$. For any fixed $0\leq\lambda<1/r$,
 \begin{equation}
@@ -181,7 +185,7 @@ Each factor is positive because $Z_i\geq-r$ and $w_i/b\leq1$. Independence and $
 $\mathbb E E_\lambda\leq\exp[(\lambda/b)\sum_iw_i\mathbb E Z_i]\leq1$.
 Linearity and Markov's inequality establish the mixture result.
 \end{proof}
-This bounded-mean betting construction~\cite{waudby2024betting} credits corrected reference errors. We use twelve fixed mixture components, specified in Supplementary Section N. Sample sizes and mixture weights are fixed independently of calibration outcomes.
+We use twelve fixed mixture components, specified in Supplementary Section N. Sample sizes and mixture weights are fixed independently of calibration outcomes.
 
 Both tests operate on thresholds fixed by fitting/tuning data, ordered from conservative to permissive. Fixed-sequence testing~\cite{angelopoulos2021ltt} stops at the first failure at level $\delta/T$ and returns the last accepted threshold. If none passes, the policy uses the original reference with zero novel admission. A union bound controls unsafe acceptance across $T=5$ prespecified arrivals with probability at most $\delta$. The statement holds per fixed method/order/partition/policy under independent target class-conditional sampling; calibration data are excluded from fitting and tuning. The reference fallback and finite admission are reported separately.
 
@@ -194,7 +198,7 @@ For a class-macro base query, let $A_C=\mathbb E C$ and $A_R=\mathbb E R$. Direc
  \end{split}
  \label{eq:pairedvariance}
 \end{equation}
-At fixed $A_R,A_C$, recovery accompanied by additional destruction increases variance by $2rG$ relative to a feasible zero-recovery coupling. Retention removes that component while also making protection exact. For stratified calibration, the same identity holds within each class; the variance of the weighted mean is $\sum_c\operatorname{Var}(Z\mid c)/(B^2n_c)$. These conditional comparisons explain an error-structure advantage; actual certification also depends on accuracy slack, class coverage and the threshold family. Supplementary Section P derives the identity and its scope.
+At fixed $A_R,A_C$, recovery accompanied by additional destruction increases variance by $2rG$ relative to a feasible zero-recovery coupling. Retention removes that component while also making protection exact. For stratified calibration, the variance of the weighted mean is $\sum_c\operatorname{Var}(Z\mid c)/(B^2n_c)$. The analogous variance comparison requires matching both accuracies within every class and sharing calibration counts. Actual certification also depends on accuracy slack, class coverage and the threshold family. Supplementary Section P derives the identity and its scope.
 
 \section{Experiments}
 \subsection{Protocol and comparisons}
