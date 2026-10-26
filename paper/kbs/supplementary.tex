@@ -1,6 +1,6 @@
 \documentclass[preprint,review,12pt]{elsarticle}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,placeins}
+\usepackage{amsmath,amssymb,amsthm,booktabs,graphicx,placeins,float}
 \usepackage{microtype}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
@@ -20,7 +20,7 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the ten-partition, two-encoder comparison; Section J gives the independent protection bound and original calibration allocation; Section K collects implementation details; Section L evaluates independent calibration coverage with frozen score models. Their statistical units are stated separately.
+Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the ten-partition, two-encoder comparison; Section J gives the independent protection bound and original calibration allocation; Section K collects implementation details; Section L evaluates independent calibration coverage with frozen score models. Sections M--P isolate readouts, calibration and operating points; Section Q independently retunes fusion; Section R evaluates a new natural-shift target. Statistical units are stated separately.
 
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}
@@ -844,7 +844,97 @@ Across ten order-0 partitions, the novel-positive $\Delta$ AUROCs are .353, .374
 \subsection{Error destinations and verification scope}
 For base queries, $A_B=A_{\mathrm{ref}}-D+G$ uses the same reference for every readout. $D$ contains losses to novel labels and losses to another base label. With retained base scores, within-base ranking cannot change, so $G=0$ and destruction to another base class is zero. A replacement readout can have both error destinations and can recover reference errors. These identities were checked on every recorded policy; error destinations and fallback are supplied per partition.
 
-The accompanying records provide all 120 partition/order cases, 240 exact trajectories, source hashes, calibration decisions and error destinations. Numerical reconstruction details are in the repository's reproducibility documentation. Intervals describe assignment variation conditional on fixed images. The natural-shift generalization question remains outside this benchmark follow-up; ImageNet-Sketch has not been evaluated.
+The accompanying records provide all 120 partition/order cases, 240 exact trajectories, source hashes, calibration decisions and error destinations. Numerical reconstruction details are in the repository's reproducibility documentation. Intervals describe assignment variation conditional on fixed images. The source-benchmark mechanism analysis is complemented by the separate natural-shift evaluation in Section R.
+
+
+\FloatBarrier
+\section{Equal-budget independent fusion retuning}
+\label{app:fullretuning}
+\subsection{Matched search and fixed accuracy reference}
+The locked protocol is \nolinkurl{experiments/kbs_full_fusion_retuning_protocol.md}. This study crosses retained linear versus dense prototype base readouts with three normalization schemes: query centering/query scaling, no centering/query scaling, and fixed base-tuning moments. Each scheme independently selects base evidence coefficient $a$, novel prototype coefficient $u$ and a tuning offset. Both coefficients use $\{0,.25,.5,1,2,4\}$; each pair evaluates 101 quantiles of the base-only pseudo-expansion tuning margins, giving 3,636 settings per scheme. Duplicate quantiles count toward the same budget. Maximum harmonic macro accuracy selects the setting, with deterministic first-setting ties. Adapting the offset range to each score scale avoids imposing a range suited to one normalization. Dense prototypes receive separate base and novel coefficients, extending the earlier tied-coefficient baseline.
+
+Ridge fits and regularization, encoder, support, partitions and data roles remain fixed. Fixed moments are estimated from base-tuning queries. Selected fusion coefficients are frozen before independent calibration or test evaluation and persist across arrivals. All schemes share the original retained table as the absolute accuracy reference and fallback. Reselecting fusion coefficients can change within-base decisions relative to that original reference; recovery $G$ is therefore allowed in this study. Score persistence still concerns each fixed selected model as rows arrive.
+
+Deployment candidates remain 101 base-tuning margin quantiles. The sufficient protection and direct paired tests receive identical cap-40 calibration images and their original five-session error allocation. The tuning objective is pseudo harmonic accuracy, not test-set capacity or calibration success. Test-label frontier sweeps are descriptive. Comparisons average the two orders within each of ten partitions; constrained contrasts require both orders of both schemes to be feasible within that partition. Conditional intervals resample partition means on fixed images.
+
+\subsection{Capacity after independent optimization}
+Table~\ref{tab:fullretuningcontrasts} isolates normalization after fusion re-selection. On ImageNet-R, query normalization improves capacity over both alternatives for each encoder. Retaining the classifier contributes 9.69 points over the independently tuned dense readout with B/32; L/14 remains comparable at this minimum target. CIFAR L/14 benefits from query normalization and the retained readout, while Pets does not establish a common advantage across encoders. These are target-specific comparisons of independently selected fusion models.
+
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Fully retuned capacity contrasts (pp) at the common 95\% minimum base target, fifth arrival. The first two contrasts compare retained query normalization with no centering or fixed global moments. The third compares retained and dense query-normalized readouts. Brackets give conditional paired 95\% intervals; parentheses count jointly feasible partitions out of ten, requiring both orders.}
+\label{tab:fullretuningcontrasts}
+{\small\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.15}\input{table_full_retuning_contrasts}}
+\end{table}
+
+\subsection{Independently selected policies}
+Tables~\ref{tab:fullretuningl14} and~\ref{tab:fullretuningb32} report the direct-test policies separately from descriptive capacity. Finite admission, empirical target attainment and fallback-inclusive accuracy use the first order and ten partitions. The summary also reports protection policies, conditional accuracy and both arrival orders. Reference fallback admits no novel classes.
+
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Independently retuned L/14 readouts under direct accuracy calibration, final session, order 0. All methods share the original reference, support and cap-40 calibration pool. Finite and Met are admission and empirical target counts; Base/Novel are fallback-inclusive test means. Query, none and fixed specify normalization.}
+\label{tab:fullretuningl14}
+\resizebox{\linewidth}{!}{\input{table_full_retuning_l14}}
+\end{table}
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Independently retuned B/32 readouts. Definitions match Table~\ref{tab:fullretuningl14}.}
+\label{tab:fullretuningb32}
+\resizebox{\linewidth}{!}{\input{table_full_retuning_b32}}
+\end{table}
+
+The 360 searches evaluate 1,308,960 settings. Reconstruction checks 28,800 metric records and 26,755 calibration tests. Boundary witnesses cover ties, extreme offsets and original-readout equivalence; source hashes and restart receipts accompany the code.
+
+
+\FloatBarrier
+\section{Frozen-source ImageNet-Sketch validation}
+\label{app:sketchvalidation}
+\subsection{Outcome-blind acquisition and identity separation}
+ImageNet-Sketch~\cite{wang2019robustglobal} supplies a natural rendering distribution for the same ImageNet class vocabulary. The execution protocol, \nolinkurl{experiments/kbs_sketch_execution_protocol_v1.md}, was fixed before target features or recognition outcomes. The author-linked Hugging Face archive is pinned to revision \nolinkurl{0d8b8b5380efe50baae075842505918ad43c88fe}. Ranged acquisition retrieves the 200 ImageNet-R synsets, with 10,152 image entries and CRC-checked payloads, without downloading the full archive.
+
+Identity checks compare raw bytes and resized 224-RGB pixels against all 22,280 used source fitting, tuning, support, calibration and test paths. They remove 3,624 source-byte overlaps. Target checks additionally remove eight raw duplicates, 62 pixel duplicates and 13 exact rotation/flip equivalents, leaving 6,445 images across all 200 classes (22--50 images per class). Rotation/flip grouping uses the eight square dihedral transforms. Exact fingerprints do not rule out all near-duplicates or establish absence from CLIP pre-training.
+
+Before encoding, seed 27102026 reserves $\min(20,\max(1,\lfloor .4n_c\rfloor))$ images per class for calibration and the remainder for test, giving 2,492 calibration and 3,953 test images. Source-calibration subsets have identical per-class counts to Sketch calibration, selected without scores. Each partition uses 1,233--1,260 base calibration queries. Every method shares these identities. Local CLIP weights and source PIL224 preprocessing are reused; source-image witness encodings verify feature-space agreement before target embedding. Features are saved in resumable batches of at most 16 images.
+
+\subsection{Fixed source models and calibrated admission}
+The primary study transfers the original source-selected retained, dense-prototype and HyCal readouts. It is separate from Section Q's fusion re-selection. The original ten partitions, first arrival order, five sessions, source five-shot support, ridge fits, fusion coefficients and HyCal regularization remain fixed. Candidate offsets are copied from the source-tuning archives. No Sketch labels tune these quantities. Only independent calibration selects the admission offset, using either source or Sketch queries with identical class-wise counts. Both statistical criteria retain $r=.95$, $\delta=.05$ and the five-session allocation for each fixed method/partition/calibration/policy.
+
+With Sketch calibration, the retained readout admits all five sessions and meets every empirical test target in all ten paths for each encoder and criterion. The direct policy reaches 86.82\% novel accuracy at 90.76\% base accuracy with L/14, and 58.96\% at 78.87\% with B/32 after the fifth arrival. Source calibration also admits all retained paths and meets their targets; its final direct novel accuracies are 82.99\% and 54.87\%. Here target-matched calibration increases admitted novel recognition rather than repairing observed source-calibration target violations.
+
+Tables~\ref{tab:sketchl14} and~\ref{tab:sketchb32} include all three readouts and both criteria. For direct target calibration, dense L/14 admits all ten partitions at 83.34\% novel accuracy. Dense B/32 admits three, with fallback-inclusive/conditional novel accuracy 8.35\%/27.84\%. HyCal L/14 admits two, with 10.47\%/52.34\% novel accuracy and one final test-target miss; HyCal B/32 returns reference fallback throughout. Thus fallback, admission and empirical target attainment are reported separately.
+
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{L/14 natural-shift policies after arrival 5, first order. Finite counts admission and Met counts empirical target attainment out of ten partitions; Base/Novel are fallback-inclusive test means. Source/Sketch calibration receive identical class-wise counts. The common closed-base reference averages 93.77\% on Sketch.}
+\label{tab:sketchl14}
+{\small\textit{Sufficient protection criterion}\par\smallskip\input{table_sketch_l14_protection}\par\medskip
+\textit{Direct paired accuracy criterion}\par\smallskip\input{table_sketch_l14_paired_accuracy}}
+\end{table}
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{B/32 natural-shift policies. Definitions match Table~\ref{tab:sketchl14}; the common closed-base reference averages 81.32\%.}
+\label{tab:sketchb32}
+{\small\textit{Sufficient protection criterion}\par\smallskip\input{table_sketch_b32_protection}\par\medskip
+\textit{Direct paired accuracy criterion}\par\smallskip\input{table_sketch_b32_paired_accuracy}}
+\end{table}
+
+\subsection{Descriptive capacity and scope}
+Table~\ref{tab:sketchcapacity} and Figure~\ref{fig:sketchfrontiers} distinguish attainable recognition from calibrated operating points. At the common 95\% minimum target, L/14 retained and dense capacities average 88.84\%, with a paired difference of 0.001 [$-0.64$,0.69] points over ten jointly feasible partitions. With B/32, retention adds 5.78 [4.03,7.55] points over dense prototypes on nine jointly feasible partitions. These comparisons do not identify selected-policy gaps with intrinsic classifier gains. Full trajectories for all partitions and the original five retention levels accompany the summary.
+
+\begin{table}[H]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Natural-shift descriptive capacity at the common 95\% minimum base target, final session. Each mean uses that readout's feasible partitions; paired differences in the text use the joint feasible set. Infeasible readouts have no reported capacity.}
+\label{tab:sketchcapacity}
+{\small\textit{ViT-L/14}\par\smallskip\input{table_sketch_capacity_l14}\par\medskip
+\textit{ViT-B/32}\par\smallskip\input{table_sketch_capacity_b32}}
+\end{table}
+\begin{figure}[H]
+\centering\includegraphics[width=.98\linewidth]{sketch_operating_frontiers.pdf}
+\caption{Sketch partition-0 trajectories and direct-calibrated policy points. Open/filled circles use source/Sketch calibration; crosses are reference fallback, which can lie outside a replacement trajectory. Dotted lines show the common requirement. Panels zoom into retention regions; connecting lines are visual guides, with no interpolation in capacity matching. All ten full trajectories are supplied separately.}
+\label{fig:sketchfrontiers}
+\end{figure}
+
+The 2,700 metric records and 4,899 calibration tests are reconstructed from prediction archives, with unchanged source selection and candidate hashes. Population confidence retains independent class-conditional sampling and calibration--target correspondence assumptions; empirical success on these fixed target images is not a guarantee for arbitrary shifts or a simultaneous confidence statement over all configurations. Source-calibrated policies carry a source-law guarantee. Intervals describe assignment variation conditional on the fixed target images.
 
 \FloatBarrier
 \begingroup

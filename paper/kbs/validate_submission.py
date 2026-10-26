@@ -49,7 +49,7 @@ abstract=main.split(r'\begin{abstract}')[1].split(r'\end{abstract}')[0]
 report['abstract_words']=len(abstract.split());assert report['abstract_words']<=250
 with fitz.open(H/'main.pdf') as document:
  first=' '.join(document[0].get_text().split())
- assert 'exact frontier alignment' in first and 'threshold-selection effects.' in first
+ assert '86.82%' in first and 'ten partitions per encoder.' in first
  assert 'Keywords:' in first
  report['abstract_complete_on_first_page']=True
  report['keywords_on_first_page']=True
@@ -138,6 +138,27 @@ if (H/'reviewer_clarity_revision/normalization_recalibrated_summary.json').exist
   assert item['test_met_centered']==item['test_met_uncentered']==10
  for name,sha in json.loads((H/'reviewer_clarity_revision/unchanged_experiment_inputs.json').read_text()).items():
   assert hashlib.sha256((H.parents[1]/name).read_bytes()).hexdigest()==sha
- report['reviewer_clarity_revision']={'conditions':6,'raw_checkpoint_files_unchanged':240,'main_capacity_table':True,'offset_reselected_control':True,'full_fusion_retuning':False,'external_natural_shift_executed':False}
+ report['reviewer_clarity_revision']={'conditions':6,'raw_checkpoint_files_unchanged':240,'main_capacity_table':True,'offset_reselected_control':True,'full_fusion_retuning_in_that_revision':False,'external_natural_shift_in_that_revision':False}
+if r'\label{app:fullretuning}' in supp:
+ tuned=json.loads((H/'full_fusion_retuning/summary.json').read_text())
+ assert tuned['verification']['complete'] and tuned['verification']['metric_records']==28800
+ assert tuned['verification']['reconstructed_threshold_tests']==26755
+ assert json.loads((H.parents[1]/'experiments/kbs_full_fusion_retuning/restart_verification.json').read_text())['hash_and_mtime_unchanged']
+ for enc in ['l14','b32']:
+  c=next(v for v in tuned['conditions'] if v['encoder']==enc and v['dataset']=='imagenetr')
+  for other in ['retained_none','retained_fixed']:
+   assert f"{c['contrasts']['retained_query__'+other]['matched_test']['mean']:.2f}" in maintext
+ report['full_fusion_retuning']={'complete':True,'metric_records':28800,'threshold_tests':26755,'independent_searches':360,'settings_per_search':3636,'checkpoint_restart_files':1338,'supplementary_section':'Q','fresh_semantic_audit_complete':False}
+if r'\label{app:sketchvalidation}' in supp:
+ sketch=json.loads((H/'sketch_validation/summary.json').read_text())
+ assert sketch['verification']['complete'] and sketch['verification']['metric_records']==2700
+ assert sketch['verification']['reconstructed_threshold_tests']==4899
+ assert sketch['identity_counts']['unique']==6445 and sketch['identity_counts']['test']==3953
+ assert json.loads((H.parents[1]/'experiments/kbs_sketch_validation/restart_verification.json').read_text())['hash_and_mtime_unchanged']
+ for enc in ['l14','b32']:
+  c=next(v for v in sketch['conditions'] if v['encoder']==enc and v['method']=='retained' and v['policy']=='paired_accuracy' and v['calibration']=='target_cal')
+  assert c['finite']==c['test_met']==10
+  assert f"{c['novel']['mean']:.2f}" in maintext
+ report['natural_shift_validation']={'complete':True,'metric_records':2700,'threshold_tests':4899,'unique_images':6445,'source_byte_overlap_exclusions':3624,'calibration_images':2492,'test_images':3953,'checkpoint_restart_files':1049,'supplementary_section':'R','frozen_source_parameters':True,'fresh_semantic_audit_complete':False}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

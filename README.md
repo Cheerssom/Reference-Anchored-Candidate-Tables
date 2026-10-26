@@ -266,8 +266,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 27 review-format pages (101-word abstract),3 figures and3 tables;
-the supplement is 75 pages, Sections A-P. Ten KBS references are cited. Independent calibration coverage is
+The current main manuscript has 28 review-format pages (102-word abstract),3 figures and3 tables;
+the supplement is 85 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -304,4 +304,13 @@ powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python
 
 ## Target-specific mechanism follow-up
 
-Supplement P distinguishes selected-policy performance from empirical capacity at the original minimum target and at baseline-realized accuracy. ImageNet-R L/14 common95%-target capacity differs by0.29pp (interval spans zero), whereas conservative matching at the baseline-realized base accuracy gives3.23pp over its selected policy. Effective bias alone is not a novel detector. See paper/kbs/mechanism_followup/report.md. Deterministic checks pass; the new semantic audit did not finish due a model usage limit. Earlier audit PASS applies to its earlier scope, not this addition. ImageNet-Sketch is only an unexecuted protocol draft.
+Supplement P distinguishes selected-policy performance from empirical capacity at the original minimum target and at baseline-realized accuracy. ImageNet-R L/14 common95%-target capacity differs by0.29pp (interval spans zero), whereas conservative matching at the baseline-realized base accuracy gives3.23pp over its selected policy. Effective bias alone is not a novel detector. See paper/kbs/mechanism_followup/report.md. Deterministic checks pass; the new semantic audit did not finish due a model usage limit. Earlier audit PASS applies to its earlier scope, not this addition. At the initial P follow-up, Sketch was an unexecuted draft; its later completed evaluation is Section R.
+
+## Fully retuned fusion and natural shift
+
+Supplement Q completes360 equal-budget fusion searches (3636 settings each),28800 metrics and26755 reconstructed calibration tests. ImageNet-R query-normalization capacity gains over independently tuned uncentered fusion are3.60pp and5.29pp for L/14 and B/32. Supplement R transfers frozen original source models to6445 deduplicated Sketch images (2492 calibration/3953 test), removing3624 source-byte overlaps. Direct target calibration yields86.82%/58.96% retained novel accuracy, with10/10 final admissions and empirical targets met for each encoder. Source calibration also meets all retained targets. Capacity and policy gains remain separate; see the two reports. Sketch is now evaluated under the locked v1 protocol; older draft/status passages describe the earlier phase. No new completed fresh semantic-audit verdict is claimed.
+
+```powershell
+powershell -File scripts/run_kbs_full_fusion_retuning.ps1 -Python python
+powershell -File scripts/run_kbs_sketch_validation.ps1 -Python python
+```
