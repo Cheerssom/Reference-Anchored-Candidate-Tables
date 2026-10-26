@@ -1,7 +1,7 @@
 # Reference-Anchored Candidate Tables
 
-Research code and manuscript for **Retention-constrained class expansion with
-reference-anchored candidate tables**.
+Research code and manuscript for **Risk-certified class expansion through
+reference-anchored evidence alignment**.
 
 **Junyi Zhang, Shandong University**  
 Contact: cheerssom0876@gmail.com
@@ -15,23 +15,13 @@ The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
 The earlier `paper/fcs/` version is retained as a historical venue draft.
 No journal submission has been performed by this workflow.
 
-Current submission target: **Knowledge-Based Systems (KBS)**.
-The current KBS main manuscript is a concise 20-page review-format paper with a 154-word abstract. Its narrative centers on retained discrimination as class-expansion capacity; complete numerical evidence is preserved in Supplementary A--K.
-
-The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
-[supplementary material](paper/kbs/supplementary.pdf) and
-[editable Highlights](paper/kbs/Highlights.docx).
-The earlier `paper/fcs/` version is retained as a historical venue draft.
-No journal submission has been performed by this workflow.
-
-
 ## Current primary evidence: ten class partitions and two encoders
 
 The primary comparison now covers ten distinct class assignments on each of
 CIFAR-100, Pets and ImageNet-R using OpenAI CLIP ViT-L/14 and ViT-B/32.
 Two orders and five arrivals per partition produce 52,800 raw metric records.
-Eight readouts include raw-score and fixed-temperature controls. Validation-selected
-strong-baseline results lead the main paper, with feasibility and achieved test
+Eight readouts include raw-score and fixed-temperature controls. Matched-retention curves and
+independently calibrated policies lead the main paper, with feasibility and achieved test
 retention reported separately. Earlier three-partition studies are historical
 auxiliary evidence; do not treat their headline numbers as the expanded estimate.
 
@@ -266,8 +256,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 28 review-format pages (104-word abstract),3 figures and3 tables;
-the supplement is 85 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
+The current main manuscript has 30 review-format pages (115-word abstract),5 figures and3 tables;
+the supplement is 87 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -315,4 +305,6 @@ powershell -File scripts/run_kbs_full_fusion_retuning.ps1 -Python python
 powershell -File scripts/run_kbs_sketch_validation.ps1 -Python python
 ```
 
-The current manuscript adds a focused evidence guide on the supplement first page, preserves full section bookmarks in the combined PDF, and explicitly distinguishes source-only independent fusion tuning from original-source-model Sketch transfer. The current abstract is104words and fits on page1. Numerical experiment records remain unchanged.
+## Evidence alignment and certification
+
+The current manuscript organizes the method around vocabulary-invariant reference alignment, an adaptive admission margin, and finite-sample retention certification. The main text presents the ridge mean identity, tail-coverage condition and recovery-aware direct test. A paired-score variance identity is verified from480 saved policies and24800 class-conditional comparisons; at fixed reference and expanded accuracies its recovery contribution is2*r*G. This is a conditional error-structure result, not a universal certification-power ranking. See paper/kbs/verify_error_structure.py. All original numerical experiments remain unchanged.

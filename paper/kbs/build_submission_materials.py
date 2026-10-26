@@ -5,13 +5,13 @@ from docx import Document
 from docx.shared import Inches,Pt
 
 H=Path(__file__).resolve().parent
-title='Retention-constrained class expansion with reference-anchored candidate tables'
+title='Risk-certified class expansion through reference-anchored evidence alignment'
 highlights=[
- 'Frozen classifiers support expansion under a shared retention requirement.',
- 'Query normalization improves ImageNet-R capacity after equal-budget tuning.',
- 'Classifier value is measured at matched retention and across repeated arrivals.',
- 'Frozen source models enable useful admission on deduplicated Sketch images.',
- 'Recovery-aware calibration separates admission from recognition gains.'
+ 'Fixed reference banks preserve existing scores as the class vocabulary grows.',
+ 'Query normalization induces an explicit adaptive admission margin.',
+ 'Preserved base rankings make protection equivalent to the retention target.',
+ 'Recovery-aware testing certifies admission under a shared accuracy requirement.',
+ 'Target calibration transfers frozen source readouts to ImageNet-Sketch.'
 ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
@@ -19,9 +19,9 @@ letter=f"""Dear Editors of Knowledge-Based Systems,
 
 Please consider our manuscript, "{title}," as an original Research Article.
 
-The paper investigates how a trained classifier's discrimination can support new-class recognition under an explicit original-class accuracy requirement. Reference-anchored candidate tables preserve the existing score frame while a separate threshold controls novel admission. Matched-retention frontiers and paired arrival sequences quantify the retained classifier's expansion capacity and continuing predictive value.
+The paper addresses class expansion with asymmetric evidence and an explicit base-accuracy requirement. Fixed reference banks align learned base scores, semantic anchors and few-shot prototypes independently of vocabulary growth. Query normalization induces an adaptive admission margin, while independent finite-sample calibration selects a certified policy. The analysis connects preserved base rankings to the protection objective, derives a calibration-coverage condition, and provides a direct accuracy test that credits replacement readouts' recovered errors.
 
-Experiments cover three datasets, ten class partitions, two frozen CLIP encoders and five arrivals. At the common 95% retention target, independently fitted retained readouts improve descriptive novel capacity over dense prototypes by 3.68 points on CIFAR-100 ViT-L/14 and 10.40 on ImageNet-R ViT-B/32, on ten and nine jointly feasible partitions. Independent protection calibration enables final-session admission in all ten partitions of each dataset and encoder. Exact frontier comparisons distinguish recognition capacity from selected-policy performance. With independently selected fusion coefficients and offsets, query normalization improves ImageNet-R capacity over uncentered fusion by 3.60 and 5.29 points for L/14 and B/32. A separate transfer of the original source-selected models reaches 86.82% and 58.96% novel accuracy on a 6,445-image deduplicated ImageNet-Sketch evaluation, with target-calibrated retained admission and empirical target attainment in all ten partitions. A matched HyCal transfer and query-corruption tests define the comparison and deployment scope.
+Experiments cover three source datasets, ten class partitions, two frozen CLIP encoders and five arrivals. Independently tuned query normalization improves ImageNet-R novel capacity over uncentered fusion by 3.60 and 5.29 points. Capacity-to-policy analysis shows why comparable recognition frontiers can produce different certified operating points: on ImageNet-R L/14, a 0.29-point retained-minus-dense capacity gap accompanies a 4.85-point direct-policy gap. A separate transfer of original source-selected models reaches 86.82% and 58.96% novel accuracy on ImageNet-Sketch, with target calibration and empirical retention attainment in all ten partitions per encoder. The manuscript combines algebraic mechanisms, controlled fusion comparisons, calibrated policies and frozen-model transfer.
 
 The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 

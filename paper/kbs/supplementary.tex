@@ -4,7 +4,7 @@
 \usepackage{microtype}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Retention-constrained class expansion with reference-anchored candidate tables}}
+\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Risk-certified class expansion through reference-anchored evidence alignment}}
 \pdfstringdefDisableCommands{\def\corref#1{}\def\cnotenum#1{}}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
@@ -12,7 +12,7 @@
 \input{retention_numbers}
 \usepackage{xr}\externaldocument[main-]{main}
 \begin{document}
-\title{Supplementary material: Retention-constrained class expansion with reference-anchored candidate tables}
+\title{Supplementary material: Risk-certified class expansion through reference-anchored evidence alignment}
 \author{Junyi Zhang}
 \date{}
 \maketitle
@@ -859,6 +859,28 @@ Across ten order-0 partitions, the novel-positive $\Delta$ AUROCs are .353, .374
 \label{tab:centeringrecalibrated}
 \resizebox{\linewidth}{!}{\input{table_centering_recalibrated}}
 \end{table}
+
+
+\subsection{Error structure and paired-score variance}
+For a base query under the class-macro law, let $R,C\in\{0,1\}$ denote reference and expanded correctness, $A_R=\mathbb E R$, $A_C=\mathbb E C$, $D=\Pr(R=1,C=0)$, and $G=\Pr(R=0,C=1)$. The four joint events give
+\begin{align}
+ \mathbb E(C-rR)&=A_C-rA_R,\\
+ \mathbb E(C-rR)^2&=(A_R-D)(1-r)^2+Dr^2+G\\
+ &=A_R(1-r)^2+(A_R-A_C)(2r-1)+2rG.
+\end{align}
+Subtracting the squared mean proves main Eq.~\eqref{main-eq:pairedvariance}. Holding both accuracies fixed makes the variance difference between two couplings exactly $2r(G_2-G_1)$. A zero-recovery coupling exists when $A_C\leq A_R$; it minimizes variance among couplings with those accuracies. This is a comparison of correctness distributions at fixed margins, not a claim that every retained policy has smaller variance than every replacement policy at their different selected accuracies.
+
+For independent class-stratified observations, let $A_{R,c}$, $A_{C,c}$ and $G_c$ be the conditional quantities. The identity holds within each class, and the calibration mean has variance
+\begin{equation}
+ \operatorname{Var}\!\left(\sum_i w_i Z_i\right)=\frac{1}{B^2}\sum_c\frac{\operatorname{Var}(Z\mid c)}{n_c}.
+\end{equation}
+If both accuracies match within every class, the weighted-mean variance difference is $2r B^{-2}\sum_c(G_{2,c}-G_{1,c})/n_c$. Matching overall macro accuracies alone does not imply this stratified comparison. The fixed-sample betting p-value also depends on the observed product, so variance order by itself is not a certification-power theorem.
+
+The protection criterion has an additional exact relation. With $\alpha=1-r$,
+\begin{equation}
+ \alpha-\mathbb E L=A_C-rA_R-G.
+\end{equation}
+Thus preservation ($G=0$) makes protection equivalent to the accuracy target. For replacement readouts, the direct test credits the recovery term rather than discarding it. These algebraic results explain the error-structure role separately from the empirical capacity-to-policy decomposition.
 
 \subsection{Error destinations and verification scope}
 For base queries, $A_B=A_{\mathrm{ref}}-D+G$ uses the same reference for every readout. $D$ contains losses to novel labels and losses to another base label. With retained base scores, within-base ranking cannot change, so $G=0$ and destruction to another base class is zero. A replacement readout can have both error destinations and can recover reference errors. These identities were checked on every recorded policy; error destinations and fallback are supplied per partition.

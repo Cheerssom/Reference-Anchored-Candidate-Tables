@@ -93,10 +93,14 @@ if r'\label{fig:capacity}' in main:
  assert presentation['complete_calibration_rows']==36
  for name,sha in presentation['source_sha256'].items():
   assert hashlib.sha256((H/name).read_bytes()).hexdigest()==sha
- assert len(re.findall(r'\\begin\{figure\}',main))==3
+ assert len(re.findall(r'\\begin\{figure\}',main))==5
  assert len(re.findall(r'\\begin\{table\}',main))==3
  assert len(added)==10
- report['presentation_revision']={'main_figures':3,'main_tables':3,'kbs_citations':10,'paired_comparisons_preserved':18,'numerical_sources_unchanged':True}
+ report['presentation_revision']={'main_figures':5,'main_tables':3,'kbs_citations':10,'paired_comparisons_preserved':18,'numerical_sources_unchanged':True}
+ structure=json.loads((H/'error_structure_verification.json').read_text())
+ assert structure['complete'] and structure['prediction_policy_checks']==480
+ assert structure['max_absolute_error']<1e-10
+ report['error_structure_identities']={k:v for k,v in structure.items() if k!='source_hashes'}
 if (H/'strengthening_summary.json').exists():
  summary=json.loads((H/'strengthening_summary.json').read_text())
  assert set(summary)=={'cifar','pets','imagenetr'}

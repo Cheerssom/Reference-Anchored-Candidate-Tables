@@ -5,22 +5,24 @@
 \renewcommand{\floatpagefraction}{0.85}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Retention-constrained class expansion with reference-anchored candidate tables}}
+\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Risk-certified class expansion through reference-anchored evidence alignment}}
 \pdfstringdefDisableCommands{\def\corref#1{}\def\cnotenum#1{}}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
+\newtheorem{theorem}{Theorem}
 \input{numbers}
 \input{retention_numbers}
 \journal{Knowledge-Based Systems}
 \begin{document}
 \begin{frontmatter}
-\title{Retention-constrained class expansion with reference-anchored candidate tables}
+\title{Risk-certified class expansion through reference-anchored evidence alignment}
 \author[sdu]{Junyi Zhang\corref{cor1}}
 \ead{cheerssom0876@gmail.com}
 \cortext[cor1]{Corresponding author.}
 \affiliation[sdu]{organization={Shandong University},country={China}}
 \begin{abstract}
-Class expansion must recognize arriving classes while meeting an original-class accuracy requirement. Reference-anchored candidate tables retain a trained classifier, align semantic and prototype evidence against fixed base references, and separately calibrate novel admission. Across three source benchmarks and five arrivals with frozen CLIP ViT-L/14 and ViT-B/32, equal-budget fusion tuning isolates query-dependent normalization. On ImageNet-R, it adds 3.60 and 5.29 percentage points of final-arrival novel capacity over uncentered fusion at a shared 95\% retention target. In a separate 6,445-image deduplicated ImageNet-Sketch evaluation, original source-selected models achieve 86.82\% and 58.96\% novel accuracy with direct target calibration and empirical target attainment in all ten partitions per encoder.
+Class expansion must integrate few-shot novel evidence while preserving base-class accuracy. We couple vocabulary-invariant reference alignment with finite-sample admission certification. Fixed references preserve existing rankings; query normalization induces an adaptive admission margin. Preserved base rankings make protection equivalent to the retention requirement, while a direct test credits replacement readouts' recoveries. On ImageNet-R, independently tuned query normalization adds 3.60 and 5.29 percentage points of novel capacity over uncentered fusion at 95\% retention with L/14 and B/32. L/14 retained and dense capacities are comparable, yet directly certified policies differ by 4.85 points. Separately, original source-selected models reach 86.82\% and 58.96\% novel accuracy on ImageNet-Sketch with target calibration and empirical retention attainment in all ten partitions per encoder.
+
 \end{abstract}
 \begin{keyword}
 Class expansion \sep Retention constraints \sep Incremental learning \sep Evidence fusion \sep Vision--language models \sep Long-tailed recognition
@@ -28,28 +30,37 @@ Class expansion \sep Retention constraints \sep Incremental learning \sep Eviden
 \end{frontmatter}
 
 \section{Introduction}
-An expanding recognition system already has a classifier whose decision boundaries reflect task-specific supervision. New classes arrive with names and a few examples. The central question is how much new-class recognition that existing discrimination can support while maintaining a specified accuracy on the original classes. A second question follows across repeated arrivals: how much predictive value is gained by keeping the trained classifier rather than replacing it with prototypes or recalibrated semantic evidence?
+An expanding recognition system integrates unequal evidence: a trained classifier encodes accumulated base supervision, whereas arriving classes provide names and a few examples. Deployment requires novel admission without exceeding a specified loss of base recognition. Evidence must remain comparable as the vocabulary grows, and finite calibration data must support the resulting retention requirement.
 
-We address these questions with \emph{reference-anchored candidate tables}. Learned base columns are retained while semantic anchors and support prototypes are appended for arriving classes. Fixed base references align heterogeneous evidence in a score frame independent of vocabulary growth. Query-dependent branch moments align each input's responses, and a separate scalar offset controls novel admission. The distinction matters: the score frame preserves stored evidence, query alignment changes the recognition trade-off, and calibration selects an operating point on that trade-off.
+Vocabulary growth can disturb evidence alignment even with frozen models. Standardizing a branch against active candidates changes its scale when a class arrives; after fusion, existing classes can exchange rank. Fixed base reference banks remove this dependence. Their query-specific statistics adapt learned, semantic and prototype evidence, while a scalar offset controls novel admission.
 
-Our contribution is this separation of score alignment and accuracy-controlled admission. Equal-budget fusion selection identifies a benefit from query normalization on ImageNet-R with both encoders. Matched frontiers and paired arrival sequences locate the additional value of retaining the trained classifier; its clearest capacity gains occur with B/32 on ImageNet-R and Sketch. Independent calibration turns these readouts into admission policies under a shared original-class requirement. A separate, identity-disjoint Sketch study evaluates the original source-selected models without target-domain model tuning. Together, these evaluations distinguish mechanism evidence on source benchmarks from frozen-model transfer under a new query distribution.
+We develop \emph{risk-certified class expansion through reference-anchored evidence alignment}. Preserving the original base ranking makes every lost correct base prediction go to a novel class and prevents recovery of base errors. This structure makes a sufficient protection criterion exactly match the retention requirement. A second, direct accuracy test credits replacement readouts' recoveries under the same requirement. The framework exposes how recognition capacity becomes useful certified admission.
+
+The contributions are:
+\begin{itemize}
+\item A vocabulary-invariant alignment of asymmetric evidence, with an explicit query-adaptive admission margin and an exact retention envelope for fixed readouts.
+\item Finite-sample admission control for class-macro accuracy over prespecified arrivals, including a tail-coverage condition for the protection certificate and a direct test that credits recovered reference errors.
+\item A capacity-to-policy analysis connecting error structure, attainable recognition and selected admission. Controlled fusion comparisons establish the alignment mechanism; source-frozen ImageNet-Sketch evaluation demonstrates target calibration without model retraining.
+\end{itemize}
+
+On ImageNet-R L/14, retained and dense readouts have comparable capacity at the minimum retention target, while their directly certified policies differ by 4.85 points. The analysis therefore concerns both recognition and its use under an accuracy requirement.
 
 \section{Related work}
 Long-tailed recognition addresses unequal class supervision through balanced fitting and losses~\cite{liu2019large,cao2019ldam,cui2019classbalanced}. CLIP supplies semantic image--text evidence~\cite{radford2021clip}, while prompt adaptation~\cite{zhou2022coop,shi2024lift}, prototypes~\cite{snell2017prototypical,wang2019simpleshot} and semantic caches~\cite{zhang2022tipadapter} adapt pre-trained representations to labeled data. Our setting combines these evidence types according to their availability at class arrival.
 
 Class-incremental and few-shot incremental learning study retention across successive tasks~\cite{rebuffi2017icarl,tao2020fewshot}. SimpleCIL~\cite{zhou2024simplecil} and RanPAC~\cite{mcdonnell2023ranpac} show the value of pre-trained prototypes and analytic readouts. KBS approaches develop multi-feature similarity supplementation~\cite{xu2023mfs3}, sharpness-aware prototype calibration~\cite{chen2024sagg}, adaptive exploration~\cite{han2025adaptive}, representation-enhanced analytic learning~\cite{he2026real}, and multimodal prompt fusion~\cite{fang2026bpcclip}.
 
-Recent work aligns task-specific expert inference in MoTE~\cite{li2025mote}, separates expanding feature spaces through orthogonal constraints~\cite{dong2026deon}, and learns invariant representations through counterfactual distribution intervention~\cite{yuan2026cdi}. Our contribution concerns the admission capacity supplied by an existing classifier under a common base-accuracy requirement. CLIP-guided discovery~\cite{yan2025clipdiscovery} additionally uses unlabeled novel data, whereas our arriving classes provide names and labeled support. FeNeC~\cite{ksiazek2026fenec} supplies a clustered-representative readout for controlled frozen-feature comparisons.
+Recent work aligns task-specific expert inference in MoTE~\cite{li2025mote}, separates expanding feature spaces through orthogonal constraints~\cite{dong2026deon}, and learns invariant representations through counterfactual distribution intervention~\cite{yuan2026cdi}. We study accuracy-constrained admission with asymmetric base and novel evidence. CLIP-guided discovery~\cite{yan2025clipdiscovery} additionally uses unlabeled novel data, whereas our arriving classes provide names and labeled support. FeNeC~\cite{ksiazek2026fenec} supplies a clustered-representative readout for controlled frozen-feature comparisons.
 
-BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or heterogeneous recognition metrics. Calibrated seen/unseen recognition~\cite{chao2016calibrated} studies the related operating trade-off, and Learn then Test~\cite{angelopoulos2021ltt} supplies risk-controlled selection. Our design couples query-dependent alignment against fixed base references with a shared accuracy requirement for retained and replacement readouts. A global offset selects admission; branch moments additionally align evidence for each query before selection. Matched frontiers isolate recognition capacity from the resulting policy. The comparison includes an author-code-checked HyCal transfer with matched encoders, labels and support.
+BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or heterogeneous recognition metrics. Calibrated seen/unseen recognition~\cite{chao2016calibrated} studies the related operating trade-off, and Learn then Test~\cite{angelopoulos2021ltt} supplies risk-controlled selection. Our design couples vocabulary-invariant evidence alignment with finite-sample admission control. Query moments shape the recognition frontier; independent calibration selects a policy. The statistical constructions build on risk-controlled testing and bounded-mean betting~\cite{waudby2024betting}. We derive their consequences for class-macro retention, unequal calibration coverage and retained versus replacement error structures. An author-code-checked HyCal transfer supplies a matched heterogeneous-metric comparison.
 
-\section{From retained discrimination to novel admission}
-\subsection{Task and evidence}
+\section{Reference alignment and certified admission}
+\subsection{Vocabulary-invariant alignment of asymmetric evidence}
 Base classes $\mathcal B$ have labeled, potentially imbalanced fitting data. Arriving classes $\mathcal N$ provide a name and $k$ labeled support images per class. Prediction selects from $\mathcal B\cup\mathcal N$ without a group oracle. A frozen encoder produces a normalized feature $v=f(x)$; normalized text anchors $t_c$ average eight fixed prompts. Learned base scores are $q_L(x,b)=v^\top w_b+b_b$, fitted by inverse-frequency-weighted ridge regression. Novel prototypes are normalized support means $p_n$, giving $q_P(x,n)=v^\top p_n$; semantic scores are $q_T(x,c)=v^\top t_c$.
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{framework.pdf}
-\caption{Reference-anchored candidate tables. Fixed base references set each branch's score frame; learned base columns remain stored as novel text anchors and support prototypes are appended. The separate novel offset controls admission. Orange marks base-fitted evidence; blue hatching marks pre-trained or cached evidence.}
+\caption{Reference-anchored asymmetric readout. Fixed base references set each branch's score frame; learned base columns remain stored as novel text anchors and support prototypes are appended. The separate novel offset controls admission. Orange marks base-fitted evidence; blue hatching marks pre-trained or cached evidence.}
 \label{fig:framework}
 \end{figure}
 
@@ -70,20 +81,40 @@ The statistics adapt to each query while remaining independent of the active nov
  s(x,n)&=\widehat q_T(x,n)+u\widehat q_P(x,n)+d,&&n\in\mathcal N.
  \label{eq:base-novel}
 \end{align}
-The coefficients $a,u$ combine evidence; $d$ controls novel admission (Fig.~\ref{fig:framework}). Suppressing the text-centering shift common to all candidates gives the effective admission offset
+The coefficients $a,u$ combine evidence; $d$ controls novel admission (Fig.~\ref{fig:framework}). Removing the text-centering shift shared by every candidate exposes the effective offset
 \begin{equation}
  d_{\mathrm{eff}}(x)=d+a\frac{\mu_L(x)}{\sigma_L(x)}-u\frac{\mu_P(x)}{\sigma_P(x)},
  \label{eq:effectiveadmission}
 \end{equation}
-using the floored scales in Eq.~\eqref{eq:anchored}. Centering supplies a query-dependent group adjustment, while scaling also changes within-group evidence fusion. Fixed references make this alignment independent of the arriving vocabulary; the scalar $d$ then selects its global operating point. Candidate-wise normalization instead changes the branch scales when new rows arrive, which can alter existing fused decisions. A numerical example appears in Supplementary Section K.
+using the floored scales in Eq.~\eqref{eq:anchored}. Centering adjusts the group margin for each query; scaling also changes within-group fusion.
 
-\begin{proposition}
-With fixed input, encoder, existing row evidence, reference banks, coefficients and tie-breaking, appending rows preserves every existing score and its within-vocabulary ordering.
+\paragraph{Why the reference must be fixed}
+Consider old text scores $(0,2)$ and a learned contribution $(0.25,-0.25)$. Candidate-standardized text scores $(-1,1)$ make the second old class win after fusion. Appending a text score of $100$ changes the old standardized scores to approximately $(-0.728,-0.685)$, reversing their fused order without changing either old class's parameters. Fixed reference banks prevent this vocabulary-induced change.
+
+\begin{proposition}[Vocabulary-growth invariance]
+With fixed input, encoder, existing evidence, reference banks, coefficients and tie-breaking, appending classes preserves every existing score and its within-vocabulary ordering.
 \label{prop:invariance}
 \end{proposition}
-All terms of an existing row remain fixed. This structural property also holds for raw and fixed-temperature controls; their recognition comparisons isolate reference normalization. Appended rows can still win the expanded prediction. Supplementary Section E gives the proof and prediction consequence. Each new row costs $O(D)$ storage and $O(kD)$ prototype construction after encoding; scoring $K$ classes costs $O(KD)$.
+\begin{proof}
+Every term in Eqs.~\eqref{eq:reference}--\eqref{eq:base-novel} for an existing class remains fixed. Hence each pairwise score difference remains fixed.
+\end{proof}
+This property concerns stored discrimination; a newly appended class can still win the expanded prediction. Raw and fixed-temperature readouts also preserve scores, providing controls that isolate query alignment.
 
-\subsection{Calibration and expansion capacity}
+\begin{proposition}[Ridge identity and adaptive admission margin]
+Let the weighted ridge fit have one-hot targets, an unregularized intercept and a unique solution. Its learned reference mean satisfies $\mu_L(x)=1/B$, where $B=|\mathcal B|$. Consequently,
+\begin{equation}
+ d_{\mathrm{eff}}(x)=d+\frac{a}{B\sigma_L(x)}-u\frac{\mu_P(x)}{\sigma_P(x)}.
+ \label{eq:ridgeoffset}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Let $X$ include the constant feature, $Y$ contain one-hot targets, $\Omega$ contain sample weights, and $L$ regularize slopes. For the intercept vector $e_0$, $Xe_0=\mathbf1$, $Le_0=0$ and $Y\mathbf1=\mathbf1$. The normal equations give
+$(X^\top\Omega X+L)W\mathbf1=(X^\top\Omega X+L)e_0$.
+Uniqueness implies $W\mathbf1=e_0$; summing the $B$ learned scores gives one. Substitution into Eq.~\eqref{eq:effectiveadmission} completes the result.
+\end{proof}
+Thus the learned part of the adaptive offset varies through score dispersion, while the prototype reference contributes both its query mean and dispersion. The combined margin determines admission. Each new class needs $O(D)$ storage and $O(kD)$ prototype construction after encoding; scoring $K$ classes costs $O(KD)$.
+
+\subsection{The retention envelope}
 \label{sec:calibration}
 A base-only pseudo-expansion episode splits base classes into pseudo-base and pseudo-novel groups. A classifier fitted on pseudo-base classes is combined with names and reserved support for pseudo-novel classes. Held-out base queries select $a,u,d$ by harmonic macro accuracy,
 \begin{equation}
@@ -92,31 +123,78 @@ A base-only pseudo-expansion episode splits base classes into pseudo-base and ps
 \end{equation}
 with zero assigned when both accuracies vanish. The coefficients then remain fixed across actual arrivals. Actual novel query labels and test labels are excluded from this selection; grids and split seeds are in Supplementary Section K.
 
-Let $A_{B,\mathrm{ref}}^{\mathrm{closed}}$ denote the retained table's closed-base macro accuracy. At retention fraction $r$, every readout receives the same absolute base target. Thus a 90\% reference gives an 85.5\% absolute target at 95\% retention. Its empirical expansion capacity is
+Let $A_{B,\mathrm{ref}}^{\mathrm{closed}}$ denote the retained readout's closed-base macro accuracy. At retention fraction $0<r<1$, every readout receives the same absolute base target: a 90\% reference gives an 85.5\% target at 95\% retention. Empirical expansion capacity is
 \begin{equation}
  N_r=\max_d A_N(d)\quad\text{subject to}\quad
  A_B(d)\geq rA_{B,\mathrm{ref}}^{\mathrm{closed}}.
  \label{eq:retentioncriterion}
 \end{equation}
-A test-label sweep characterizes this descriptive frontier; an operational threshold uses calibration data. The exact margin envelope is derived in Supplementary Section D. Reporting these two evaluations separately distinguishes attainable capacity from selected-policy behavior.
+For a fixed readout, let $h_B,h_N$ be the best labels within each group and $m(x)$ their score difference before adding $d$. Increasing $d$ switches each query from $h_B$ to $h_N$ once, at $m(x)$, subject to the fixed tie rule. Thus $A_B(d)$ is nonincreasing and $A_N(d)$ is nondecreasing. The largest feasible event maximizes Eq.~\eqref{eq:retentioncriterion} for retained and replacement readouts. Test-label sweeps describe capacity; independent calibration selects deployable thresholds.
 
-\subsection{Independent accuracy calibration}
-\label{sec:riskcontrol}
-Let $R$ indicate correct prediction by the retained closed-base reference and $C_d$ correct prediction by the expanded readout. Define
+\begin{corollary}[Preserved base error structure]
+Let $R$ indicate correctness of the fixed retained readout restricted to base classes and $C_d$ correctness after novel admission. Then $C_d\leq R$ on base queries. Consequently recovery $G=\Pr(R=0,C_d=1)=0$, and all destruction $D=\Pr(R=1,C_d=0)$ goes to novel labels:
 \begin{equation}
- L_d=R(1-C_d)+(1-r)(1-R).
+ A_B(d)=A_{\mathrm{ref}}-D.
+ \label{eq:retainederrors}
+\end{equation}
+\end{corollary}
+The reference in this statement uses the same frozen fusion coefficients. Independently retuned readouts are compared experimentally against the common original reference, relative to which recovery is allowed.
+
+\subsection{Finite-sample retention certification}
+\label{sec:riskcontrol}
+For every readout, let $R$ denote correctness of the same original closed-base reference and $C_d$ correctness after expansion. With destruction $D$ and recovery $G$, $A_B=A_{\mathrm{ref}}-D+G$. Define the protection loss
+\begin{equation}
+ L_d=R(1-C_d)+(1-r)(1-R),\qquad \alpha=1-r.
  \label{eq:protectionloss}
 \end{equation}
-Writing $D=\Pr(R=1,C_d=0)$ gives $\mathbb E L_d=D+(1-r)(1-A_{B,\mathrm{ref}})$. Thus $\mathbb E L_d\leq1-r$ implies $A_B(d)\geq rA_{B,\mathrm{ref}}$. This common sufficient criterion conservatively ignores replacement readouts' recovery of reference errors.
+Its risk is $D+\alpha(1-A_{\mathrm{ref}})$. Thus $\mathbb E L_d\leq\alpha$ is sufficient for retention and, when $G=0$, equivalent to $A_B\geq rA_{\mathrm{ref}}$. This is the direct connection between preserved base rankings and the accuracy-control objective.
 
-Fitting and tuning data fix the score models and ordered candidate thresholds. Independent, class-stratified calibration observations test thresholds from conservative to permissive using weighted bounded-loss p-values and fixed-sequence testing~\cite{angelopoulos2021ltt}. Testing stops at the first failure. Allocating error probability $\delta/5$ per arrival controls population protection across five prespecified sessions for each method, order and partition under independent class-conditional sampling. It does not guarantee arbitrary distribution shifts or every finite test outcome. If no finite threshold passes, the policy returns the reference classifier with zero novel admission. Supplementary Section J provides the bound, assumptions and full selection rule.
-
-A second procedure tests the accuracy requirement directly. For independent calibration pairs, set $Z_i=C_{d,i}-rR_i$, macro weights $w_i=1/(B n_{c(i)})$, and $b=\max_iw_i$. The nonnegative product
+\begin{theorem}[Macro protection and tail coverage]
+For independent class-stratified calibration losses in $[0,1]$, set $w_i=1/(Bn_{c(i)})$, $b=\max_iw_i$, and $q=\sum_iw_iL_i$. A valid p-value for the null $\sum_iw_i\mathbb E L_i\geq\alpha$ is
 \begin{equation}
- E_\lambda=\prod_i[1+\lambda(w_i/b)Z_i],\qquad 0\leq\lambda<1/r,
+ p(q)=\begin{cases}\exp[-\operatorname{kl}(q,\alpha)/b],&q<\alpha,\\1,&q\geq\alpha.\end{cases}
+ \label{eq:weightedprotection}
+\end{equation}
+At level $\delta/T$, passing this bound requires
+\begin{equation}
+ n_{\mathrm{eff}}=1/b=B\min_c n_c\geq\frac{\log(\delta/T)}{\log r}.
+ \label{eq:coveragefloor}
+\end{equation}
+\label{thm:protection}
+\end{theorem}
+\begin{proof}
+For $\mu=\sum_iw_i\mathbb E L_i$ and $x<\mu$, the bounded-loss Chernoff argument yields $\Pr(q\leq x)\leq\exp[-\operatorname{kl}(x,\mu)/b]$ (Supplementary Section J). Monotonicity in $\mu\geq\alpha$ gives the p-value. Its minimum $p(0)=r^{1/b}$ gives Eq.~\eqref{eq:coveragefloor}.
+\end{proof}
+The least-covered class controls this certificate's effective count. The condition is necessary for this bound; observed losses determine whether a covered candidate passes.
+
+\begin{theorem}[Recovery-aware direct accuracy test]
+For independent correctness pairs with the same macro weights, let $Z_i=C_{d,i}-rR_i$. For any fixed $0\leq\lambda<1/r$,
+\begin{equation}
+ E_\lambda=\prod_i[1+\lambda(w_i/b)Z_i]
  \label{eq:directbet}
 \end{equation}
-has expectation at most one under $\sum_iw_i\mathbb E Z_i\leq0$. A fixed equal mixture over twelve prespecified values of $\lambda$ yields a valid p-value $\min(1,1/E)$ by Markov's inequality. This fixed-sample betting construction~\cite{waudby2024betting} credits corrected reference errors and uses the same ordered candidates and five-session error allocation. Supplementary Section N gives the self-contained proof. Calibration images are held out from fitting and tuning; stochastic independence and correspondence to the target class-conditional laws are additional assumptions. The 95\% statement applies separately to the five prespecified arrivals of each fixed method/order/partition/policy, rather than jointly to the full experimental grid.
+is nonnegative and has expectation at most one under $\sum_iw_i\mathbb E Z_i\leq0$. A fixed convex mixture $E$ therefore gives a valid fixed-sample p-value $\min(1,1/E)$ for the unsafe accuracy null.
+\label{thm:direct}
+\end{theorem}
+\begin{proof}
+Each factor is positive because $Z_i\geq-r$ and $w_i/b\leq1$. Independence and $1+x\leq e^x$ give
+$\mathbb E E_\lambda\leq\exp[(\lambda/b)\sum_iw_i\mathbb E Z_i]\leq1$.
+Linearity and Markov's inequality establish the mixture result.
+\end{proof}
+This bounded-mean betting construction~\cite{waudby2024betting} credits corrected reference errors. We use twelve fixed mixture components, specified in Supplementary Section N. Sample sizes and mixture weights are fixed independently of calibration outcomes.
+
+Both tests operate on thresholds fixed by fitting/tuning data, ordered from conservative to permissive. Fixed-sequence testing~\cite{angelopoulos2021ltt} stops at the first failure at level $\delta/T$ and returns the last accepted threshold. If none passes, the policy uses the original reference with zero novel admission. A union bound controls unsafe acceptance across $T=5$ prespecified arrivals with probability at most $\delta$. The statement holds per fixed method/order/partition/policy under independent target class-conditional sampling; calibration data are excluded from fitting and tuning. The reference fallback and finite admission are reported separately.
+
+\paragraph{Error structure and paired-score variability}
+For a class-macro base query, let $A_C=\mathbb E C$ and $A_R=\mathbb E R$. Direct expansion of $Z=C-rR$ gives
+\begin{equation}
+ \begin{split}
+ \operatorname{Var}(Z)={}&A_R(1-r)^2+(A_R-A_C)(2r-1)\\
+ &+2rG-(A_C-rA_R)^2.
+ \end{split}
+ \label{eq:pairedvariance}
+\end{equation}
+At fixed $A_R,A_C$, recovery accompanied by additional destruction increases variance by $2rG$ relative to a feasible zero-recovery coupling. Retention removes that component while also making protection exact. For stratified calibration, the same identity holds within each class; the variance of the weighted mean is $\sum_c\operatorname{Var}(Z\mid c)/(B^2n_c)$. These conditional comparisons explain an error-structure advantage; actual certification also depends on accuracy slack, class coverage and the threshold family. Supplementary Section P derives the identity and its scope.
 
 \section{Experiments}
 \subsection{Protocol and comparisons}
@@ -136,16 +214,17 @@ At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.3
 \label{fig:capacity}
 \end{figure}
 
-\subsection{Isolating query-dependent normalization}
-The factorial in Supplementary Section M changes centering and scaling independently while fixing the reference banks, learned models, support and original fusion coefficients and offsets. Fixed moments are estimated from base-tuning queries. On ImageNet-R, query-dependent scaling adds 0.43 [0.17,0.65] and 0.36 [0.15,0.58] points with L/14 and B/32 when query centering is retained. Query centering adds a further 2.03 [1.37,2.68] and 0.88 [0.39,1.55] points at query-dependent scale. These fixed-gate contrasts measure the contribution within the selected fusion model. An equal-budget study independently reselects both fusion coefficients and the tuning offset for each normalization scheme, using the same 3,636 base-only pseudo-expansion settings. At the common 95\% base target, query normalization exceeds no centering by 3.60 [2.55,4.74] points on ImageNet-R L/14 and 5.29 [3.74,7.25] on B/32; gains over fixed global normalization are 2.84 [2.42,3.28] and 4.65 [3.57,5.71] points. All contrasts use ten jointly feasible partitions after averaging orders. With independently selected fusion weights for both readouts, retained-minus-dense capacity differs by 0.25 [$-0.46$,0.92] points on L/14 and 9.69 [8.08,11.21] on B/32. Section Q reports all conditions, search settings and independently calibrated policies; the offset-only control is in Section P.
+\subsection{Query-adaptive alignment expands retention frontiers}
+Independent fusion tuning isolates query normalization under equal search budgets, with encoder, ridge fit, support and data roles fixed. At the common 95\% base target, query normalization exceeds uncentered fusion by 3.60 [2.55,4.74] points on ImageNet-R L/14 and 5.29 [3.74,7.25] on B/32. Gains over fixed global normalization are 2.84 [2.42,3.28] and 4.65 [3.57,5.71] points. Each comparison includes ten partitions after averaging orders. Supplementary Section Q gives the factorial and search specification; Section M separately isolates centering and scaling with fusion held fixed.
 
+The adaptive offset acts through the combined group margin in Eq.~\eqref{eq:ridgeoffset}. On the original frozen models, adding its centering term raises base/novel ranking AUROC from .924 to .977 on ImageNet-R L/14 and from .856 to .904 on B/32. The term alone has novel-positive AUROC below .5 in all six conditions: its role is to align evidence within the decision margin. Section P supplies the conditional distributions and offset-reselected controls.
 
+Independent tuning also gives a retained-minus-dense capacity gap of 9.69 [8.08,11.21] points on ImageNet-R B/32 and 0.25 [$-0.46$,0.92] on L/14. The next analyses examine how these recognition structures support repeated and certified admission.
 
 \subsection{The classifier's value across arrivals}
 Table~\ref{tab:paired} quantifies retained-minus-comparator average incremental accuracy with fixed base-only selected gates and offsets. On ImageNet-R, retaining the classifier adds 0.71 [0.46, 0.92] points over dense prototypes with L/14 and 0.90 [0.69, 1.11] with B/32. Corresponding gains over class-mean caches are 1.42 [1.15, 1.62] and 1.71 [1.44, 1.98] points. The result persists across both encoders and after calibration is restored to the classifier-free alternative.
 
-\clearpage
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \setlength{\belowcaptionskip}{8pt}
 \caption{The retained classifier's value across five arrivals. Cells show paired gains in average incremental accuracy (percentage points), with conditional paired 95\% bootstrap intervals below. Positive values favor retention; bold estimates have intervals excluding zero. Two orders are averaged within each of ten partitions. Full final-session differences are in Supplementary Section I.}
@@ -155,21 +234,21 @@ Table~\ref{tab:paired} quantifies retained-minus-comparator average incremental 
 
 CIFAR also shows gains over recalibrated removal with both encoders; its dense-prototype intervals span zero. Pets' average incremental intervals span zero for these comparators. The gain over prototype replacement is clearest on ImageNet-R.
 
-The quality diagnosis in Supplementary Section M measures closed-base discrimination before admitting new classes. On ImageNet-R, the retained-minus-dense gap is +0.86 points with L/14 and +2.38 with B/32. Its class-frequency correlation is small ($\rho=-0.12,+0.06$), and prototype-quality correlations differ in sign ($-0.10,+0.18$). Thus frequency or prototype quality alone does not explain the cross-encoder result. Halving the learned-branch coefficient with all other terms fixed reduces ImageNet-R average incremental accuracy by 2.96 [2.05,3.96] and 3.42 [2.36,4.64] points. The controlled intervention establishes the value of the fitted discrimination in this score frame; class-level associations describe where that value appears.
+Supplementary Section M relates closed-base discrimination to class frequency and prototype quality and reports a controlled learned-branch intervention. It also evaluates the author-code-checked HyCal transfer: ImageNet-R average incremental accuracy is 76.36\% with L/14 and 54.19\% with B/32, with final 95\% capacity feasible in two and zero partitions when both orders must qualify. These results describe the matched transfer under the shared retention requirement.
 
-The matched HyCal transfer attains 76.36\% and 54.19\% average incremental accuracy on ImageNet-R with L/14 and B/32. Its final 95\% frontier is feasible in two and zero partitions, respectively, requiring both orders to be feasible. Its unrestricted readout and constrained outcomes are reported separately in Section M. These numbers evaluate the controlled transfer to this long-tailed task and shared reference requirement.
-
-\subsection{Turning capacity into calibrated admission}
+\subsection{Class coverage enables certified admission}
 \label{sec:operational}
-An empirical calibration threshold selects the largest offset satisfying $r$ times the reference's calibration accuracy. We separately evaluate whether test accuracy meets $r$ times its test reference. In the original L/14 pools, the retained 95\% policy is validation-feasible in all ten partitions but meets the test target in 7/10 CIFAR, 1/10 Pets and 2/10 ImageNet-R partitions. Supplementary Section I reports all methods; Section H varies threshold-label budgets.
-
 \label{sec:riskexperiment}
-For independent risk calibration, the original fitting/validation pool is repartitioned into approximately 40\% fitting, 20\% tuning and 40\% calibration observations per class. All readouts are refitted and tuned without calibration access (Supplementary Section J). We then freeze the models, support, test archives and 101 tuning-margin threshold candidates. Class-wise calibration caps of 2, 5, 10, 20 and 40 use nested subsets, supplementing the independent pool with unused training images while excluding fitting, tuning, support and test images. Every method receives identical subsets. Three subset seeds are averaged within each partition; the full cap-40 pool is counted once. We use $r=0.95$ and $\delta=0.05$. These benchmarks previously informed development; this is a revised benchmark evaluation.
+Independent calibration separates fitting, base-only tuning and class-stratified certification. The readouts and threshold candidates are frozen before varying calibration coverage; all methods receive the same images. Nested per-class caps of 2, 5, 10, 20 and 40 evaluate the label budget, using $r=0.95$, $\delta=0.05$ and five arrivals. Exact data roles, subset aggregation and the development history of the source benchmarks are specified in Supplementary Sections J and L.
 
 \label{sec:budgetexperiment}
-Class coverage determines whether certification is attainable. For macro weights $w_i=1/(Bn_c)$ and $b=\max_iw_i$, even zero observed loss requires $1/b\geq\log(\delta/5)/\log r=89.78$ to pass the weighted bound. The original CIFAR and Pets allocations have effective counts 80 and 45--60, respectively. Increasing tail-class coverage makes useful certification possible (Supplementary Section L); total query counts and the derivation are reported there.
+Equation~\eqref{eq:coveragefloor} requires effective coverage of at least 89.78 for the protection bound. The original CIFAR and Pets allocations provide 80 and 45--60, respectively. Figure~\ref{fig:coverageMain} shows how increasing class coverage enables finite admission. At cap 40, the required base-label counts are 1,600 for CIFAR, 600 for Pets and 3,636--3,778 for ImageNet-R. These calibration labels are additional to five-shot novel support and can come from a reserved labeled catalog audit pool.
 
-A deployment use is staged expansion of a labeled catalog: a reserved audit split or separately annotated known-class queries supplies calibration labels before new classes are admitted. This pool is excluded from fitting and tuning. Cap 40 requires 1,600 base queries on CIFAR, 600 on Pets and 3,636--3,778 on ImageNet-R. These labels are a separate resource from five-shot novel support. The coverage curves quantify smaller budgets, with reference fallback when finite admission cannot be certified.
+\begin{figure}[!htbp]
+\centering\includegraphics[width=.98\textwidth]{calibration_certification_curve.pdf}
+\caption{Finite certified admission versus calibration coverage, fifth arrival in the first order. All readouts share images and the protection rule. Grey lines show the necessary balanced cap from Eq.~\eqref{eq:coveragefloor}; ImageNet-R's floor lies below the plotted range. Below cap 40, three subset seeds are averaged within each of ten partitions; cap 40 uses the full pool once. Fallback counts as no finite admission. Novel-accuracy curves and exact counts appear in Supplementary Section L.}
+\label{fig:coverageMain}
+\end{figure}
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{calibration_fairness.pdf}
@@ -177,8 +256,7 @@ A deployment use is staged expansion of a labeled catalog: a reserved audit spli
 \label{fig:fairness}
 \end{figure}
 
-\clearpage
-\begin{table}[H]
+\begin{table}[!htbp]
 \centering
 \setlength{\belowcaptionskip}{8pt}
 \caption{Protection-risk-calibrated admission after the fifth arrival in the first prespecified order, with up to 40 images per base class, 95\% retention and 95\% five-session confidence. Queries are actual base-calibration counts; Finite counts certified expansion and Test met counts attained test targets. Base/Novel are test percentages, mean $\pm$ sample standard deviation over ten partitions, including fallback. All six readouts are reported in Supplementary Section L.}
@@ -186,12 +264,19 @@ A deployment use is staged expansion of a labeled catalog: a reserved audit spli
 {\small\setlength{\tabcolsep}{4pt}\input{table_kbs_calibration}}
 \end{table}
 
-At cap 40, retained tables certify final-session expansion in all ten partitions of each dataset and encoder, with all test targets met (Table~\ref{tab:riskmain}). L/14 novel accuracy is 72.76\% on CIFAR, 88.51\% on Pets and 80.74\% on ImageNet-R. All 20 arrival paths per dataset/encoder meet every test target. Finite admission holds throughout all CIFAR and ImageNet-R paths and 17/20 L/14 and 16/20 B/32 Pets paths; the remaining Pets paths use an early-session fallback. Full comparisons distinguish policy gains, which include fallback, from accuracy differences on jointly admitted partitions. The common protection criterion remains conservative for replacement models that recover reference errors.
+At cap 40, retained readouts certify final-session expansion in all ten partitions of each dataset and encoder, with all test targets met (Table~\ref{tab:riskmain}). L/14 novel accuracy is 72.76\% on CIFAR, 88.51\% on Pets and 80.74\% on ImageNet-R. All 20 arrival paths per dataset/encoder meet every test target. Finite admission holds throughout all CIFAR and ImageNet-R paths and 17/20 L/14 and 16/20 B/32 Pets paths; the remaining Pets paths use an early-session fallback. Full comparisons distinguish policy gains, which include fallback, from accuracy differences on jointly admitted partitions.
 
-\subsection{Separating recognition from certification}
-Figure~\ref{fig:fairness} holds calibration images, candidate thresholds and error allocation fixed while changing the statistical criterion. On ImageNet-R L/14, crediting recovered errors raises dense-prototype admission from 9/10 to 10/10 and fallback-inclusive novel accuracy from 48.58\% to 76.76\%. Retained tables attain 81.61\%, a paired gain of 4.85 [2.78,6.93] points on ten jointly admitted partitions.
+\subsection{From recognition capacity to certified policies}
+Figure~\ref{fig:fairness} holds calibration images, candidate thresholds and error allocation fixed while changing the statistical criterion. On ImageNet-R L/14, crediting recovered errors raises dense-prototype admission from 9/10 to 10/10 and novel accuracy from 48.58\% to 76.76\%, including fallback. Retained readouts attain 81.61\%, a paired gain of 4.85 [2.78,6.93] points with all ten partitions admitted by both methods.
 
-Table~\ref{tab:policycapacity} separates selected-policy gains from recognition capacity on the same fitted models. At the shared 95\% minimum target, retained-minus-dense capacity gains are 3.68 [1.08,6.38] points on CIFAR L/14 and 10.40 [7.31,14.64] on ImageNet-R B/32, with ten and nine jointly feasible partitions. L/14 ImageNet-R capacities of 83.93\% and 83.64\% yield a 0.29 [$-0.55$,1.16]-point difference, while Pets L/14 favors dense prototypes by 2.12 points. Retained readouts therefore supply their clearest common-target capacity gains on CIFAR L/14 and ImageNet-R B/32; policy selection contributes separately to the realized differences.
+Let $F_m(t)$ be readout $m$'s empirical novel capacity at base requirement $t$, $N_m$ its selected-policy novel accuracy, and $H_m(t)=F_m(t)-N_m$ its remaining capacity. For retained $R$ and dense $P$ readouts,
+\begin{equation}
+ N_R-N_P=\underbrace{F_R(t)-F_P(t)}_{\text{capacity difference}}+\underbrace{H_P(t)-H_R(t)}_{\text{remaining-capacity difference}}.
+ \label{eq:policydecomposition}
+\end{equation}
+On ImageNet-R L/14, capacities 83.93\% and 83.64\% differ by 0.29 points, while remaining capacities are 2.32 and 6.88 points. The latter difference accounts for 4.56 points of the 4.85-point policy gap. Comparable capacity can therefore coexist with different certified operating points. The remaining capacity combines threshold discretization, sampling and selection effects; this decomposition does not assign all of it to test variance.
+
+Table~\ref{tab:policycapacity} extends the analysis across datasets and encoders. The 35.40-point CIFAR L/14 policy gap includes reference fallback, alongside a 3.68-point capacity gap. Pets L/14 has a $-2.12$-point retained-minus-dense capacity gap and a positive policy gap. ImageNet-R B/32 additionally supplies a 10.40-point capacity advantage. Figure~\ref{fig:operatingMain} overlays selected policies on exact empirical trajectories, displaying both capacity and how it is used.
 
 \begin{table}[!htbp]
 \centering\setlength{\belowcaptionskip}{8pt}
@@ -200,18 +285,22 @@ Table~\ref{tab:policycapacity} separates selected-policy gains from recognition 
 {\small\setlength{\tabcolsep}{3pt}\resizebox{\linewidth}{!}{\input{table_policy_capacity_main}}}
 \end{table}
 
-At the dense policy's actual, stricter base accuracy, conservative alignment on ImageNet-R L/14 yields a 3.23 [1.48,5.02]-point retained-minus-selected-dense gain, with mean base overshoot 0.027 points. Comparing both frontiers at that target yields 3.10 [1.37,4.88] points. These target-specific comparisons distinguish recognition capacity from threshold-selection effects. Section P supplies exact discrete matching and all conditions. Section N reports both prespecified calibration policies, admission counts, conditional accuracy and fallback-inclusive results, including 9/10 direct-calibrated retained admissions on B/32 Pets and one dense B/32 ImageNet-R test-target miss.
+\begin{figure}[!htbp]
+\centering\includegraphics[width=.98\textwidth]{mechanism_operating_frontiers_p0.pdf}
+\caption{Capacity and certified operating points for prespecified partition 0, fifth arrival. The vertical line is the shared minimum base target. Triangles denote protection calibration, circles direct calibration, and hollow markers reference fallback. Curves use test labels to describe capacity; calibration chooses the points independently. Lines guide the eye; matching uses exact discrete events. Supplementary Section P provides all partitions and both orders.}
+\label{fig:operatingMain}
+\end{figure}
 
-The effective offset in Eq.~\eqref{eq:effectiveadmission} acts through the combined group margin. Adding its centering term improves group-ranking AUROC by .054 and .048 on ImageNet-R with L/14 and B/32. The term alone has novel-positive AUROC below .5 in all six conditions (Section P), locating its role in score alignment rather than standalone novelty detection.
+Matching at the dense policy's actual, stricter base accuracy gives a 3.23 [1.48,5.02]-point retained-minus-selected-dense gain on ImageNet-R L/14, with mean base overshoot 0.027 points. Comparing both frontiers at that stricter target gives 3.10 [1.37,4.88] points. Together, the common-floor and realized-accuracy views identify where the advantage lies. Full comparisons report joint feasibility, admission-conditioned accuracy and fallback, including the single dense B/32 ImageNet-R test-target miss (Sections N and P).
 
-\subsection{Calibration under query distribution shift}
+\subsection{Target calibration transfers frozen source readouts}
 \label{sec:shift}
 The controlled CIFAR stress test uses clean fitting/support and noisy or blurred queries. Clean calibration meets 5/10 and 1/10 L/14 final targets; matching calibration restores 10/10 with finite admission for both encoders (Section O).
 
-The separate transfer study freezes the original source-selected ImageNet-R readouts and evaluates matching ImageNet-Sketch classes~\cite{wang2019robustglobal}. Before target scoring, identity checks remove source overlaps and target duplicates, retaining 6,445 images: 2,492 for calibration and 3,953 for test. Source and Sketch calibration use equal per-class counts; model parameters and source support remain fixed. With direct Sketch calibration, retained readouts reach 86.82\% and 58.96\% novel accuracy with L/14 and B/32, respectively, with finite admission and target attainment in all ten partitions. Source calibration also meets these targets, at 82.99\% and 54.87\% novel accuracy. At the common 95\% minimum target, L/14 retained and dense capacities both round to 88.84\%; B/32 retention supplies a 5.78 [4.03,7.55]-point capacity gain on nine jointly feasible partitions. Section R reports the identity exclusions, absolute base accuracies, both calibration criteria and exact frontiers.
+The separate transfer study freezes the original source-selected ImageNet-R readouts and evaluates matching ImageNet-Sketch classes~\cite{wang2019robustglobal}. Identity-disjoint target calibration and test pools are fixed before scoring (Supplementary Section R). Source and Sketch calibration use equal per-class counts; model parameters and source support remain fixed. With direct Sketch calibration, retained readouts reach 86.82\% and 58.96\% novel accuracy with L/14 and B/32, respectively, with finite admission and target attainment in all ten partitions. Source calibration also meets these targets, at 82.99\% and 54.87\% novel accuracy. At the common 95\% minimum target, L/14 retained and dense capacities both round to 88.84\%; B/32 retention supplies a 5.78 [4.03,7.55]-point capacity gain on nine jointly feasible partitions. Section R reports the identity exclusions, absolute base accuracies, both calibration criteria and exact frontiers.
 
 \section{Conclusion}
-Candidate tables connect retained discrimination to retention-constrained expansion. Fixed base references preserve the score frame, query-dependent normalization aligns heterogeneous evidence, and independent calibration selects novel admission. Equal-budget fusion comparisons identify a normalization benefit on ImageNet-R with both encoders; matched frontiers locate the classifier's contribution at specific operating targets. Frozen-model Sketch validation demonstrates useful admission on identity-disjoint natural-shift images. These results provide a practical way to measure and control how an existing classifier supports an expanding label vocabulary.
+Reference-anchored evidence alignment supports class expansion with finite-sample retention control. Fixed base references preserve existing discrimination as the vocabulary grows, while query normalization induces an adaptive admission margin. Preserved base rankings make protection coincide with the accuracy requirement; a recovery-aware test extends certification to replacement readouts. Controlled comparisons establish the normalization mechanism, and capacity-to-policy analysis shows how comparable recognition frontiers can yield different certified admission. Target calibration transfers frozen source readouts to natural rendition shift without retraining. The framework connects stable evidence, explicit accuracy requirements and useful admission across successive class arrivals.
 
 \section*{CRediT authorship contribution statement}
 Junyi Zhang: Conceptualization, Methodology, Software, Validation, Formal analysis, Investigation, Data curation, Visualization, Writing -- original draft, Writing -- review and editing.
