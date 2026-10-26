@@ -767,6 +767,70 @@ The tables give the fifth arrival, Finite admission and Met test-target counts o
 \FloatBarrier
 The five revision blocks contain 24,000 metric records. A separate reconstruction verifies 54,960 threshold tests, their first-failure selection, predictions, macro accuracies, unchanged original references and source hashes. Original experiments remain intact. These checks and the locked protocol are distributed with the code; raw image data, model weights and PT feature caches are obtained separately.
 
+
+\FloatBarrier
+\section{Frozen-model operating points and effective admission bias}
+\label{app:mechanismfollowup}
+\subsection{Discrete matching and policy decomposition}
+This post-hoc diagnostic reuses the independently fitted models, coefficients, original predictions and cap-40 calibration records. It covers all six dataset/encoder conditions, ten partitions and both orders after the fifth arrival; order 0 is primary. The analysis plan was fixed before these new diagnostic outcomes, after the original benchmark results were known. It is not an external preregistration. All original data and scores remain unchanged.
+
+For each fixed readout, enumerate every weighted-accuracy change as its offset crosses a sample margin, respecting canonical class-ID ties. Matching chooses the most permissive event with base accuracy at least the requested target, without interpolation. Figure~\ref{fig:mechanismfrontiers} shows the prespecified partition 0; the complete trajectories for both orders are in the accompanying diagnostic records. Hollow markers indicate reference fallback, which uses a different readout and can lie outside the replacement trajectory.
+
+Let $F_m(t)$ be readout $m$'s descriptive novel capacity at base requirement $t$, and $N_m$ its selected-policy novel accuracy. With the same reference and target for both methods,
+\begin{equation}
+ N_R-N_P=[F_R(t)-F_P(t)]+[F_P(t)-N_P]-[F_R(t)-N_R].
+\end{equation}
+This is an accounting identity. Oracle headroom includes threshold-grid, sampling, conservatism and selection effects; it is not uniquely a certification penalty. Headroom can be negative when a selected policy misses the chosen empirical target. Table~\ref{tab:mechanismfloor} evaluates the original common $t=.95A_{\mathrm{ref}}$. On ImageNet-R L/14, capacities 83.93\% and 83.64\% give a gap of 0.29 [$-0.55$,1.16] points; retained and dense headrooms are 2.32 and 6.88 points. Their 4.56-point headroom difference accounts for most of the 4.85-point selected-policy gap at this target.
+
+Matching instead to the dense policy's actual base accuracy asks a different question. On all ten L/14 ImageNet-R partitions the retained envelope attains at least that accuracy, with mean/max overshoots 0.027/0.067 points. Its novel accuracy is 79.99\%, versus the dense selected 76.76\%, a paired difference of 3.23 [1.48,5.02] points. Comparing both envelopes at that stricter target gives 3.10 [1.37,4.88] points. These target-specific comparisons do not establish uniform frontier dominance or isolate the learned weights from their full fusion readout.
+
+\begin{table}[htbp]
+\centering\setlength{\belowcaptionskip}{8pt}
+\caption{Selected direct-policy gap and descriptive capacity gap at the common 95\% minimum base target (pp). Each row uses the same jointly feasible partitions; conditional paired intervals resample partition means on fixed images. Counts expose infeasible comparisons. All-ten selected results remain separately available.}
+\label{tab:mechanismfloor}
+\resizebox{\linewidth}{!}{\input{table_mechanism_common_floor}}
+\end{table}
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\linewidth]{mechanism_operating_frontiers_p0.pdf}
+\caption{Prespecified partition-0 fixed-readout trajectories and independently selected cap-40 policy points. Panels zoom into the retention region; connecting lines guide the eye and are not interpolation used in matching. A triangle denotes protection calibration and a circle direct calibration. A hollow point is reference fallback. The vertical line is the common minimum requirement.}
+\label{fig:mechanismfrontiers}
+\end{figure}
+
+The original .80/.85/.90/.95/.99 retention grid is also recomputed descriptively on these models, with joint feasibility counts. L/14 ImageNet-R gaps at .80--.95 have intervals spanning zero; its .99 gap is 6.06 [1.50,12.35] points on five jointly feasible partitions. This selected five-partition result does not establish an all-partition advantage or a newly certified 99\% policy. Full tables and both arrival orders are in the diagnostic summary.
+
+\subsection{What centering changes algebraically}
+Suppress the text-centering shift shared by every candidate. Define uncentered, scaled scores
+\begin{align}
+ B_b(x)&=q_T(x,b)/\sigma_T(x)+a q_L(x,b)/\sigma_L(x),\\
+ N_n(x)&=q_T(x,n)/\sigma_T(x)+u q_P(x,n)/\sigma_P(x).
+\end{align}
+The centered decision admits novel if the group margin $\max_bB_b-\max_nN_n$ is below
+\begin{equation}
+ d_{\mathrm{eff}}(x)=d+\Delta(x),\quad
+ \Delta(x)=a\mu_L(x)/\sigma_L(x)-u\mu_P(x)/\sigma_P(x),
+\end{equation}
+with the original tie rule and floored standard deviations. Query scales still affect within-group fusion. Fixing a nonzero center while retaining query scale does not generally make this effective offset constant.
+
+The fitted ridge model imposes a further constraint. Its augmented design $X$ includes an unregularized intercept and one-hot targets $Y$. Since $Y\mathbf1=\mathbf1$ and the slope regularizer annihilates the intercept vector $e_0$, the normal equations imply
+\begin{equation}
+ (X^\top\Omega X+L)W\mathbf1
+ =X^\top\Omega\mathbf1=(X^\top\Omega X+L)e_0.
+\end{equation}
+For the unique regularized solution, $W\mathbf1=e_0$ and $\mu_L(x)=1/|\mathcal B|$ in exact arithmetic. The learned contribution to $\Delta$ varies through its scale, not a freely changing learned-score mean. The prototype reference mean can vary with the query. Numerical and imbalanced synthetic checks are supplied with the code; they are not recognition benchmarks.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=.98\linewidth]{mechanism_effective_bias_ecdf_p0.pdf}
+\caption{Class-macro ECDFs of the effective bias term for base and novel queries, prespecified partition 0. AUROC uses fixed novel-positive orientation. Conditional separation of this term alone is neither necessary nor sufficient for improvement of the combined decision.}
+\label{fig:mechanismbias}
+\end{figure}
+
+Across ten order-0 partitions, the novel-positive $\Delta$ AUROCs are .353, .374 and .409 for L/14 on CIFAR, Pets and ImageNet-R, respectively; the B/32 values are .424, .421 and .451. These contradict the proposed interpretation that the term independently assigns larger admission bias to novel queries. Nevertheless, adding the term to the uncentered margin improves group-ranking AUROC on all six conditions. ImageNet-R rises from .924 to .977 with L/14 and .856 to .904 with B/32. These ranking diagnostics do not measure correct novel-class identification. An additional no-centering control preserves query scales and group rankings, recalibrating its constant offset with the same independent images; it does not retune fusion coefficients. Its complete outcomes remain in the diagnostic summary.
+
+\subsection{Error destinations and verification scope}
+For base queries, $A_B=A_{\mathrm{ref}}-D+G$ uses the same reference for every readout. $D$ contains losses to novel labels and losses to another base label. With retained base scores, within-base ranking cannot change, so $G=0$ and destruction to another base class is zero. A replacement readout can have both error destinations and can recover reference errors. These identities were checked on every recorded policy; error destinations and fallback are supplied per partition.
+
+The 120 partition/order records include 240 exact trajectories and 590 new calibration tests. Independent numerical reconstructions check weighted AUROC, source hashes, threshold stopping and accuracy arithmetic; four boundary/algebra tests pass. Re-executing completed jobs preserves all 246 checkpoint hashes and timestamps. These are deterministic checks; the additional fresh semantic audit was interrupted by a model usage limit before a complete verdict. The preceding revision audit does not certify this new analysis. Intervals describe assignment variation conditional on fixed images. No natural-shift dataset has been evaluated in this follow-up; the ImageNet-Sketch protocol remains an unexecuted draft.
+
 \FloatBarrier
 \begingroup
 \small

@@ -1,0 +1,202 @@
+{
+  "encoder": "b32",
+  "dataset": "pets",
+  "part": 4,
+  "order": 1,
+  "session": 5,
+  "rows": [
+    {
+      "method": "retained",
+      "policy": "protection",
+      "fallback": false,
+      "offset": 0.2941477108001709,
+      "reference": 0.8601588852973241,
+      "target": 0.8171509410324579,
+      "slack": 0.016327672156024153,
+      "base": 0.833478613188482,
+      "novel": 0.6945993265993273,
+      "destroyed_to_novel": 0.026680272108843533,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.039528756957328395,
+      "novel_to_base": 0.19336700336700335
+    },
+    {
+      "method": "retained",
+      "policy": "paired_accuracy",
+      "fallback": true,
+      "offset": null,
+      "reference": 0.8601588852973241,
+      "target": 0.8171509410324579,
+      "slack": 0.04300794426486787,
+      "base": 0.8601588852973258,
+      "novel": 0.0,
+      "destroyed_to_novel": 0.0,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.0,
+      "novel_to_base": 1.000000000000002
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "protection",
+      "fallback": true,
+      "offset": null,
+      "reference": 0.8601588852973241,
+      "target": 0.8171509410324579,
+      "slack": 0.04300794426486787,
+      "base": 0.8601588852973258,
+      "novel": 0.0,
+      "destroyed_to_novel": 0.0,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.0,
+      "novel_to_base": 1.000000000000002
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "paired_accuracy",
+      "fallback": true,
+      "offset": null,
+      "reference": 0.8601588852973241,
+      "target": 0.8171509410324579,
+      "slack": 0.04300794426486787,
+      "base": 0.8601588852973258,
+      "novel": 0.0,
+      "destroyed_to_novel": 0.0,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.0,
+      "novel_to_base": 1.000000000000002
+    }
+  ],
+  "comparisons": [
+    {
+      "policy": "protection",
+      "baseline_realized_base": 0.8601588852973258,
+      "policy_gain": 0.6945993265993273,
+      "both_admitted": false,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8601588852973243,
+          "novel": 0.3837171717171718,
+          "overshoot": -1.4432899320127035e-15
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8174650077463039,
+          "novel": 0.743939393939394,
+          "overshoot": 0.00031406671384603957
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      }
+    },
+    {
+      "policy": "paired_accuracy",
+      "baseline_realized_base": 0.8601588852973258,
+      "policy_gain": 0.0,
+      "both_admitted": false,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8601588852973243,
+          "novel": 0.3837171717171718,
+          "overshoot": -1.4432899320127035e-15
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8174650077463039,
+          "novel": 0.743939393939394,
+          "overshoot": 0.00031406671384603957
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      }
+    }
+  ],
+  "bias_auc": {
+    "delta": 0.3298984863966314,
+    "raw_margin": 0.7819654853147526,
+    "centered_margin": 0.9632691513241276
+  },
+  "uncentered_direct": {
+    "policy": "paired_accuracy",
+    "offset": -42.57522480286451,
+    "fallback": false,
+    "certified_expansion": true,
+    "delta": 0.05,
+    "per_session_delta": 0.01,
+    "trace": [
+      {
+        "offset": -49.323585022757,
+        "pvalue": 8.879714406378452e-08,
+        "accepted": true,
+        "log_evalue": 16.236911348909345,
+        "accuracy_surplus": 0.040333333333333346,
+        "destroyed": 0.005,
+        "recovered": 0.0
+      },
+      {
+        "offset": -42.57522480286451,
+        "pvalue": 2.662391198979264e-05,
+        "accepted": true,
+        "log_evalue": 10.53370079900279,
+        "accuracy_surplus": 0.03533333333333335,
+        "destroyed": 0.01,
+        "recovered": 0.0
+      },
+      {
+        "offset": -39.605565922919,
+        "pvalue": 0.30026673962901945,
+        "accepted": false,
+        "log_evalue": 1.2030840672730005,
+        "accuracy_surplus": 0.017000000000000043,
+        "destroyed": 0.028333333333333332,
+        "recovered": 0.0
+      }
+    ],
+    "old": 0.8261318118416794,
+    "new": 0.21004040404040406,
+    "overall": 0.5180861079410417,
+    "harmonic": 0.3349270649997898,
+    "destroyed_test": 0.03402707345564489,
+    "recovered_test": 0.0,
+    "test_target_met": true,
+    "target_gap_pp": 0.8980870809221497
+  },
+  "witness": {
+    "test": {
+      "max_algebra_margin_error": 1.5419470713595729e-06
+    },
+    "tune": {
+      "max_algebra_margin_error": 6.941211303512773e-07
+    },
+    "cal": {
+      "max_algebra_margin_error": 8.055155014119464e-07
+    }
+  },
+  "archive_margin_error": 0.0,
+  "cal_archive_margin_error": 8.58306884765625e-06,
+  "source_hashes": {
+    "experiments\\kbs_independent_risk\\b32\\pets\\p4\\o1_t5.npz": "2ede40f2e181196b119c85e807556776511b1bf484e0054ce5d490312959fc1e",
+    "experiments\\kbs_calibration_budget\\b32\\pets\\p4\\o1_t5.npz": "297a93beb1c41a56f903ad00a07b958ece554c6dd5d4c39a0bf294c396661bf3",
+    "experiments\\kbs_reviewer_revision\\fairness\\b32\\pets\\p4\\o1_t5.json": "cf18f33779ef0b5befc4ed4cf57d4177432697a76e3ae581fcad750c90635f87",
+    "experiments\\kbs_independent_risk\\b32\\pets\\p4\\selection.json": "fdd2120207fc47cee5bd129413d528882fdac0707fb8040d5ce6b66036fc1296"
+  },
+  "cache_sha256": "955de4f14712db07b723a5e5ff1c6f0f9dbc9749aa83f23c7c95b6ed423df39d",
+  "raw_sha256": "1c1d8693a2ea70048d26c67e4302f142fa896726b94e76d63554efc1a239b5d6"
+}

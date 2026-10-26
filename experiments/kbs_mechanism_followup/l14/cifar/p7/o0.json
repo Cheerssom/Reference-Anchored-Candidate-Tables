@@ -1,0 +1,242 @@
+{
+  "encoder": "l14",
+  "dataset": "cifar",
+  "part": 7,
+  "order": 0,
+  "session": 5,
+  "rows": [
+    {
+      "method": "retained",
+      "policy": "protection",
+      "fallback": false,
+      "offset": -0.5982587218284606,
+      "reference": 0.8704999999999998,
+      "target": 0.8269749999999998,
+      "slack": 0.01852500000000079,
+      "base": 0.8455000000000006,
+      "novel": 0.7935000000000006,
+      "destroyed_to_novel": 0.025,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.047750000000000015,
+      "novel_to_base": 0.1430000000000001
+    },
+    {
+      "method": "retained",
+      "policy": "paired_accuracy",
+      "fallback": false,
+      "offset": -0.5982587218284606,
+      "reference": 0.8704999999999998,
+      "target": 0.8269749999999998,
+      "slack": 0.01852500000000079,
+      "base": 0.8455000000000006,
+      "novel": 0.7935000000000006,
+      "destroyed_to_novel": 0.025,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.047750000000000015,
+      "novel_to_base": 0.1430000000000001
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "protection",
+      "fallback": false,
+      "offset": -2.3003369045257567,
+      "reference": 0.8704999999999998,
+      "target": 0.8269749999999998,
+      "slack": 0.03427500000000083,
+      "base": 0.8612500000000006,
+      "novel": 0.6162500000000004,
+      "destroyed_to_novel": 0.0037500000000000003,
+      "destroyed_to_base": 0.018750000000000003,
+      "recovered": 0.013250000000000001,
+      "false_novelty_all_base": 0.00625,
+      "novel_to_base": 0.35350000000000026
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "paired_accuracy",
+      "fallback": false,
+      "offset": -0.8299415588378907,
+      "reference": 0.8704999999999998,
+      "target": 0.8269749999999998,
+      "slack": 0.02477500000000088,
+      "base": 0.8517500000000007,
+      "novel": 0.7430000000000005,
+      "destroyed_to_novel": 0.013750000000000002,
+      "destroyed_to_base": 0.0175,
+      "recovered": 0.0125,
+      "false_novelty_all_base": 0.02525,
+      "novel_to_base": 0.20550000000000015
+    }
+  ],
+  "comparisons": [
+    {
+      "policy": "protection",
+      "baseline_realized_base": 0.8612500000000006,
+      "policy_gain": 0.17725000000000024,
+      "both_admitted": true,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8612500000000003,
+          "novel": 0.7312500000000002,
+          "overshoot": -3.3306690738754696e-16
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8612500000000003,
+          "novel": 0.6272500000000001,
+          "overshoot": -3.3306690738754696e-16
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8270000000000003,
+          "novel": 0.8200000000000003,
+          "overshoot": 2.5000000000496847e-05
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8270000000000003,
+          "novel": 0.8120000000000003,
+          "overshoot": 2.5000000000496847e-05
+        }
+      },
+      "matched_retained_minus_baseline_policy": 0.11499999999999977,
+      "envelope_gain": 0.10400000000000009,
+      "ours_alignment_adjustment": -0.06225000000000047,
+      "baseline_alignment_adjustment": 0.010999999999999677,
+      "ours_selected_feasible_at_baseline": false
+    },
+    {
+      "policy": "paired_accuracy",
+      "baseline_realized_base": 0.8517500000000007,
+      "policy_gain": 0.0505000000000001,
+      "both_admitted": true,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8517500000000003,
+          "novel": 0.7792500000000002,
+          "overshoot": -3.3306690738754696e-16
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8517500000000003,
+          "novel": 0.7432500000000002,
+          "overshoot": -3.3306690738754696e-16
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8270000000000003,
+          "novel": 0.8200000000000003,
+          "overshoot": 2.5000000000496847e-05
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8270000000000003,
+          "novel": 0.8120000000000003,
+          "overshoot": 2.5000000000496847e-05
+        }
+      },
+      "matched_retained_minus_baseline_policy": 0.03624999999999967,
+      "envelope_gain": 0.03600000000000003,
+      "ours_alignment_adjustment": -0.014250000000000429,
+      "baseline_alignment_adjustment": 0.0002499999999996394,
+      "ours_selected_feasible_at_baseline": false
+    }
+  ],
+  "bias_auc": {
+    "delta": 0.3223353750000037,
+    "raw_margin": 0.8569102499999967,
+    "centered_margin": 0.9713340624999988
+  },
+  "uncentered_direct": {
+    "policy": "paired_accuracy",
+    "offset": -44.511070058736216,
+    "fallback": false,
+    "certified_expansion": true,
+    "delta": 0.05,
+    "per_session_delta": 0.01,
+    "trace": [
+      {
+        "offset": -59.16672979069028,
+        "pvalue": 1.6973266210657276e-29,
+        "accepted": true,
+        "log_evalue": 66.24591325940409,
+        "accuracy_surplus": 0.04400000000000004,
+        "destroyed": 0.0,
+        "recovered": 0.0
+      },
+      {
+        "offset": -48.29447878330331,
+        "pvalue": 1.9696141747280127e-15,
+        "accepted": true,
+        "log_evalue": 33.86093872173385,
+        "accuracy_surplus": 0.035875000000000046,
+        "destroyed": 0.008125,
+        "recovered": 0.0
+      },
+      {
+        "offset": -45.71119501455129,
+        "pvalue": 5.539490935051375e-10,
+        "accepted": true,
+        "log_evalue": 21.31394832238321,
+        "accuracy_surplus": 0.030250000000000044,
+        "destroyed": 0.01375,
+        "recovered": 0.0
+      },
+      {
+        "offset": -44.511070058736216,
+        "pvalue": 1.1115989316931517e-07,
+        "accepted": true,
+        "log_evalue": 16.01229619312587,
+        "accuracy_surplus": 0.02712500000000004,
+        "destroyed": 0.016875,
+        "recovered": 0.0
+      },
+      {
+        "offset": -42.59280573148499,
+        "pvalue": 0.03073979586168583,
+        "accepted": false,
+        "log_evalue": 3.4821971816977118,
+        "accuracy_surplus": 0.015250000000000041,
+        "destroyed": 0.02875,
+        "recovered": 0.0
+      }
+    ],
+    "old": 0.8530000000000003,
+    "new": 0.29950000000000004,
+    "overall": 0.5762500000000002,
+    "harmonic": 0.44333796095444694,
+    "destroyed_test": 0.0175,
+    "recovered_test": 0.0,
+    "test_target_met": true,
+    "target_gap_pp": 2.602500000000052
+  },
+  "witness": {
+    "test": {
+      "max_algebra_margin_error": 2.392544314488987e-05
+    },
+    "tune": {
+      "max_algebra_margin_error": 1.271186427942439e-05
+    },
+    "cal": {
+      "max_algebra_margin_error": 2.0656506784177964e-05
+    }
+  },
+  "archive_margin_error": 0.0,
+  "cal_archive_margin_error": 4.100799560546875e-05,
+  "source_hashes": {
+    "experiments\\kbs_independent_risk\\l14\\cifar\\p7\\o0_t5.npz": "0fd5cb2f890c3da95ce8b949b4ac1db7bf3d8ce4c527f9db486bdeed188e86a0",
+    "experiments\\kbs_calibration_budget\\l14\\cifar\\p7\\o0_t5.npz": "7064e3d511c8e002f2f2afc93b275caa68faa4ba9923a597b74b556ed77441ae",
+    "experiments\\kbs_reviewer_revision\\fairness\\l14\\cifar\\p7\\o0_t5.json": "cfbb9bd5ad23f82e888600e2cc4cf54a82137e775f2b510f4aa41d932703b4fd",
+    "experiments\\kbs_independent_risk\\l14\\cifar\\p7\\selection.json": "13a979fff1e5ce5c3408349768ead65f0c55b80ac47f0b00188e3a02c6619e4b"
+  },
+  "cache_sha256": "ae4a4ef5859d0ac969a533627d0a31f7a3ab14c7a4ace8c26c631b69e9b7eaed",
+  "raw_sha256": "81266d5d17a50343d43004f91cac1779d8836ad552d717448efd4e14dbfc31a8"
+}

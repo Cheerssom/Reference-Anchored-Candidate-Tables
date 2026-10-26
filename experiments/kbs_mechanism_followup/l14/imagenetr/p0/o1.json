@@ -1,0 +1,251 @@
+{
+  "encoder": "l14",
+  "dataset": "imagenetr",
+  "part": 0,
+  "order": 1,
+  "session": 5,
+  "rows": [
+    {
+      "method": "retained",
+      "policy": "protection",
+      "fallback": false,
+      "offset": -0.6031807899475099,
+      "reference": 0.910545716947602,
+      "target": 0.8650184311002218,
+      "slack": 0.024813485353346598,
+      "base": 0.8898319164535684,
+      "novel": 0.7961983563812474,
+      "destroyed_to_novel": 0.02071380049403327,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.036378445267102835,
+      "novel_to_base": 0.13367255541417933
+    },
+    {
+      "method": "retained",
+      "policy": "paired_accuracy",
+      "fallback": false,
+      "offset": -0.37497148513793943,
+      "reference": 0.910545716947602,
+      "target": 0.8650184311002218,
+      "slack": 0.01913404472553637,
+      "base": 0.8841524758257582,
+      "novel": 0.8137543520288721,
+      "destroyed_to_novel": 0.02639324112184346,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.04810668516224777,
+      "novel_to_base": 0.10913484097544691
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "protection",
+      "fallback": false,
+      "offset": -4.920961856842041,
+      "reference": 0.910545716947602,
+      "target": 0.8650184311002218,
+      "slack": 0.03885014119740471,
+      "base": 0.9038685722976265,
+      "novel": 0.16256940612574255,
+      "destroyed_to_novel": 0.00017241379310344826,
+      "destroyed_to_base": 0.018640019625492,
+      "recovered": 0.012135288768620361,
+      "false_novelty_all_base": 0.0004754440961337513,
+      "novel_to_base": 0.8359659474096108
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "paired_accuracy",
+      "fallback": false,
+      "offset": -0.8276490211486816,
+      "reference": 0.910545716947602,
+      "target": 0.8650184311002218,
+      "slack": 0.03550301619338192,
+      "base": 0.9005214472936037,
+      "novel": 0.7201866045393683,
+      "destroyed_to_novel": 0.004413620428912783,
+      "destroyed_to_base": 0.01758200356747594,
+      "recovered": 0.011971354342390854,
+      "false_novelty_all_base": 0.010814046538388574,
+      "novel_to_base": 0.2356968682189368
+    }
+  ],
+  "comparisons": [
+    {
+      "policy": "protection",
+      "baseline_realized_base": 0.9038685722976265,
+      "policy_gain": 0.6336289502555048,
+      "both_admitted": true,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.9040389891141825,
+          "novel": 0.7243959255621947,
+          "overshoot": 0.00017041681655594054
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.903868572297627,
+          "novel": 0.5348759150114255,
+          "overshoot": 4.440892098500626e-16
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8650512500675902,
+          "novel": 0.8407179018418077,
+          "overshoot": 3.281896736839762e-05
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.865094165862665,
+          "novel": 0.8290833320008113,
+          "overshoot": 7.573476244315813e-05
+        }
+      },
+      "matched_retained_minus_baseline_policy": 0.5618265194364521,
+      "envelope_gain": 0.18952001055076917,
+      "ours_alignment_adjustment": -0.07180243081905269,
+      "baseline_alignment_adjustment": 0.37230650888568295,
+      "ours_selected_feasible_at_baseline": false
+    },
+    {
+      "policy": "paired_accuracy",
+      "baseline_realized_base": 0.9005214472936037,
+      "policy_gain": 0.0935677474895038,
+      "both_admitted": true,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.9007665327481906,
+          "novel": 0.7462183387066658,
+          "overshoot": 0.0002450854545869019
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.9005214472936042,
+          "novel": 0.7240785152132179,
+          "overshoot": 4.440892098500626e-16
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8650512500675902,
+          "novel": 0.8407179018418077,
+          "overshoot": 3.281896736839762e-05
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.865094165862665,
+          "novel": 0.8290833320008113,
+          "overshoot": 7.573476244315813e-05
+        }
+      },
+      "matched_retained_minus_baseline_policy": 0.026031734167297427,
+      "envelope_gain": 0.022139823493447897,
+      "ours_alignment_adjustment": -0.06753601332220638,
+      "baseline_alignment_adjustment": 0.00389191067384953,
+      "ours_selected_feasible_at_baseline": false
+    }
+  ],
+  "bias_auc": {
+    "delta": 0.4460578407283641,
+    "raw_margin": 0.8992289044708831,
+    "centered_margin": 0.9789354906835435
+  },
+  "uncentered_direct": {
+    "policy": "paired_accuracy",
+    "offset": -17.303808658961923,
+    "fallback": false,
+    "certified_expansion": true,
+    "delta": 0.05,
+    "per_session_delta": 0.01,
+    "trace": [
+      {
+        "offset": -22.972403325576707,
+        "pvalue": 1.1165656040982676e-26,
+        "accepted": true,
+        "log_evalue": 59.756954868564634,
+        "accuracy_surplus": 0.045033794380458875,
+        "destroyed": 0.00075,
+        "recovered": 0.0
+      },
+      {
+        "offset": -19.874175709353544,
+        "pvalue": 2.823240695525619e-24,
+        "accepted": true,
+        "log_evalue": 54.224156823901694,
+        "accuracy_surplus": 0.041750366215451765,
+        "destroyed": 0.0040334281650071125,
+        "recovered": 0.0
+      },
+      {
+        "offset": -18.490897046369337,
+        "pvalue": 1.137189485004871e-17,
+        "accepted": true,
+        "log_evalue": 39.01538672653719,
+        "accuracy_surplus": 0.032997982034188286,
+        "destroyed": 0.012785812346270605,
+        "recovered": 0.0
+      },
+      {
+        "offset": -17.73101482136041,
+        "pvalue": 3.9210866291074324e-10,
+        "accepted": true,
+        "log_evalue": 21.65948211324835,
+        "accuracy_surplus": 0.02267169071490503,
+        "destroyed": 0.023112103665553912,
+        "recovered": 0.0
+      },
+      {
+        "offset": -17.303808658961923,
+        "pvalue": 5.470052312935442e-05,
+        "accepted": true,
+        "log_evalue": 9.813637284974128,
+        "accuracy_surplus": 0.015524024964446987,
+        "destroyed": 0.030259769416012015,
+        "recovered": 0.0
+      },
+      {
+        "offset": -16.900837056304205,
+        "pvalue": 0.22632912839969457,
+        "accepted": false,
+        "log_evalue": 1.4857650187632734,
+        "accuracy_surplus": 0.007455114708036739,
+        "destroyed": 0.038328679672422275,
+        "recovered": 0.0
+      }
+    ],
+    "old": 0.8779938398383547,
+    "new": 0.5540144397077654,
+    "overall": 0.7160041397730601,
+    "harmonic": 0.6793553811002943,
+    "destroyed_test": 0.032551877109247396,
+    "recovered_test": 0.0,
+    "test_target_met": true,
+    "target_gap_pp": 1.2975408738132854
+  },
+  "witness": {
+    "test": {
+      "max_algebra_margin_error": 9.63446860069439e-06
+    },
+    "tune": {
+      "max_algebra_margin_error": 8.982910941313094e-06
+    },
+    "cal": {
+      "max_algebra_margin_error": 7.181639787745553e-06
+    }
+  },
+  "archive_margin_error": 0.0,
+  "cal_archive_margin_error": 7.152557373046875e-06,
+  "source_hashes": {
+    "experiments\\kbs_independent_risk\\l14\\imagenetr\\p0\\o1_t5.npz": "31e82babae489cbcb9ca6235f2a37e6695e21f7cedfcb2de18b3d8f41c410a1d",
+    "experiments\\kbs_calibration_budget\\l14\\imagenetr\\p0\\o1_t5.npz": "5f5b2dac4872324dc2c382b301c75f0105eb86d5febb43f6f8c60b1e2c55bfcf",
+    "experiments\\kbs_reviewer_revision\\fairness\\l14\\imagenetr\\p0\\o1_t5.json": "844ef325c252aa801480896bec2fcfa668ba9c72e30306b5b0b62648be211f67",
+    "experiments\\kbs_independent_risk\\l14\\imagenetr\\p0\\selection.json": "e07a08c1fb35152ba6849779d40806c96ccb3973a8f4a8ce43449155257f623a"
+  },
+  "cache_sha256": "5a568e79e1fea8d6704fa703a7078f9cc12d5fdfd8378b3ca6f6b36a546f131f",
+  "raw_sha256": "f0ffb40aa1c6a0bcc57ef4c33fcba09e1772632cbe71fe928900e192478c2967"
+}

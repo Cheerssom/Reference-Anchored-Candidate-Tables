@@ -266,8 +266,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 26 review-format pages (106-word abstract),3 figures and3 tables;
-the supplement is 68 pages, Sections A-O. Ten KBS references are cited. Independent calibration coverage is
+The current main manuscript has 27 review-format pages (106-word abstract),3 figures and3 tables;
+the supplement is 74 pages, Sections A-P. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -301,3 +301,7 @@ Controlled normalization, class-quality diagnosis, recovery-aware calibration, a
 ```powershell
 powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python
 ```
+
+## Target-specific mechanism follow-up
+
+Supplement P distinguishes selected-policy performance from empirical capacity at the original minimum target and at baseline-realized accuracy. ImageNet-R L/14 common95%-target capacity differs by0.29pp (interval spans zero), whereas conservative matching at the baseline-realized base accuracy gives3.23pp over its selected policy. Effective bias alone is not a novel detector. See paper/kbs/mechanism_followup/report.md. Deterministic checks pass; the new semantic audit did not finish due a model usage limit. Earlier audit PASS applies to its earlier scope, not this addition. ImageNet-Sketch is only an unexecuted protocol draft.

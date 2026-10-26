@@ -1,0 +1,199 @@
+{
+  "encoder": "b32",
+  "dataset": "pets",
+  "part": 2,
+  "order": 0,
+  "session": 5,
+  "rows": [
+    {
+      "method": "retained",
+      "policy": "protection",
+      "fallback": false,
+      "offset": -3.0910395622253417,
+      "reference": 0.9403602693602694,
+      "target": 0.8933422558922559,
+      "slack": 0.03265437710437913,
+      "base": 0.925996632996635,
+      "novel": 0.49869630339935284,
+      "destroyed_to_novel": 0.014363636363636363,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.019787878787878785,
+      "novel_to_base": 0.3231354437132925
+    },
+    {
+      "method": "retained",
+      "policy": "paired_accuracy",
+      "fallback": false,
+      "offset": -3.0910395622253417,
+      "reference": 0.9403602693602694,
+      "target": 0.8933422558922559,
+      "slack": 0.03265437710437913,
+      "base": 0.925996632996635,
+      "novel": 0.49869630339935284,
+      "destroyed_to_novel": 0.014363636363636363,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.019787878787878785,
+      "novel_to_base": 0.3231354437132925
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "protection",
+      "fallback": true,
+      "offset": null,
+      "reference": 0.9403602693602694,
+      "target": 0.8933422558922559,
+      "slack": 0.047018013468015596,
+      "base": 0.9403602693602715,
+      "novel": 0.0,
+      "destroyed_to_novel": 0.0,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.0,
+      "novel_to_base": 1.000000000000002
+    },
+    {
+      "method": "anchored_tp",
+      "policy": "paired_accuracy",
+      "fallback": true,
+      "offset": null,
+      "reference": 0.9403602693602694,
+      "target": 0.8933422558922559,
+      "slack": 0.047018013468015596,
+      "base": 0.9403602693602715,
+      "novel": 0.0,
+      "destroyed_to_novel": 0.0,
+      "destroyed_to_base": 0.0,
+      "recovered": 0.0,
+      "false_novelty_all_base": 0.0,
+      "novel_to_base": 1.000000000000002
+    }
+  ],
+  "comparisons": [
+    {
+      "policy": "protection",
+      "baseline_realized_base": 0.9403602693602715,
+      "policy_gain": 0.49869630339935284,
+      "both_admitted": false,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.9403602693602695,
+          "novel": 0.16086140160297463,
+          "overshoot": -1.9984014443252818e-15
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8934444444444445,
+          "novel": 0.6163508246108567,
+          "overshoot": 0.0001021885521885757
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8935791245791247,
+          "novel": 0.49135838396191533,
+          "overshoot": 0.00023686868686878526
+        }
+      }
+    },
+    {
+      "policy": "paired_accuracy",
+      "baseline_realized_base": 0.9403602693602715,
+      "policy_gain": 0.49869630339935284,
+      "both_admitted": false,
+      "matched": {
+        "retained": {
+          "feasible": true,
+          "base": 0.9403602693602695,
+          "novel": 0.16086140160297463,
+          "overshoot": -1.9984014443252818e-15
+        },
+        "anchored_tp": {
+          "feasible": false
+        }
+      },
+      "common_target_capacity": {
+        "retained": {
+          "feasible": true,
+          "base": 0.8934444444444445,
+          "novel": 0.6163508246108567,
+          "overshoot": 0.0001021885521885757
+        },
+        "anchored_tp": {
+          "feasible": true,
+          "base": 0.8935791245791247,
+          "novel": 0.49135838396191533,
+          "overshoot": 0.00023686868686878526
+        }
+      }
+    }
+  ],
+  "bias_auc": {
+    "delta": 0.3213377415257662,
+    "raw_margin": 0.768745564285727,
+    "centered_margin": 0.9609644689496109
+  },
+  "uncentered_direct": {
+    "policy": "paired_accuracy",
+    "offset": -103.59966648080639,
+    "fallback": false,
+    "certified_expansion": true,
+    "delta": 0.05,
+    "per_session_delta": 0.01,
+    "trace": [
+      {
+        "offset": -103.59966648080639,
+        "pvalue": 0.0037486443533643614,
+        "accepted": true,
+        "log_evalue": 5.586361010128284,
+        "accuracy_surplus": 0.02908333333333337,
+        "destroyed": 0.018333333333333333,
+        "recovered": 0.0
+      },
+      {
+        "offset": -99.24958624606606,
+        "pvalue": 0.03772149807665035,
+        "accepted": false,
+        "log_evalue": 3.277525106293695,
+        "accuracy_surplus": 0.024083333333333377,
+        "destroyed": 0.023333333333333334,
+        "recovered": 0.0
+      }
+    ],
+    "old": 0.9255757575757577,
+    "new": 0.07847946251477551,
+    "overall": 0.5020276100452666,
+    "harmonic": 0.14469062361869295,
+    "destroyed_test": 0.014784511784511784,
+    "recovered_test": 0.0,
+    "test_target_met": true,
+    "target_gap_pp": 3.223350168350181
+  },
+  "witness": {
+    "test": {
+      "max_algebra_margin_error": 1.8474010516911221e-06
+    },
+    "tune": {
+      "max_algebra_margin_error": 9.033592434093407e-07
+    },
+    "cal": {
+      "max_algebra_margin_error": 1.2683344294828203e-06
+    }
+  },
+  "archive_margin_error": 0.0,
+  "cal_archive_margin_error": 2.086162567138672e-05,
+  "source_hashes": {
+    "experiments\\kbs_independent_risk\\b32\\pets\\p2\\o0_t5.npz": "a83197ce5691fd9213c84adae4e113cfc2c9d9b795b5bdae3f8669374438b406",
+    "experiments\\kbs_calibration_budget\\b32\\pets\\p2\\o0_t5.npz": "37bc37934c004ea0569d5375c4d61eb3d521ef1999d27c42378d6e9ce1d207bf",
+    "experiments\\kbs_reviewer_revision\\fairness\\b32\\pets\\p2\\o0_t5.json": "ba27df344785710f3840c0e79c0642a47e04eca65e8364202dd8ffa9fc8cc19e",
+    "experiments\\kbs_independent_risk\\b32\\pets\\p2\\selection.json": "af74db42747e0e5981f738d0c68cca7d547cdcef0f12ac4115fdb212ea04e0e0"
+  },
+  "cache_sha256": "955de4f14712db07b723a5e5ff1c6f0f9dbc9749aa83f23c7c95b6ed423df39d",
+  "raw_sha256": "9b880ba3ee8753ea4dbf92475a57ccf84076b5fe79c53bbf22766839bfa27b7a"
+}

@@ -9,7 +9,7 @@ Start with `main.pdf`, `supplementary.pdf`, `Highlights.docx` and
 novel recognition under a common base-accuracy constraint, and the paired value
 of the retained classifier across successive arrivals.
 
-The current revision has a 26-page main manuscript and 68-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
+The current revision has a 27-page main manuscript and 74-page supplement. It adds the 200-class ImageNet-R task and corrected ViT-transfer FeNeC-M/FeNeC-E comparisons.
 
 Build from this directory:
 
@@ -121,3 +121,7 @@ powershell -File scripts/run_kbs_reviewer_revision.ps1 -Python python
 ```
 
 Run those commands from the repository root after constructing the original dataset/feature caches. Reproduction on new software/hardware can differ in floating-point details; pinned source hashes identify the recorded run. Readout manifests bind source/protocol; the additional provenance file is explicitly a post-run binding, with cache numerical witnesses and raw-pixel separation checks. Completed session shards and feature batches support resume; PAUSE uses experiments/kbs_strengthening/PAUSE. No additional model download or paid compute was needed for the original local run.
+
+## Target-specific mechanism analysis (2026-10-26)
+
+Supplement P separates common-minimum capacity from baseline-realized-accuracy matching. ImageNet-R L/14 common95%-target gap is0.29pp [-0.55,1.16]; matching the stricter baseline actual accuracy yields3.23pp [1.48,5.02] against its selected policy. The original4.85pp is a policy comparison. Effective bias alone is not a novel detector. See mechanism_followup/report.md and mechanism_followup/结论说明.md. Deterministic checks pass; a complete fresh semantic audit remains unavailable due a model usage limit. ImageNet-Sketch is an unexecuted protocol draft.

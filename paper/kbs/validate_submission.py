@@ -119,5 +119,14 @@ if r'\label{sec:shift}' in main:
   row=next(r for r in revision['policy'] if (r['encoder'],r['dataset'],r['method'],r['policy'])==('l14','imagenetr',m,'paired_accuracy'))
   assert row['finite']==10 and f"{100*row['novel']['mean']:.2f}" in maintext
  report['five_point_revision']={'metric_records':24000,'threshold_tests':54960,'supplementary_sections':'M-O','provenance_verified':True,'restart':restart}
+if r'\label{app:mechanismfollowup}' in supp:
+ mechanism=json.loads((H/'mechanism_followup/summary.json').read_text())
+ assert mechanism['verification']['complete'] and mechanism['verification']['partition_order_records']==120
+ assert mechanism['verification']['new_threshold_tests_reconstructed']==590
+ case=next(r for r in mechanism['conditions'] if (r['encoder'],r['dataset'])==('l14','imagenetr'))
+ maintext='\n'.join(p.get_text() for p in fitz.open(H/'main.pdf'))
+ for value in [case['common_floor_envelope_gap_pp']['mean'],case['aligned_vs_baseline_policy_pp']['mean']]:
+  assert f'{value:.2f}' in maintext
+ report['mechanism_followup']={'partition_order_records':120,'threshold_tests':590,'supplementary_section':'P','semantic_audit_complete':False,'natural_shift_executed':False}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

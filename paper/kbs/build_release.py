@@ -42,7 +42,7 @@ def bundle():
     combined=fitz.open()
     for name in ['main.pdf','supplementary.pdf']:
         with fitz.open(H/name) as document:combined.insert_pdf(document)
-    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-O',report['documents']['main']['pages']+1]])
+    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-P',report['documents']['main']['pages']+1]])
     combined.save(H/'review_complete.pdf',garbage=4,deflate=True);combined.close()
     names+=['review_complete.pdf']
     instruction=(f"Prepared for Knowledge-Based Systems. Main: {report['documents']['main']['pages']} review-format pages; "
@@ -51,6 +51,7 @@ def bundle():
                  "article length and required affiliation/mailing details. Direct access to the journal-specific guide "
                  "was unavailable; see submission_check.md in the project.\n"
                  +audit_note+"The direct-risk proof received a conditional same-family mathematical review. "
+                 "That completed audit covers the previous five-point revision. The newer Supplement P mechanism analysis has deterministic checks but no completed semantic-audit verdict due a model usage limit. "
                  "Separate local archive reconstruction, numerical tests and clean source compilation are recorded.\n"
                  "The source archive contains editable LaTeX sources; Highlights and letter are editable DOCX files.\n")
     hashes={name:hashlib.sha256((H/name).read_bytes()).hexdigest() for name in names}
