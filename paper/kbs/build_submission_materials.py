@@ -10,7 +10,7 @@ highlights=[
  'Retained discrimination supplies capacity for protected class expansion.',
  'Fixed references separate existing discrimination from novel admission.',
  'Classifier value is measured at matched retention and across repeated arrivals.',
- 'ImageNet-R gains over dense prototypes persist with two frozen CLIP encoders.',
+ 'ImageNet-R incremental gains persist across two frozen CLIP encoders.',
  'Recovery-aware calibration separates admission from recognition gains.'
 ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
@@ -21,7 +21,7 @@ Please consider our manuscript, "{title}," as an original Research Article.
 
 The paper investigates how a trained classifier's discrimination can support new-class recognition under an explicit original-class accuracy requirement. Reference-anchored candidate tables preserve the existing score frame while a separate threshold controls novel admission. Matched-retention frontiers and paired arrival sequences quantify the retained classifier's expansion capacity and continuing predictive value.
 
-Experiments cover three datasets, ten class partitions and two frozen CLIP encoders. On ImageNet-R, retained classifiers improve average incremental accuracy over dense prototypes by 0.71 points with ViT-L/14 and 0.90 with ViT-B/32. Independent protection-risk calibration with up to 40 images per base class certifies final-session expansion in all ten partitions of every dataset and encoder. ViT-L/14 novel accuracy reaches 72.76% on CIFAR-100, 88.51% on Pets and 80.74% on ImageNet-R, with the 95% test-retention target met in each partition. A direct paired accuracy certificate credits recovery of reference errors: on ImageNet-R L/14 both retained and dense readouts admit all ten partitions, with novel accuracy 81.61% and 76.76%. Frozen-gate normalization controls, an author-code-checked HyCal transfer and query-shift tests clarify the scope. A further frozen-model analysis separates the selected-policy gap from descriptive capacity at the common minimum target, where the L/14 ImageNet-R gap is0.29 points with an interval spanning zero. Target-specific frontier and effective-offset diagnostics are supplied. All readouts share calibration access and report fallback separately from useful admission.
+Experiments cover three datasets, ten class partitions, two frozen CLIP encoders and five arrivals. At the common 95% retention target, independently fitted retained readouts improve descriptive novel capacity over dense prototypes by 3.68 points on CIFAR-100 ViT-L/14 and 10.40 on ImageNet-R ViT-B/32, on ten and nine jointly feasible partitions. Independent protection calibration enables final-session admission in all ten partitions of each dataset and encoder. Exact frontier comparisons distinguish recognition capacity from selected-policy performance. Controls with independently reselected offsets show that query centering contributes beyond a global threshold adjustment. A matched HyCal transfer and query-corruption tests define the comparison and deployment scope.
 
 The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 

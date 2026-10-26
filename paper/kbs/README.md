@@ -125,3 +125,7 @@ Run those commands from the repository root after constructing the original data
 ## Target-specific mechanism analysis (2026-10-26)
 
 Supplement P separates common-minimum capacity from baseline-realized-accuracy matching. ImageNet-R L/14 common95%-target gap is0.29pp [-0.55,1.16]; matching the stricter baseline actual accuracy yields3.23pp [1.48,5.02] against its selected policy. The original4.85pp is a policy comparison. Effective bias alone is not a novel detector. See mechanism_followup/report.md and mechanism_followup/结论说明.md. Deterministic checks pass; a complete fresh semantic audit remains unavailable due a model usage limit. ImageNet-Sketch is an unexecuted protocol draft.
+
+## Reviewer-clarity revision (2026-10-26)
+
+Main Table 3 reports all six selected-policy/common-target capacity contrasts and feasible counts. The frozen-gate factorial is in Supplement M; Supplement P now reports the offset-reselected centering control with base/novel accuracy and admission counts. Main27pages, supplement75pages, abstract101words on page1. Rebuild the new summaries with `python paper/kbs/build_reviewer_clarity_revision.py`. Original240 diagnostic JSON/NPZ files are hash-checked unchanged. Full fusion retuning and ImageNet-Sketch evaluation remain outside this revision.

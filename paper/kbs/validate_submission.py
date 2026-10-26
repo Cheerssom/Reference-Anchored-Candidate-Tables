@@ -49,7 +49,7 @@ abstract=main.split(r'\begin{abstract}')[1].split(r'\end{abstract}')[0]
 report['abstract_words']=len(abstract.split());assert report['abstract_words']<=250
 with fitz.open(H/'main.pdf') as document:
  first=' '.join(document[0].get_text().split())
- assert 'role of calibration' in first and 'target correspondence.' in first
+ assert 'exact frontier alignment' in first and 'threshold-selection effects.' in first
  assert 'Keywords:' in first
  report['abstract_complete_on_first_page']=True
  report['keywords_on_first_page']=True
@@ -128,5 +128,16 @@ if r'\label{app:mechanismfollowup}' in supp:
  for value in [case['common_floor_envelope_gap_pp']['mean'],case['aligned_vs_baseline_policy_pp']['mean']]:
   assert f'{value:.2f}' in maintext
  report['mechanism_followup']={'partition_order_records':120,'threshold_tests':590,'supplementary_section':'P','semantic_audit_complete':False,'natural_shift_executed':False}
+if (H/'reviewer_clarity_revision/normalization_recalibrated_summary.json').exists():
+ clarity=json.loads((H/'reviewer_clarity_revision/normalization_recalibrated_summary.json').read_text())
+ assert len(clarity['records'])==6
+ assert r'\input{table_policy_capacity_main}' in main and r'\input{table_centering_recalibrated}' in supp
+ assert r'\input{table_normalization_factorial}' not in main and r'\input{table_normalization_factorial}' in supp
+ assert main.count(r'\begin{table}')==3
+ for item in clarity['records']:
+  assert item['test_met_centered']==item['test_met_uncentered']==10
+ for name,sha in json.loads((H/'reviewer_clarity_revision/unchanged_experiment_inputs.json').read_text()).items():
+  assert hashlib.sha256((H.parents[1]/name).read_bytes()).hexdigest()==sha
+ report['reviewer_clarity_revision']={'conditions':6,'raw_checkpoint_files_unchanged':240,'main_capacity_table':True,'offset_reselected_control':True,'full_fusion_retuning':False,'external_natural_shift_executed':False}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))
