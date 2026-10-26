@@ -39,11 +39,15 @@ def bundle():
     audit=json.loads((H/'five_point_revision_completion.json').read_text()).get('experiment_audit',{})
     audit_note=(f"The completed same-family experimental integrity audit has status {audit.get('status')}; its semantic assessment remains provisional. "
                 if audit.get('complete') else "The fresh-agent experiment audit was interrupted by a model usage limit; no completed experiment-audit PASS is claimed. ")
-    combined=fitz.open()
-    for name in ['main.pdf','supplementary.pdf']:
-        with fitz.open(H/name) as document:combined.insert_pdf(document)
+    combined=fitz.open();toc=[]
     last='R' if 'app:sketchvalidation' in (H/'supplementary.tex').read_text(encoding='utf-8') else ('Q' if 'app:fullretuning' in (H/'supplementary.tex').read_text(encoding='utf-8') else 'P')
-    combined.set_toc([[1,'Main manuscript',1],[1,'Supplementary material A-'+last,report['documents']['main']['pages']+1]])
+    for name,title in [('main.pdf','Main manuscript'),('supplementary.pdf','Supplementary material A-'+last)]:
+        offset=len(combined);toc.append([1,title,offset+1])
+        with fitz.open(H/name) as document:
+            if name=='supplementary.pdf' and 'Evidence guide' in document[0].get_text():toc.append([2,'Evidence guide',offset+1])
+            toc.extend([[level+1,label,page+offset] for level,label,page in document.get_toc() if page>0])
+            combined.insert_pdf(document)
+    combined.set_toc(toc)
     combined.save(H/'review_complete.pdf',garbage=4,deflate=True);combined.close()
     names+=['review_complete.pdf']
     instruction=(f"Prepared for Knowledge-Based Systems. Main: {report['documents']['main']['pages']} review-format pages; "

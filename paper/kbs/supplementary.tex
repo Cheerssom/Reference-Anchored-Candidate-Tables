@@ -20,7 +20,26 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thefigure}{S\arabic{figure}}
 
-Sections A--H retain the original three-partition ViT-L/14 auxiliary and validation studies. Section I reports the ten-partition, two-encoder comparison; Section J gives the independent protection bound and original calibration allocation; Section K collects implementation details; Section L evaluates independent calibration coverage with frozen score models. Sections M--P isolate readouts, calibration and operating points; Section Q independently retunes fusion; Section R evaluates a new natural-shift target. Statistical units are stated separately.
+\section*{Evidence guide}
+The primary evidence separates source-domain mechanism tests from frozen-model transfer. The source study in Section Q independently selects fusion coefficients and offsets; the Sketch study in Section R fixes the original source-selected models and changes the calibration/query domain.
+
+\begin{center}
+{\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{@{}p{.34\linewidth}p{.59\linewidth}@{}}
+\toprule
+Question & Evidence and scope \\
+\midrule
+Does query alignment help after tuning? & \hyperref[app:fullretuning]{Section Q}: equal-budget source comparisons. \hyperref[app:normalizationrevision]{M} and \hyperref[app:mechanismfollowup]{P}: fixed-model controls and effective bias. \\
+When does retaining the classifier add value? & \hyperref[app:replication]{I}, \hyperref[app:fullretuning]{Q} and \hyperref[app:sketchvalidation]{R}: common-target capacities, paired gains and feasibility counts. \\
+Can admission meet the original-class requirement? & \hyperref[app:independentrisk]{J} and \hyperref[app:pairedrevision]{N}: statistical tests; \hyperref[app:calibrationbudget]{L}: calibration coverage and fallback. \\
+Does frozen-model admission transfer? & \hyperref[app:sketchvalidation]{R}: identity-disjoint Sketch queries with fixed source models and matched calibration counts; \hyperref[app:shiftrevision]{O}: controlled corruptions. \\
+How are operating points compared? & \hyperref[app:mechanismfollowup]{P}: exact discrete frontiers, selected policies and error destinations. \\
+\bottomrule
+\end{tabular}}
+\end{center}
+
+For the central case, read Q (alignment), N (admission) and R (transfer). Sections A--H provide auxiliary readout and validation studies; K collects implementation details. Intervals and confidence scopes are stated with their respective evaluations.
+\clearpage
 
 \section{Auxiliary readout and mechanism analyses}
 \label{app:auxiliary}

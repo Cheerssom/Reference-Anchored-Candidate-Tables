@@ -266,7 +266,7 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 28 review-format pages (102-word abstract),3 figures and3 tables;
+The current main manuscript has 28 review-format pages (104-word abstract),3 figures and3 tables;
 the supplement is 85 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
@@ -314,3 +314,5 @@ Supplement Q completes360 equal-budget fusion searches (3636 settings each),2880
 powershell -File scripts/run_kbs_full_fusion_retuning.ps1 -Python python
 powershell -File scripts/run_kbs_sketch_validation.ps1 -Python python
 ```
+
+The current manuscript adds a focused evidence guide on the supplement first page, preserves full section bookmarks in the combined PDF, and explicitly distinguishes source-only independent fusion tuning from original-source-model Sketch transfer. The current abstract is104words and fits on page1. Numerical experiment records remain unchanged.
