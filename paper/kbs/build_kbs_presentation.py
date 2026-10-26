@@ -30,7 +30,7 @@ def build():
             r'\cmidrule(l){2-4}',r'& CIFAR-100 & Pets & ImageNet-R \\',r'\midrule']
     pairs=[]
     for e,enc in ENCODERS.items():
-        paired.append(r'\multicolumn{4}{@{}l}{\textit{'+enc+r'}} \\')
+        paired.append(r'\multicolumn{4}{@{}l}{\textnormal{'+enc+r'}} \\')
         for m in ['no_learned_tuned','anchored_tp','tip_mean_calibrated']:
             cells=[]
             for d in DATA:
@@ -53,7 +53,7 @@ def build():
           r'& Queries & Finite & Test met & Base & Novel \\',r'\midrule']
     def acc(r,k):return f"{100*r[k+'_mean']:.2f}"+r'\,\ensuremath{\pm}\,'+f"{100*r[k+'_sd']:.2f}"
     for e,enc in ENCODERS.items():
-        main.append(r'\multicolumn{6}{@{}l}{\textit{'+enc+r'}} \\')
+        main.append(r'\multicolumn{6}{@{}l}{\textnormal{'+enc+r'}} \\')
         for d,name in DATA.items():
             r=lookup[e,d,'retained','risk',40]
             q=str(r['query_min']) if r['query_min']==r['query_max'] else f"{r['query_min']}--{r['query_max']}"

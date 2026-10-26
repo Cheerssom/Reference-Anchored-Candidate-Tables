@@ -32,7 +32,7 @@ Class expansion \sep Retention constraints \sep Incremental learning \sep Eviden
 \section{Introduction}
 An expanding recognition system integrates unequal evidence: a trained classifier encodes accumulated base supervision, whereas arriving classes provide names and a few examples. Deployment requires novel admission without exceeding a specified loss of base recognition. Evidence must remain comparable as the vocabulary grows, and finite calibration data must support the resulting retention requirement.
 
-Vocabulary growth can disturb evidence alignment even with frozen models. Standardizing a branch against active candidates changes its scale when a class arrives; after fusion, existing classes can exchange rank. Fixed base reference banks remove this dependence. Their query-specific statistics adapt learned, semantic and prototype evidence, while a scalar offset controls novel admission.
+Vocabulary growth can disturb evidence alignment even with frozen models. Standardizing a branch against active candidates changes its scale when a class arrives; after fusion, existing classes can exchange rank. SimpleCIL~\cite{zhou2024simplecil} and RanPAC~\cite{mcdonnell2023ranpac} exploit pretrained representations through prototypes and analytic readouts; BiMC~\cite{chen2025bimc} and HyCal~\cite{lee2026hycal} calibrate multimodal or heterogeneous recognition metrics. Our deployment setting couples these recognition capabilities to an explicit base-accuracy requirement, assessed through independent finite-sample calibration. Fixed base reference banks stabilize the evidence used by that policy. Their query-specific statistics adapt learned, semantic and prototype evidence, while a scalar offset controls novel admission.
 
 We develop \emph{risk-certified class expansion through reference-anchored evidence alignment}. Preserving the original base ranking makes every lost correct base prediction go to a novel class and prevents recovery of base errors. This structure makes a sufficient protection criterion exactly match the retention requirement. A second, direct accuracy test credits replacement readouts' recoveries under the same requirement. The framework exposes how recognition capacity becomes useful certified admission.
 
@@ -209,8 +209,8 @@ Every comparator shares its encoder, partition and support. We compare fixed-gat
 
 Orders are averaged within a partition. Means and standard deviations describe ten class assignments on fixed images. Paired differences use identical cells; constrained comparisons use jointly feasible sets. Conditional paired 95\% bootstrap intervals resample partition means 20,000 times. Average incremental accuracy is the mean macro accuracy over five arrivals. These intervals characterize class-assignment variation, conditional on the fixed data and encoders.
 
-\subsection{Novel recognition at a shared base requirement}
-At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.31\% novel accuracy at 86.42\% base accuracy. Figure~\ref{fig:capacity} compares novel recognition under shared base requirements across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
+\subsection{Retention frontiers and query-adaptive alignment}
+At the descriptive 95\% retention budget, the ImageNet-R L/14 retained readout reaches 84.31\% novel accuracy at 86.42\% base accuracy. Figure~\ref{fig:capacity} compares novel recognition under shared base requirements across encoders and datasets. A more discriminative base readout can tolerate greater novel competition while meeting the same target, turning retained discrimination into admission capacity.
 
 \begin{figure}[!htbp]
 \centering\includegraphics[width=.98\textwidth]{matched_capacity_main.pdf}
@@ -218,8 +218,7 @@ At the descriptive 95\% retention budget, the ImageNet-R L/14 table reaches 84.3
 \label{fig:capacity}
 \end{figure}
 
-\subsection{Query-adaptive alignment expands retention frontiers}
-Independent fusion tuning isolates query normalization under equal search budgets, with encoder, ridge fit, support and data roles fixed. At the common 95\% base target, query normalization exceeds uncentered fusion by 3.60 [2.55,4.74] points on ImageNet-R L/14 and 5.29 [3.74,7.25] on B/32. Gains over fixed global normalization are 2.84 [2.42,3.28] and 4.65 [3.57,5.71] points. Each comparison includes ten partitions after averaging orders. Supplementary Section Q gives the factorial and search specification; Section M separately isolates centering and scaling with fusion held fixed.
+To isolate the contribution of query normalization to these frontiers, we independently tune fusion under equal search budgets, with encoder, ridge fit, support and data roles fixed. At the common 95\% base target, query normalization exceeds uncentered fusion by 3.60 [2.55,4.74] points on ImageNet-R L/14 and 5.29 [3.74,7.25] on B/32. Gains over fixed global normalization are 2.84 [2.42,3.28] and 4.65 [3.57,5.71] points. Each comparison includes ten partitions after averaging orders. Supplementary Section Q gives the factorial and search specification; Section M separately isolates centering and scaling with fusion held fixed.
 
 The adaptive offset acts through the combined group margin in Eq.~\eqref{eq:ridgeoffset}. On the original frozen models, adding its centering term raises base/novel ranking AUROC from .924 to .977 on ImageNet-R L/14 and from .856 to .904 on B/32. The term alone has novel-positive AUROC below .5 in all six conditions: its role is to align evidence within the decision margin. Section P supplies the conditional distributions and offset-reselected controls.
 

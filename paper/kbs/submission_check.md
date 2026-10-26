@@ -6,7 +6,7 @@ Checked on 2026-10-26. Target: Knowledge-Based Systems, original Research Articl
 
 Main manuscript: 30 pages in the official elsarticle preprint/review/12pt layout, including references and declarations; 5 figures and 3 tables. Supplement: 87 pages, Sections A–R. The 120-word abstract and six keywords fit on page 1. Five editable Highlights contain 77, 66, 75, 79 and 71 characters, respectively.
 
-The three final clarifications distinguish original frozen readouts from independently retuned fusion in the abstract, specify within-class accuracy matching and shared calibration counts for the stratified variance comparison, and attribute the statistical constructions immediately before the theorems. The cover letter uses the same experiment distinction. Experimental values, figure data, original architecture and matched-capacity plot ranges are unchanged.
+The three final clarifications distinguish original frozen readouts from independently retuned fusion in the abstract, specify within-class accuracy matching and shared calibration counts for the stratified variance comparison, and attribute the statistical constructions immediately before the theorems. The cover letter uses the same experiment distinction. The presentation cleanup unifies Figure 1 labels with the asymmetric-readout terminology, merges the frontier and alignment subsections, uses upright encoder names in Tables 1 and 2, and adds representative-method citations to the introduction. Experimental values, figure data, architecture layout and matched-capacity plot ranges are unchanged.
 
 ## Checks and rule sources
 
@@ -43,4 +43,4 @@ Extract candidate_tables_kbs_submission.zip and upload the individual files requ
 
 ## Frozen version
 
-submission_freeze_manifest.json identifies the exact deliverable and source hashes. Run `python paper/kbs/verify_submission_freeze.py` to verify them without changing files. The local submission_freeze_20261026/files folder preserves the delivery files. Any later manuscript edit requires an explicitly refreshed freeze manifest and submission bundle.
+submission_freeze_manifest.json identifies the exact deliverable and source hashes. Run `python paper/kbs/verify_submission_freeze.py` to verify them without changing files. The local submission_freeze_20261026_presentation/files folder preserves the delivery files. Any later manuscript edit requires an explicitly refreshed freeze manifest and submission bundle.

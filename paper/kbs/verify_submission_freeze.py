@@ -41,6 +41,17 @@ main=(H/'main.tex').read_text(encoding='utf-8')
 assert 'requires matching both accuracies within every class and sharing calibration counts' in main
 assert main.index('Learn then Test framework')<main.index(r'\begin{theorem}[Macro protection')
 assert main.index('We adapt bounded-mean betting')<main.index(r'\begin{theorem}[Recovery-aware')
+assert r'\subsection{Retention frontiers and query-adaptive alignment}' in main
+assert r'\subsection{Query-adaptive alignment expands retention frontiers}' not in main
+assert 'L/14 retained readout reaches' in main
+for name in ['table_kbs_paired.tex','table_kbs_calibration.tex']:
+    table=(H/name).read_text(encoding='utf-8')
+    assert r'\textnormal{CLIP ViT-L/14}' in table
+    assert r'\textnormal{CLIP ViT-B/32}' in table
+with fitz.open(H/'framework.pdf') as figure:
+    figure_text=' '.join(p.get_text() for p in figure)
+    assert 'Asymmetric readout' in figure_text and 'readout evidence' in figure_text
+    assert 'Candidate table' not in figure_text and 'candidate evidence' not in figure_text
 print(json.dumps({'complete':True,'frozen_files_checked':checked,
                   'freeze_id':manifest['freeze_id'],'pages':manifest['pages'],
                   'abstract_words':manifest['abstract_words'],
