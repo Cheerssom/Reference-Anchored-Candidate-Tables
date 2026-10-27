@@ -8,6 +8,13 @@ Contact: cheerssom0876@gmail.com
 
 This repository accompanies a research manuscript.
 
+Current experiment protocol entry points use descriptive names under `experiments/`:
+`expansion_calibration_budget_protocol.md`, `expansion_controlled_ablation_protocol.md`,
+`expansion_controlled_ablation_scope.md`, `expansion_full_fusion_retuning_protocol.md`,
+and `expansion_sketch_execution_protocol_v1.md`. These documents retain the original
+protocol dates and scientific conditions. Historical run identifiers and hashed
+archives remain available for reproducibility; the new names do not imply new runs.
+
 Current submission target: **Knowledge-Based Systems (KBS)**.
 The current manuscript is [paper/kbs/main.pdf](paper/kbs/main.pdf), with
 [supplementary material](paper/kbs/supplementary.pdf) and
