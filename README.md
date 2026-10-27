@@ -1,7 +1,7 @@
 # Reference-Anchored Candidate Tables
 
-Research code and manuscript for **Risk-certified class expansion through
-reference-anchored evidence alignment**.
+Research code and manuscript for **Reference-anchored asymmetric class expansion with
+query-adaptive evidence alignment**.
 
 **Junyi Zhang, Shandong University**  
 Contact: cheerssom0876@gmail.com
@@ -20,8 +20,8 @@ No journal submission has been performed by this workflow.
 The primary comparison now covers ten distinct class assignments on each of
 CIFAR-100, Pets and ImageNet-R using OpenAI CLIP ViT-L/14 and ViT-B/32.
 Two orders and five arrivals per partition produce 52,800 raw metric records.
-Eight readouts include raw-score and fixed-temperature controls. Matched-retention curves and
-independently calibrated policies lead the main paper, with feasibility and achieved test
+Eight readouts include raw-score and fixed-temperature controls. Recognition trajectories and query-adaptive alignment
+lead the main paper, with feasibility and achieved test
 retention reported separately. Earlier three-partition studies are historical
 auxiliary evidence; do not treat their headline numbers as the expanded estimate.
 
@@ -256,8 +256,8 @@ See [the full report](paper/kbs/independent_risk_report.md) for assumptions, com
 
 ## Calibration coverage revision
 
-The current main manuscript has 30 review-format pages (120-word abstract),5 figures and3 tables;
-the supplement is 87 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
+The current main manuscript has 29 review-format pages (123-word abstract),5 figures and3 tables;
+the supplement is 88 pages, Sections A-R. Ten KBS references are cited. Independent calibration coverage is
 evaluated with all fitted models, tuning parameters, supports and test archives
 frozen. Per-class caps 2/5/10/20/40 use identical subsets for all six readouts.
 At cap 40 (subject to image availability), retained tables certify final-session
@@ -308,3 +308,7 @@ powershell -File scripts/run_kbs_sketch_validation.ps1 -Python python
 ## Evidence alignment and certification
 
 The current manuscript organizes the method around vocabulary-invariant reference alignment, an adaptive admission margin, and finite-sample retention certification. The main text presents the ridge mean identity, tail-coverage condition and recovery-aware direct test. A paired-score variance identity is verified from480 saved policies and24800 class-conditional comparisons; at fixed reference and expanded accuracies its recovery contribution is2*r*G. This is a conditional error-structure result, not a universal certification-power ranking. See paper/kbs/verify_error_structure.py. All original numerical experiments remain unchanged.
+
+## Asymmetric readout revision — 2026-10-27
+
+The manuscript now leads with asymmetric evidence alignment and query-adaptive recognition. Main Table 1 reconstructs four matched readouts across three datasets and two encoders from600 frozen prediction archives. Main Table 2 isolates query centering; Table 3 uses the same direct retention test for every readout. ImageNet-R average incremental gains over the matched HyCal transfer are10.93 and13.74pp. Independently retuned normalization gains are3.60 and5.29pp. The underlying model outputs are unchanged; see paper/kbs/asymmetric_presentation_verification.json.

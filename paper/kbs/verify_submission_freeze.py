@@ -30,7 +30,7 @@ for name in ['main','supplementary']:
         text=' '.join(pdf[0].get_text().split())
         assert title in text,(name,'title')
         if name=='main':
-            assert 'In the original frozen L/14 readouts' in text
+            assert 'matched HyCal transfer' in text
             assert 'ten partitions per encoder.' in text and 'Keywords:' in text
 for name in ['title_page.docx','cover_letter.docx']:
     text='\n'.join(p.text for p in Document(H/name).paragraphs)
@@ -38,13 +38,15 @@ for name in ['title_page.docx','cover_letter.docx']:
 high=[p.text for p in Document(H/'Highlights.docx').paragraphs][1:]
 assert list(map(len,high))==manifest['highlight_characters']
 main=(H/'main.tex').read_text(encoding='utf-8')
-assert 'requires matching both accuracies within every class and sharing calibration counts' in main
+supp=(H/'supplementary.tex').read_text(encoding='utf-8')
+assert 'If both accuracies match within every class' in supp
+assert 'Matching overall macro accuracies alone does not imply' in supp
 assert main.index('Learn then Test framework')<main.index(r'\begin{theorem}[Macro protection')
-assert main.index('We adapt bounded-mean betting')<main.index(r'\begin{theorem}[Recovery-aware')
-assert r'\subsection{Retention frontiers and query-adaptive alignment}' in main
+assert main.index('We adapt bounded-mean betting')<main.index(r'\begin{theorem}[Direct paired accuracy test]')
+assert r'\subsection{Query-adaptive alignment improves base--novel decisions}' in main
 assert r'\subsection{Query-adaptive alignment expands retention frontiers}' not in main
 assert 'L/14 retained readout reaches' in main
-for name in ['table_kbs_paired.tex','table_kbs_calibration.tex']:
+for name in ['table_asymmetric_recognition.tex','table_asymmetric_centering.tex','table_asymmetric_admission.tex']:
     table=(H/name).read_text(encoding='utf-8')
     assert r'\textnormal{CLIP ViT-L/14}' in table
     assert r'\textnormal{CLIP ViT-B/32}' in table

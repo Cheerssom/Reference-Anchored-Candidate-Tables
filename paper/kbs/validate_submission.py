@@ -49,7 +49,7 @@ abstract=main.split(r'\begin{abstract}')[1].split(r'\end{abstract}')[0]
 report['abstract_words']=len(abstract.split());assert report['abstract_words']<=250
 with fitz.open(H/'main.pdf') as document:
  first=' '.join(document[0].get_text().split())
- assert '86.82%' in first and 'ten partitions per encoder.' in first
+ assert '86.82%' in first and 'ten partitions per encoder.' in first and 'matched HyCal transfer' in first
  assert 'Keywords:' in first
  report['abstract_complete_on_first_page']=True
  report['keywords_on_first_page']=True
@@ -82,9 +82,10 @@ if r'\label{sec:budgetexperiment}' in main:
  primary=[r for r in budget['summary'] if r['method']=='retained' and r['policy']=='risk' and r['cap']==40]
  assert len(primary)==6
  maintext='\n'.join(p.get_text() for p in fitz.open(H/'main.pdf'))
+ budgettext=maintext+'\n'+'\n'.join(p.get_text() for p in fitz.open(H/'supplementary.pdf'))
  for row in primary:
   assert row['finite_admission_cells']==10 and row['test_met_cells']==10
-  assert f"{100*row['new_mean']:.2f}" in maintext
+  assert f"{100*row['new_mean']:.2f}" in budgettext
  report['calibration_budget']={'metric_records':93600,'reconstructed_tests':verified['reconstructed_tests'],'primary_conditions':6,'supplementary_section':'L','restart':restart}
 if r'\label{fig:capacity}' in main:
  presentation=json.loads((H/'presentation_verification.json').read_text())
@@ -129,20 +130,23 @@ if r'\label{app:mechanismfollowup}' in supp:
  assert mechanism['verification']['new_threshold_tests_reconstructed']==590
  case=next(r for r in mechanism['conditions'] if (r['encoder'],r['dataset'])==('l14','imagenetr'))
  maintext='\n'.join(p.get_text() for p in fitz.open(H/'main.pdf'))
+ combinedtext=maintext+'\n'+'\n'.join(p.get_text() for p in fitz.open(H/'supplementary.pdf'))
  for value in [case['common_floor_envelope_gap_pp']['mean'],case['aligned_vs_baseline_policy_pp']['mean']]:
-  assert f'{value:.2f}' in maintext
+  assert f'{value:.2f}' in combinedtext
  report['mechanism_followup']={'partition_order_records':120,'threshold_tests':590,'supplementary_section':'P','semantic_audit_complete':False,'natural_shift_executed':False}
 if (H/'reviewer_clarity_revision/normalization_recalibrated_summary.json').exists():
  clarity=json.loads((H/'reviewer_clarity_revision/normalization_recalibrated_summary.json').read_text())
  assert len(clarity['records'])==6
- assert r'\input{table_policy_capacity_main}' in main and r'\input{table_centering_recalibrated}' in supp
+ assert r'\input{table_asymmetric_admission}' in main and r'\input{table_centering_recalibrated}' in supp
+ assert r'\input{table_mechanism_common_floor}' in supp
+ assert r'\input{table_asymmetric_centering}' in main
  assert r'\input{table_normalization_factorial}' not in main and r'\input{table_normalization_factorial}' in supp
  assert main.count(r'\begin{table}')==3
  for item in clarity['records']:
   assert item['test_met_centered']==item['test_met_uncentered']==10
  for name,sha in json.loads((H/'reviewer_clarity_revision/unchanged_experiment_inputs.json').read_text()).items():
   assert hashlib.sha256((H.parents[1]/name).read_bytes()).hexdigest()==sha
- report['reviewer_clarity_revision']={'conditions':6,'raw_checkpoint_files_unchanged':240,'main_capacity_table':True,'offset_reselected_control':True,'full_fusion_retuning_in_that_revision':False,'external_natural_shift_in_that_revision':False}
+ report['reviewer_clarity_revision']={'conditions':6,'raw_checkpoint_files_unchanged':240,'capacity_table_in_supplement':True,'offset_reselected_control':True,'full_fusion_retuning_in_that_revision':False,'external_natural_shift_in_that_revision':False}
 if r'\label{app:fullretuning}' in supp:
  tuned=json.loads((H/'full_fusion_retuning/summary.json').read_text())
  assert tuned['verification']['complete'] and tuned['verification']['metric_records']==28800
@@ -164,5 +168,15 @@ if r'\label{app:sketchvalidation}' in supp:
   assert c['finite']==c['test_met']==10
   assert f"{c['novel']['mean']:.2f}" in maintext
  report['natural_shift_validation']={'complete':True,'metric_records':2700,'threshold_tests':4899,'unique_images':6445,'source_byte_overlap_exclusions':3624,'calibration_images':2492,'test_images':3953,'checkpoint_restart_files':1049,'supplementary_section':'R','frozen_source_parameters':True,'fresh_semantic_audit_complete':False}
+if (H/'asymmetric_presentation_verification.json').exists():
+ presentation=json.loads((H/'asymmetric_presentation_verification.json').read_text())
+ assert presentation['prediction_archives']==600
+ assert presentation['retained_aggregation_matches_existing_summary']
+ for name,sha in presentation['source_sha256'].items():
+  assert hashlib.sha256((H.parents[1]/name).read_bytes()).hexdigest()==sha,name
+ for row in presentation['averages']:
+  assert f"{row['mean']:.2f}" in maintext
+ assert (H/'table_asymmetric_centering.tex').read_text()==(H/'table_centering_recalibrated.tex').read_text().replace(r'\textit{ViT-',r'\textnormal{CLIP ViT-')
+ report['recognition_first_revision']={'reaggregated_prediction_archives':600,'unchanged_archives':True,'average_accuracy_cells':24,'direct_admission_cells':24,'centering_control_values_preserved':True}
 (H/'validation.json').write_text(json.dumps(report,indent=2),encoding='utf-8')
 print(json.dumps(report,indent=2))

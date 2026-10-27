@@ -1,0 +1,17 @@
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Readout & CIFAR-100 & Pets & ImageNet-R \\
+\midrule
+\multicolumn{4}{@{}l}{\textnormal{CLIP ViT-L/14}} \\
+Retained readout & \textbf{72.00} (10/10) & \textbf{87.52} (10/10) & \textbf{81.61} (10/10) \\
+Dense prototypes & 36.60 (6/10) & 71.64 (8/10) & 76.76 (10/10) \\
+Fixed temperature & 59.04 (9/10) & 77.43 (9/10) & 78.16 (10/10) \\
+HyCal transfer & 0.00 (0/10) & 3.49 (1/10) & 0.00 (0/10) \\
+\midrule
+\multicolumn{4}{@{}l}{\textnormal{CLIP ViT-B/32}} \\
+Retained readout & \textbf{52.54} (10/10) & \textbf{54.58} (9/10) & \textbf{52.06} (10/10) \\
+Dense prototypes & 23.77 (6/10) & 13.25 (2/10) & 23.88 (7/10) \\
+Fixed temperature & 46.52 (10/10) & 44.66 (9/10) & 46.35 (10/10) \\
+HyCal transfer & 0.00 (0/10) & 0.00 (0/10) & 0.00 (0/10) \\
+\bottomrule
+\end{tabular}

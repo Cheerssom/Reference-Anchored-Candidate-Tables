@@ -1,12 +1,14 @@
-# Risk-certified class expansion through reference-anchored evidence alignment
+# Reference-anchored asymmetric class expansion with query-adaptive evidence alignment
 
 Target journal: Knowledge-Based Systems. No journal submission has been performed.
 
-Current review-format manuscript:30 pages,5 figures and3 tables. Supplement:87 pages, Sections A–R. The 120-word abstract and keywords fit on the first page. Read review_complete.pdf for the full paper and supplement; main.pdf and supplementary.pdf are separate upload files.
+Current review-format manuscript:29 pages,5 figures and3 tables. Supplement:88 pages, Sections A–R. The 123-word abstract and keywords fit on the first page. Read review_complete.pdf for the full paper and supplement; main.pdf and supplementary.pdf are separate upload files.
 
-The paper connects vocabulary-invariant alignment of asymmetric evidence with finite-sample retention certification. Its central analysis relates adaptive admission margins, preserved error structure and the gap between recognition capacity and selected policies. The main text includes the ridge mean identity, protection coverage condition, direct accuracy test, paired-score variance identity and empirical policy decomposition. Descriptive test-label capacity is separate from independently selected policies. Confidence is conditional on the stated class-conditional sampling assumptions, per fixed configuration over five prespecified arrivals; bootstrap intervals describe class-assignment variation on fixed images.
+The paper develops an asymmetric readout that combines trained base-class weights with text and few-shot novel prototypes. Fixed base references preserve existing scores as classes arrive; query normalization produces a sample-adaptive base--novel margin. Recognition trajectories and controlled centering ablations lead the evidence, followed by independently calibrated admission and frozen-model transfer.
 
-The paired-score identities are checked without retraining by `python paper/kbs/verify_error_structure.py`:8855 joint-probability checks,480 saved policy reconstructions and24800 class-conditional checks. At matched reference and expanded accuracies, the variance contribution of recovery is exactly `2*r*G`. This conditional identity does not assert a universal ordering of calibration power. The original experimental results are unchanged.
+The main comparison uses the independently fitted source models throughout. Its new recognition table is reconstructed from 600 existing prediction archives, without retraining or changing any model output. It reports all three datasets and both encoders for the retained readout, dense prototypes, fixed temperature and the matched HyCal transfer. The centering table fixes fusion and scales while recalibrating the offset; independently retuned normalization is reported separately. Supplement P retains the paired-score variance identity and its within-class conditioning assumptions.
+
+Reconstruct the new presentation with `python paper/kbs/build_asymmetric_presentation.py`. The verification receipt records every source hash. Descriptive test-label frontiers remain distinct from independently selected admission policies.
 
 ## New controlled evidence
 
@@ -39,6 +41,6 @@ These reuse the original cached source features, local CLIP snapshots and source
 
 The source-hashed old evidence ZIP and the separate Q/R extension evidence ZIP preserve their respective scopes. Highlights, cover letter, declarations and title page are regenerated with the submission-materials builder. Literature/template provenance remains under literature/ and template_provenance.json.
 
-## Submission freeze — 2026-10-26
+## Submission freeze — 2026-10-27
 
-The final cohort/conditioning/attribution clarifications and presentation cleanup are incorporated. Figure 1 uses asymmetric-readout terminology; Section 4.2 combines retention frontiers with query-adaptive alignment; Tables 1 and 2 use upright encoder names; the introduction connects the task to SimpleCIL, RanPAC, BiMC and HyCal. `submission_freeze_manifest.json` records the frozen artifacts; `python paper/kbs/verify_submission_freeze.py` checks them without rebuilding. See `submission_check.md` for the upload map and the distinct status of local checks versus journal-specific rules. Current direct access to the KBS guide failed, so anonymity and length are not marked as officially verified. No journal submission has occurred.
+The manuscript, Highlights and cover letter now follow the recognition and alignment mechanism. The supplement retains the full comparison and calibration evidence with a question-based evidence guide. `submission_freeze_manifest.json` records the deliverables; `python paper/kbs/verify_submission_freeze.py` checks their hashes. See `submission_check.md` for the upload map and journal-rule status. No journal submission has occurred.

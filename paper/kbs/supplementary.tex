@@ -4,7 +4,7 @@
 \usepackage{microtype}
 \usepackage{xurl}
 \usepackage[hidelinks]{hyperref}
-\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Risk-certified class expansion through reference-anchored evidence alignment}}
+\hypersetup{pdfauthor={Junyi Zhang},pdftitle={Reference-anchored asymmetric class expansion with query-adaptive evidence alignment}}
 \pdfstringdefDisableCommands{\def\corref#1{}\def\cnotenum#1{}}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
@@ -12,7 +12,7 @@
 \input{retention_numbers}
 \usepackage{xr}\externaldocument[main-]{main}
 \begin{document}
-\title{Supplementary material: Risk-certified class expansion through reference-anchored evidence alignment}
+\title{Supplementary material: Reference-anchored asymmetric class expansion with query-adaptive evidence alignment}
 \author{Junyi Zhang}
 \date{}
 \maketitle
@@ -21,7 +21,7 @@
 \renewcommand{\thefigure}{S\arabic{figure}}
 
 \section*{Evidence guide}
-The primary evidence separates source-domain mechanism tests from frozen-model transfer. The source study in Section Q independently selects fusion coefficients and offsets; the Sketch study in Section R fixes the original source-selected models and changes the calibration/query domain.
+The main paper follows recognition, query-adaptive alignment, constrained admission and frozen-model transfer. Section M contains the matched HyCal transfer; P isolates query centering on fixed readouts; Q independently retunes fusion; R evaluates source-frozen transfer to Sketch. Sections J, L and N supply the supporting calibration theory and coverage results.
 
 \begin{center}
 {\small\setlength{\tabcolsep}{5pt}\renewcommand{\arraystretch}{1.2}
@@ -38,7 +38,7 @@ How are operating points compared? & \hyperref[app:mechanismfollowup]{P}: exact 
 \end{tabular}}
 \end{center}
 
-For the central case, read Q (alignment), N (admission) and R (transfer). Sections A--H provide auxiliary readout and validation studies; K collects implementation details. Intervals and confidence scopes are stated with their respective evaluations.
+For the central case, read M (recognition), P and Q (alignment), N (admission), and R (transfer). Sections A--H provide auxiliary readout and validation studies; K collects implementation details. Intervals and confidence scopes are stated with their respective evaluations.
 \clearpage
 
 \section{Auxiliary readout and mechanism analyses}
@@ -868,7 +868,14 @@ For a base query under the class-macro law, let $R,C\in\{0,1\}$ denote reference
  \mathbb E(C-rR)^2&=(A_R-D)(1-r)^2+Dr^2+G\\
  &=A_R(1-r)^2+(A_R-A_C)(2r-1)+2rG.
 \end{align}
-Subtracting the squared mean proves main Eq.~\eqref{main-eq:pairedvariance}. Holding both accuracies fixed makes the variance difference between two couplings exactly $2r(G_2-G_1)$. A zero-recovery coupling exists when $A_C\leq A_R$; it minimizes variance among couplings with those accuracies. This is a comparison of correctness distributions at fixed margins, not a claim that every retained policy has smaller variance than every replacement policy at their different selected accuracies.
+Subtracting the squared mean gives
+\begin{equation}
+\begin{split}
+\operatorname{Var}(C-rR)={}&A_R(1-r)^2+(A_R-A_C)(2r-1)\\
+&+2rG-(A_C-rA_R)^2.
+\end{split}
+\label{eq:pairedvariance}
+\end{equation} Holding both accuracies fixed makes the variance difference between two couplings exactly $2r(G_2-G_1)$. A zero-recovery coupling exists when $A_C\leq A_R$; it minimizes variance among couplings with those accuracies. This is a comparison of correctness distributions at fixed margins, not a claim that every retained policy has smaller variance than every replacement policy at their different selected accuracies.
 
 For independent class-stratified observations, let $A_{R,c}$, $A_{C,c}$ and $G_c$ be the conditional quantities. The identity holds within each class, and the calibration mean has variance
 \begin{equation}

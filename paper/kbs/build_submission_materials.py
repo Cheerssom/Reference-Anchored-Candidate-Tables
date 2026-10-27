@@ -5,13 +5,13 @@ from docx import Document
 from docx.shared import Inches,Pt
 
 H=Path(__file__).resolve().parent
-title='Risk-certified class expansion through reference-anchored evidence alignment'
+title='Reference-anchored asymmetric class expansion with query-adaptive evidence alignment'
 highlights=[
- 'Fixed reference banks preserve existing scores as the class vocabulary grows.',
- 'Query normalization induces an explicit adaptive admission margin.',
- 'Preserved base rankings make protection equivalent to the retention target.',
- 'Recovery-aware testing certifies admission under a shared accuracy requirement.',
- 'Target calibration transfers frozen source readouts to ImageNet-Sketch.'
+ 'Fixed base references align asymmetric evidence without vocabulary-induced drift.',
+ 'Query-adaptive margins improve base--novel recognition without extra routers.',
+ 'Matched HyCal gains reach 10.93 and 13.74 points on ImageNet-R.',
+ 'Independent calibration selects admission under a base-accuracy requirement.',
+ 'Target calibration transfers frozen classifiers and prototypes to new renditions.'
 ]
 assert 3<=len(highlights)<=5 and max(map(len,highlights))<=85
 (H/'Highlights.txt').write_text('\n'.join('- '+v for v in highlights)+'\n',encoding='utf-8')
@@ -19,9 +19,9 @@ letter=f"""Dear Editors of Knowledge-Based Systems,
 
 Please consider our manuscript, "{title}," as an original Research Article.
 
-The paper addresses class expansion with asymmetric evidence and an explicit base-accuracy requirement. Fixed reference banks align learned base scores, semantic anchors and few-shot prototypes independently of vocabulary growth. Query normalization induces an adaptive admission margin, while independent finite-sample calibration selects a certified policy. The analysis connects preserved base rankings to the protection objective, derives a calibration-coverage condition, and provides a direct accuracy test that credits replacement readouts' recovered errors.
+The paper addresses class expansion when a trained base classifier and arriving few-shot classes provide asymmetric evidence. Fixed base references align learned scores, semantic anchors and visual prototypes while preserving existing scores during vocabulary growth. Query normalization induces an explicit sample-adaptive admission margin without an auxiliary routing network. Independent calibration selects the global offset under a specified base-accuracy requirement, enabling retention-constrained expansion and frozen-model transfer.
 
-Experiments cover three source datasets, ten class partitions, two frozen CLIP encoders and five arrivals. Independently tuned query normalization improves ImageNet-R novel capacity over uncentered fusion by 3.60 and 5.29 points. Capacity-to-policy analysis of the original frozen ImageNet-R L/14 readouts shows how comparable recognition frontiers can produce different certified operating points: a 0.29-point retained-minus-dense capacity gap accompanies a 4.85-point direct-policy gap. A separate transfer of original source-selected models reaches 86.82% and 58.96% novel accuracy on ImageNet-Sketch, with target calibration and empirical retention attainment in all ten partitions per encoder. The manuscript combines algebraic mechanisms, controlled fusion comparisons, calibrated policies and frozen-model transfer.
+Experiments cover three source datasets, ten class partitions, two frozen CLIP encoders and five arrivals. In matched transfers on ImageNet-R, average incremental accuracy exceeds HyCal by 10.93 and 13.74 percentage points. A fixed-fusion centering ablation improves CIFAR L/14 novel accuracy by 41.73 points after independent offset recalibration; separately optimized normalization schemes confirm ImageNet-R capacity gains of 3.60 and 5.29 points. Under a common direct accuracy certificate, the original retained ImageNet-R L/14 readout reaches 81.61% novel accuracy, versus 76.76% for dense prototypes, with both admitted in all ten partitions. Frozen source models and prototypes reach 86.82% and 58.96% novel accuracy on ImageNet-Sketch after target calibration, with all evaluated empirical retention targets met. The contribution connects a concrete evidence-alignment mechanism to sustained recognition and useful admission. Code and experimental records accompany the manuscript.
 
 The manuscript is original, has not been formally published and is not under consideration elsewhere. I approve submission to Knowledge-Based Systems, declare no competing interests, and received no external funding. AI assistance is disclosed. Code and source-hashed records are available at https://github.com/Cheerssom/Reference-Anchored-Candidate-Tables .
 
